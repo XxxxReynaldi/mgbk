@@ -56,22 +56,20 @@
                 </a>
 
                 <div class="navbar-dropdown is-right">
-                    <a class="navbar-item" href="/buat-laporan.html">
-                        <span class="icon">
-                            <i class="fas fa-plus"></i>
-                        </span>
-                        <span>
-                            Buat Laporan
-                        </span>
+                    <a class="navbar-item" href="/laporan-harian.html">
+                        Harian
                     </a>
                     <hr class="navbar-divider">
-                    <a class="navbar-item" href="/laporan.html">
-                        <span class="icon">
-                            <i class="fas fa-book-open"></i>
-                        </span>
-                        <span>
-                            Lihat Laporan
-                        </span>
+                    <a class="navbar-item" href="/laporan-mingguan.html">
+                        Mingguan
+                    </a>
+                    <hr class="navbar-divider">
+                    <a class="navbar-item" href="/laporan-bulanan.html">
+                        Bulanan
+                    </a>
+                    <hr class="navbar-divider">
+                    <a class="navbar-item" href="/laporan-tahunan.html">
+                        Tahunan
                     </a>
                 </div>
             </div>
@@ -95,8 +93,7 @@
                         </span>
                     </a>
                     <hr class="navbar-divider">
-                    <a class="navbar-item has-text-danger" href="{{ route('logout') }}"
-                        onclick="event.preventDefault();
+                    <a class="navbar-item has-text-danger" href="{{ route('logout') }}" onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();">
                         <span class="icon">
                             <i class="fas fa-sign-out-alt"></i>
