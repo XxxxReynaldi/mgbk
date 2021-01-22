@@ -68,6 +68,10 @@
                         Bulanan
                     </a>
                     <hr class="navbar-divider">
+                    <a class="navbar-item" href="/laporan-semesteran.html">
+                        Semesteran
+                    </a>
+                    <hr class="navbar-divider">
                     <a class="navbar-item" href="/laporan-tahunan.html">
                         Tahunan
                     </a>
