@@ -2,6 +2,8 @@
 
 @section('content')
 
+@include('includes.navbar')
+
 <div class="container">
     <div class="columns">
         <div class="column">
@@ -12,28 +14,27 @@
         <div class="column is-4">
             <div class="card">
                 <header class="card-header">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
                     <p class="card-header-title">
-                        Lengkapi Profil
+                        Lihat Laporan
                     </p>
                 </header>
                 <div class="card-content">
                     <div class="content">
-                        Lengkapi profil sebelum mengirimkan laporan.
+                        Lihat tabel laporan berdasarkan periode
                     </div>
                 </div>
                 <footer class="card-footer">
-                    <a href="#" class="card-footer-item">
-                        <span>
-                            Mulai
-                        </span>
-                        <span class="icon">
-                            <i class="fas fa-long-arrow-alt-right"></i>
-                        </span>
+                    <a href="/laporan-harian.html" class="card-footer-item">
+                        Harian
+                    </a>
+                    <a href="/laporan-harian.html" class="card-footer-item">
+                        Mingguan
+                    </a>
+                    <a href="/laporan-harian.html" class="card-footer-item">
+                        Bulanan
+                    </a>
+                    <a href="/laporan-harian.html" class="card-footer-item">
+                        Tahunan
                     </a>
                 </footer>
             </div>
@@ -42,46 +43,17 @@
             <div class="card">
                 <header class="card-header">
                     <p class="card-header-title">
-                        Buat Laporan
+                        Verifikasi Sekolah
                     </p>
                 </header>
                 <div class="card-content">
                     <div class="content">
-                        Buat laporan kegiatan untuk dikirimkan.
+                        Verifikasi sekolah yang belum terdaftar.
                     </div>
                 </div>
                 <footer class="card-footer">
-                    <a href="#" class="card-footer-item">
-                        <span>
-                            Mulai
-                        </span>
-                        <span class="icon">
-                            <i class="fas fa-long-arrow-alt-right"></i>
-                        </span>
-                    </a>
-                </footer>
-            </div>
-        </div>
-        <div class="column is-4">
-            <div class="card">
-                <header class="card-header">
-                    <p class="card-header-title">
-                        Cetak Laporan
-                    </p>
-                </header>
-                <div class="card-content">
-                    <div class="content">
-                        Cetak laporan kegiatan.
-                    </div>
-                </div>
-                <footer class="card-footer">
-                    <a href="#" class="card-footer-item">
-                        <span>
-                            Mulai
-                        </span>
-                        <span class="icon">
-                            <i class="fas fa-long-arrow-alt-right"></i>
-                        </span>
+                    <a href="/master-sekolah.html" class="card-footer-item">
+                        Verifikasi
                     </a>
                 </footer>
             </div>

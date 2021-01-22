@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\KegiatanController;
+use App\Http\Controllers\ProfilesController;
+use App\Http\Controllers\WeekController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,10 +18,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    // return view('auth.login');
-    return redirect('/home');
+
+    return redirect('login');
+    // redirect('/home');
 });
 
-Auth::routes();
+// Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/profile', [ProfilesController::class, 'index'])->name('profile');
+
+Route::resource('kegiatan', KegiatanController::class);
+
+Route::resource('week', WeekController::class);
+
+Route::resource('sekolah', SekolahController::class);

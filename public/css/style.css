@@ -5123,7 +5123,8 @@ fieldset[disabled] .select select:hover {
 }
 
 .card {
-    background-color: white;
+    /* background-color: white; */
+    background-color: #f5f5f5;
     border-radius: 0.25rem;
     box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1),
         0 0px 0 1px rgba(10, 10, 10, 0.02);
@@ -5817,7 +5818,8 @@ button.dropdown-item.is-active {
 }
 
 .navbar {
-    background-color: white;
+    /* background-color: white; */
+    background-color: #f5f5f5;
     min-height: 3.25rem;
     position: relative;
     z-index: 30;

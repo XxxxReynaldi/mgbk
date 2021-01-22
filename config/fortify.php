@@ -62,6 +62,8 @@ return [
     */
 
     'home' => RouteServiceProvider::HOME,
+    // 'root' => RouteServiceProvider::ROOT,
+    // 'profile' => RouteServiceProvider::PROFILE,
 
     /*
     |--------------------------------------------------------------------------

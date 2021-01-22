@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Week extends Model
+{
+    use HasFactory;
+
+    protected $table = "weeks";
+    protected $primaryKey = "id_week";
+    protected $fillable =
+    [
+        'week', 'year', 'start_date', 'end_date'
+    ];
+}
