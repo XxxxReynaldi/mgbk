@@ -13,7 +13,7 @@ class Kegiatan extends Model
     protected $primaryKey = "id_kegiatan";
     protected $fillable =
     [
-        'sasaran_kegiatan', 'nama_kegiatan', 'satuan_kegiatan', 'uraian',
+        'sasaran_kegiatan', 'kegiatan', 'satuan_kegiatan', 'uraian',
         'pelaporan', 'durasi', 'satuan_waktu', 'jumlah_pertemuan',
         'ekuivalen'
     ];

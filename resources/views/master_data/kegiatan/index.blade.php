@@ -10,6 +10,12 @@
     <div class="columns">
         <div class="column is-8">
             <h1 class="title ">Kegiatan</h1>
+            @if (session('status'))
+                <div class="notification is-info column is-5">
+                    <button class="delete"></button>
+                    {{ session('status') }}
+                </div>
+            @endif
         </div>
         <div class="column is-4">
             <a href="{{ route('kegiatan.create') }}" class="button is-link is-pulled-right">Tambah Kegiatan</a>
@@ -22,10 +28,11 @@
             <div class="columns">
                 <div class="column">
                     <div class="tabel-container">
-                        <table class="table" id="table-kegiatan">
+                        <table class="table" id="table_kegiatan">
                             <thead>
                                 <tr>
                                     <th>#</th>
+                                    <th class="is-hidden">ID</th>
                                     <th>Sasaran Kegiatan</th>
                                     <th>Kegiatan</th>
                                     <th>Satuan Kegiatan</th>
@@ -41,6 +48,7 @@
                             <tfoot>
                                 <tr>
                                     <th>#</th>
+                                    <th class="is-hidden">ID</th>
                                     <th>Sasaran Kegiatan</th>
                                     <th>Kegiatan</th>
                                     <th>Satuan Kegiatan</th>
@@ -54,38 +62,25 @@
                                 </tr>
                             </tfoot>
                             <tbody>
+                                @foreach ($activities as $kegiatan)
                                 <tr>
-                                    <th>1</th>
-                                    <td>Kegiatan A</td>
-                                    <td>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Excepturi cumque
-                                        recusandae, iste odit quas doloribus!</td>
-                                    <td>18 Januari 2021</td>
-                                    <td>20 Januari 2021</td>
-                                    <td>Lorem, ipsum dolor.</td>
-                                    <td>Lorem, ipsum dolor.</td>
-                                    <td>Lorem, ipsum dolor.</td>
-                                    <td>Lorem, ipsum dolor.</td>
-                                    <td>Lorem, ipsum dolor.</td>
+                                    <th>{{ $loop->iteration }}</th>
+                                    <td class="is-hidden">{{ $kegiatan['id_kegiatan'] }}</td>
+                                    <td>{{ $kegiatan['sasaran_kegiatan'] }}</td>
+                                    <td>{{ $kegiatan['kegiatan'] }}</td>
+                                    <td>{{ $kegiatan['satuan_kegiatan'] }}</td>
+                                    <td>{{ $kegiatan['uraian'] }}</td>
+                                    <td>{{ $kegiatan['pelaporan'] }}</td>
+                                    <td>{{ $kegiatan['durasi'] }}</td>
+                                    <td>{{ $kegiatan['satuan_waktu'] }}</td>
+                                    <td>{{ $kegiatan['jumlah_pertemuan'] }}</td>
+                                    <td>{{ $kegiatan['ekuivalen'] }}</td>
                                     <td>
-                                        <a href="#" class="button is-small is-success">Cetak</a>
+                                        <a href="{{ route('kegiatan.edit', [$kegiatan->id_kegiatan]) }}" class="button is-small is-success"> Edit </a>
+                                        <button data-idKegiatan="{{ $kegiatan['id_kegiatan'] }}" class="button is-small is-danger hapusBtn"> Hapus </button>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <th>2</th>
-                                    <td>Kegiatan B</td>
-                                    <td>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Excepturi cumque
-                                        recusandae, iste odit quas doloribus!</td>
-                                    <td>18 Januari 2021</td>
-                                    <td>20 Januari 2021</td>
-                                    <td>Lorem, ipsum dolor.</td>
-                                    <td>Lorem, ipsum dolor.</td>
-                                    <td>Lorem, ipsum dolor.</td>
-                                    <td>Lorem, ipsum dolor.</td>
-                                    <td>Lorem, ipsum dolor.</td>
-                                    <td>
-                                        <a href="#" class="button is-small is-success">Cetak</a>
-                                    </td>
-                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -95,10 +90,58 @@
         </div>
         
     </div>
+
+    <div class="modal" id="modal_hapus">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Konfirmasi Hapus</p>
+            <button class="delete modal-closed" aria-label="close"></button>
+          </header>
+          <form method="post" action="" id="deleteForm">
+            <section class="modal-card-body">
+                @method('delete')
+                @csrf
+                <p>Apa anda yakin ingin menghapus data <span id="namaKegiatan"></span> ?</p>
+                <input type="hidden" name="id_kegiatan" id="idKegiatan">
+            </section>
+                <footer class="modal-card-foot">
+                    <button type="submit" class="button is-danger">Hapus</button>
+                    {{-- <button class="button modal-closed">Cancel</button> --}}
+                </footer>
+            </form>
+        </div>
+      </div>
+
 </div>
 <script>
     $(document).ready(function () {
-        $('#table-kegiatan').DataTable();
+        
+        var table = $('#table_kegiatan').DataTable();
+
+        // const modal     = document.querySelector('.modal');
+
+        $('#table_kegiatan tbody').on('click', '.hapusBtn', function(){
+
+            $tr = $(this).closest('tr');
+            if($($tr).hasClass('child')) {
+                $tr = $tr.prev('.parent');
+            }
+
+            var data = table.row($tr).data();
+            console.log(data);
+            
+            $('#idKegiatan').val(data[1]);
+            $('#namaKegiatan').html(data[3]);
+            $('#deleteForm').attr('action', '/kegiatan/'+data[1]);
+
+            $('.modal').addClass('is-active');
+            // modal.classList.add('is-active');
+        })
+
+        $('.modal-closed').on('click', function () {
+            $('#modal_hapus').removeClass('is-active');
+        })
     });
 </script>
 @endsection

@@ -12,7 +12,7 @@
     </div>
     <div class="columns is-multiline">
         <div class="column is-4">
-            <div class="card">
+            <div class="card white-blue">
                 <header class="card-header">
                     <p class="card-header-title">
                         Lihat Laporan
@@ -40,7 +40,7 @@
             </div>
         </div>
         <div class="column is-4">
-            <div class="card">
+            <div class="card white-blue">
                 <header class="card-header">
                     <p class="card-header-title">
                         Verifikasi Sekolah

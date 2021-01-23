@@ -14,7 +14,8 @@ class KegiatanController extends Controller
      */
     public function index()
     {
-        return view('master_data.kegiatan.index');
+        $activities = Kegiatan::all();
+        return view('master_data.kegiatan.index', compact('activities'));
     }
 
     /**
@@ -47,7 +48,7 @@ class KegiatanController extends Controller
      */
     public function show(Kegiatan $kegiatan)
     {
-        //
+        return view('master_data.kegiatan.show', compact('kegiatan'));
     }
 
     /**
@@ -58,7 +59,7 @@ class KegiatanController extends Controller
      */
     public function edit(Kegiatan $kegiatan)
     {
-        //
+        return view('master_data.kegiatan.edit', compact('kegiatan'));
     }
 
     /**
@@ -70,7 +71,20 @@ class KegiatanController extends Controller
      */
     public function update(Request $request, Kegiatan $kegiatan)
     {
-        //
+        Kegiatan::where('id_kegiatan', $kegiatan->id_kegiatan)
+            ->update([
+                'sasaran_kegiatan'  => $request->sasaran_kegiatan,
+                'kegiatan'          => $request->kegiatan,
+                'satuan_kegiatan'   => $request->satuan_kegiatan,
+                'uraian'            => $request->uraian,
+                'pelaporan'         => $request->pelaporan,
+                'durasi'            => $request->durasi,
+                'satuan_waktu'      => $request->satuan_waktu,
+                'jumlah_pertemuan'  => $request->jumlah_pertemuan,
+                'ekuivalen'         => $request->ekuivalen,
+            ]);
+
+        return redirect('/kegiatan')->with('status', 'Data Kegiatan berhasil diubah !');
     }
 
     /**
@@ -81,6 +95,7 @@ class KegiatanController extends Controller
      */
     public function destroy(Kegiatan $kegiatan)
     {
-        //
+        Kegiatan::destroy($kegiatan->id_kegiatan);
+        return redirect('/kegiatan')->with('status', 'Data Kegiatan berhasil dihapus !');
     }
 }

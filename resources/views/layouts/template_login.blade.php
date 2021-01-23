@@ -20,7 +20,7 @@
     {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 <body>
     <div id="app">
@@ -33,6 +33,6 @@
 
     </div>
     <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-    <script src="js/bulma-steps.min.js"></script>
+    <script src="{{ asset('js/bulma-steps.min.js') }}"></script>
 </body>
 </html>
