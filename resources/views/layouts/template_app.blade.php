@@ -28,7 +28,7 @@
     {{-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.0/css/bulma.min.css"> --}}
     
     <!-- DatePicker -->
-    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('css/bulma-calendar.min.css') }}"> --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/bulma-calendar.min.css') }}">
 
 
     <!-- Scripts -->
@@ -39,7 +39,7 @@
 
     <!-- DatePicker -->
     {{-- <script src="{{ asset('js/bulma-calendar.min.js') }}"></script> --}}
-    {{-- <script src="https://cdn.jsdelivr.net/npm/bulma-calendar@6.0.9/dist/js/bulma-calendar.min.js" integrity="sha256-j5R7XaUm/P3SCc5bo5XQ8maH3vkFFlXNSeg4ckGiO0k=" crossorigin="anonymous"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/bulma-calendar@6.0.9/dist/js/bulma-calendar.min.js" integrity="sha256-j5R7XaUm/P3SCc5bo5XQ8maH3vkFFlXNSeg4ckGiO0k=" crossorigin="anonymous"></script>
 
     <style>
         .card, .white-blue{

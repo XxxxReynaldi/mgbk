@@ -157,21 +157,15 @@
                 </div>
                 <div class="field">
                     <label class="label">Start Date</label>
-                    <p class="control has-icons-left">
+                    <p class="control">
                       <input class="input" type="date" id="addStartDate" name="start_date">
-                      <span class="icon is-small is-left">
-                        <i class="fas fa-calendar-alt"></i>
-                      </span>
                     </p>
                   </div>
                 <div class="field">
                     <label class="label">End Date</label>
-                    <p class="control has-icons-left">
+                    <p class="control">
                         <input class="input" type="date" id="addEndDate" name="start_date">
-                        <span class="icon is-small is-left">
-                          <i class="fas fa-calendar-alt"></i>
-                        </span>
-                      </p>
+                    </p>
                 </div>
             </section>
                 <footer class="modal-card-foot">
@@ -341,7 +335,7 @@
         }
 
         // Initialize all input of date type.
-        const calendars = bulmaCalendar.attach('[type="date"]', options);
+        const calendars = bulmaCalendar.attach('[type="date"]', {});
 
         // Loop on each calendar initialized
         calendars.forEach(calendar => {
