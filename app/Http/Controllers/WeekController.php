@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\WeekImport;
 use App\Models\Week;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Excel;
 
 class WeekController extends Controller
 {
@@ -14,7 +16,8 @@ class WeekController extends Controller
      */
     public function index()
     {
-        return view('master_data.week.index');
+        $weeks = Week::all();
+        return view('master_data.week.index', compact('weeks'));
     }
 
     /**
@@ -25,6 +28,16 @@ class WeekController extends Controller
     public function create()
     {
         //
+    }
+
+    public function import(Request $request)
+    {
+        $file       = $request->file('file_excel');
+        $namaFile   = $file->getClientOriginalName();
+        $file->move('DataWeeks', $namaFile);
+
+        Excel::import(new WeekImport, public_path('/DataWeeks/' . $namaFile));
+        return redirect('/week')->with('status', 'Data sekolah berhasil diimport !');
     }
 
     /**
@@ -69,7 +82,15 @@ class WeekController extends Controller
      */
     public function update(Request $request, Week $week)
     {
-        //
+        Week::where('id_week', $week->id_week)
+            ->update([
+                'week'          => $request->week,
+                'year'          => $request->year,
+                'start_date'    => $request->start_date,
+                'end_date'      => $request->end_date,
+            ]);
+
+        return redirect('/week')->with('status', 'Data week berhasil diubah !');
     }
 
     /**
@@ -80,6 +101,7 @@ class WeekController extends Controller
      */
     public function destroy(Week $week)
     {
-        //
+        Week::destroy($week->id_week);
+        return redirect('/week')->with('status', 'Data week berhasil dihapus !');
     }
 }

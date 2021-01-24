@@ -14,7 +14,8 @@ class SekolahController extends Controller
      */
     public function index()
     {
-        //
+        $schools = Sekolah::all();
+        return view('master_data.sekolah.index', compact('schools'));
     }
 
     /**
@@ -35,7 +36,8 @@ class SekolahController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Sekolah::create($request->all());
+        return redirect('/sekolah')->with('status', 'Data sekolah berhasil ditambahkan !');
     }
 
     /**
@@ -69,7 +71,12 @@ class SekolahController extends Controller
      */
     public function update(Request $request, Sekolah $sekolah)
     {
-        //
+        Sekolah::where('id_sekolah', $sekolah->id_sekolah)
+            ->update([
+                'nama_sekolah'  => $request->nama_sekolah,
+            ]);
+
+        return redirect('/sekolah')->with('status', 'Data sekolah berhasil diubah !');
     }
 
     /**
@@ -80,6 +87,7 @@ class SekolahController extends Controller
      */
     public function destroy(Sekolah $sekolah)
     {
-        //
+        Sekolah::destroy($sekolah->id_sekolah);
+        return redirect('/sekolah')->with('status', 'Data sekolah berhasil dihapus !');
     }
 }

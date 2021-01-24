@@ -40,7 +40,7 @@
                         Week
                     </a>
                     <hr class="navbar-divider">
-                    <a class="navbar-item" href="/master-sekolah.html">
+                    <a class="navbar-item" href="{{ route('sekolah.index') }}">
                         Sekolah
                     </a>
                 </div>

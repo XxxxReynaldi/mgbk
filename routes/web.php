@@ -31,8 +31,10 @@ Route::get('/profile', [ProfilesController::class, 'index'])->name('profile');
 
 Route::group(['middleware' => 'auth'], function () {
 
+    Route::post('week/import', [WeekController::class, 'import'])->name(('week.import'));
+    Route::resource('week', WeekController::class)->except(['create', 'show', 'edit']);
+
     Route::resource('kegiatan', KegiatanController::class);
-    Route::resource('week', WeekController::class);
-    Route::resource('sekolah', SekolahController::class);
+    Route::resource('sekolah', SekolahController::class)->except(['create', 'show', 'edit']);
     //
 });

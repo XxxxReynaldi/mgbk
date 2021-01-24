@@ -37,7 +37,7 @@ class KegiatanController extends Controller
     public function store(Request $request)
     {
         Kegiatan::create($request->all());
-        return redirect('/kegiatan')->with('status', 'Data Kegiatan berhasil ditambahkan !');
+        return redirect('/kegiatan')->with('status', 'Data kegiatan berhasil ditambahkan !');
     }
 
     /**
@@ -84,7 +84,7 @@ class KegiatanController extends Controller
                 'ekuivalen'         => $request->ekuivalen,
             ]);
 
-        return redirect('/kegiatan')->with('status', 'Data Kegiatan berhasil diubah !');
+        return redirect('/kegiatan')->with('status', 'Data kegiatan berhasil diubah !');
     }
 
     /**
@@ -96,6 +96,6 @@ class KegiatanController extends Controller
     public function destroy(Kegiatan $kegiatan)
     {
         Kegiatan::destroy($kegiatan->id_kegiatan);
-        return redirect('/kegiatan')->with('status', 'Data Kegiatan berhasil dihapus !');
+        return redirect('/kegiatan')->with('status', 'Data kegiatan berhasil dihapus !');
     }
 }

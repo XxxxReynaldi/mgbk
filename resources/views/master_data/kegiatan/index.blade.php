@@ -12,13 +12,13 @@
             <h1 class="title ">Kegiatan</h1>
             @if (session('status'))
                 <div class="notification is-info column is-5">
-                    <button class="delete"></button>
+                    <button class="delete deleteNotif"></button>
                     {{ session('status') }}
                 </div>
             @endif
         </div>
         <div class="column is-4">
-            <a href="{{ route('kegiatan.create') }}" class="button is-link is-pulled-right">Tambah Kegiatan</a>
+            <a href="{{ route('kegiatan.create') }}" class="button is-link is-pulled-right">Tambah </a>
         </div>
     </div>
     <div class="columns is-multiline">
@@ -77,7 +77,7 @@
                                     <td>{{ $kegiatan['ekuivalen'] }}</td>
                                     <td>
                                         <a href="{{ route('kegiatan.edit', [$kegiatan->id_kegiatan]) }}" class="button is-small is-success"> Edit </a>
-                                        <button data-idKegiatan="{{ $kegiatan['id_kegiatan'] }}" class="button is-small is-danger hapusBtn"> Hapus </button>
+                                        <button data-idKegiatan="{{ $kegiatan['id_kegiatan'] }}" class="button is-small is-danger deleteBtn"> Hapus </button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -95,7 +95,14 @@
         <div class="modal-background"></div>
         <div class="modal-card">
           <header class="modal-card-head">
-            <p class="modal-card-title">Konfirmasi Hapus</p>
+            <p class="modal-card-title">
+                <span class="icon-text has-text-danger">
+                    <span class="icon">
+                        <i class="fas fa-exclamation-triangle"></i>  
+                    </span>
+                    <span>Konfirmasi Hapus</span>
+                </span>
+            </p>
             <button class="delete modal-closed" aria-label="close"></button>
           </header>
           <form method="post" action="" id="deleteForm">
@@ -107,11 +114,11 @@
             </section>
                 <footer class="modal-card-foot">
                     <button type="submit" class="button is-danger">Hapus</button>
-                    {{-- <button class="button modal-closed">Cancel</button> --}}
+                    <a href="#" class="button modal-closed">Batal</a>
                 </footer>
             </form>
         </div>
-      </div>
+    </div>
 
 </div>
 <script>
@@ -121,7 +128,7 @@
 
         // const modal     = document.querySelector('.modal');
 
-        $('#table_kegiatan tbody').on('click', '.hapusBtn', function(){
+        $('#table_kegiatan tbody').on('click', '.deleteBtn', function(){
 
             $tr = $(this).closest('tr');
             if($($tr).hasClass('child')) {
@@ -141,6 +148,10 @@
 
         $('.modal-closed').on('click', function () {
             $('#modal_hapus').removeClass('is-active');
+        })
+
+        $('.deleteNotif').on('click', function () {
+            $('.notification').addClass('is-hidden')
         })
     });
 </script>
