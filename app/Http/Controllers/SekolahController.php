@@ -36,6 +36,10 @@ class SekolahController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'nama_sekolah'      => 'required|max:255',
+        ]);
+
         Sekolah::create($request->all());
         return redirect('/sekolah')->with('status', 'Data sekolah berhasil ditambahkan !');
     }
@@ -71,6 +75,10 @@ class SekolahController extends Controller
      */
     public function update(Request $request, Sekolah $sekolah)
     {
+        $request->validate([
+            'nama_sekolah'      => 'required|max:255',
+        ]);
+
         Sekolah::where('id_sekolah', $sekolah->id_sekolah)
             ->update([
                 'nama_sekolah'  => $request->nama_sekolah,

@@ -40,10 +40,24 @@
     <!-- DatePicker -->
     {{-- <script src="{{ asset('js/bulma-calendar.min.js') }}"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/bulma-calendar@6.0.9/dist/js/bulma-calendar.min.js" integrity="sha256-j5R7XaUm/P3SCc5bo5XQ8maH3vkFFlXNSeg4ckGiO0k=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js" integrity="sha512-LGXaggshOkD/at6PFNcp2V2unf9LzFq6LE+sChH7ceMTDP0g2kn6Vxwgg7wkPP7AAtX+lmPqPdxB47A0Nz0cMQ==" crossorigin="anonymous"></script>
 
     <style>
         .card, .white-blue{
             background-color: #f5f5f5 !important; 
+        }
+
+        .modal .datetimepicker {
+            display: none;
+            max-height: 95vh;
+            width: 22rem;
+            max-width: 95vw;
+            overflow-y: auto;
+
+        }
+        
+        .datetimepicker.is-active {
+            display: block;
         }
     </style>
     

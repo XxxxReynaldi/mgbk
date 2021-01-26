@@ -52,7 +52,7 @@
                     </div>
                 </div>
                 <footer class="card-footer">
-                    <a href="/master-sekolah.html" class="card-footer-item">
+                    <a href="{{ route('sekolah_baru.index') }}" class="card-footer-item">
                         Verifikasi
                     </a>
                 </footer>

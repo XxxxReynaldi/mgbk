@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\ProfilesController;
+use App\Http\Controllers\SekolahBaruController;
 use App\Http\Controllers\SekolahController;
 use App\Http\Controllers\WeekController;
 use Illuminate\Support\Facades\Auth;
@@ -36,5 +37,13 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('kegiatan', KegiatanController::class);
     Route::resource('sekolah', SekolahController::class)->except(['create', 'show', 'edit']);
+
+    Route::post('sekolah_baru/verify/{sekolah_baru}', [SekolahBaruController::class, 'verify'])->name(('sekolah_baru.verify'));
+    Route::resource('sekolah_baru', SekolahBaruController::class)->except(['create', 'show', 'edit']);
     //
 });
+
+Route::get('/dashboard', function () {
+    // ...
+    dd("ada di dashboard");
+})->middleware(['verified']);

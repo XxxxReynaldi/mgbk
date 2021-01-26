@@ -9,7 +9,7 @@
 <div class="container">
     <div class="columns">
         <div class="column is-8">
-            <h1 class="title ">Sekolah</h1>
+            <h1 class="title ">Verifikasi Sekolah Baru</h1>
             @if (session('status'))
                 <div class="notification is-info column is-5">
                     <button class="delete deleteNotif"></button>
@@ -49,11 +49,12 @@
                                 @foreach ($schools as $sekolah)
                                 <tr>
                                     <th>{{ $loop->iteration }}</th>
-                                    <td class="is-hidden">{{ $sekolah['id_sekolah'] }}</td>
+                                    <td class="is-hidden">{{ $sekolah['id_sekolah_baru'] }}</td>
                                     <td>{{ $sekolah['nama_sekolah'] }}</td>
                                     <td>
-                                        <button data-idSekolah="{{ $sekolah['id_sekolah'] }}" class="button is-small is-success editBtn"> Edit </button>
-                                        <button data-idSekolah="{{ $sekolah['id_sekolah'] }}" class="button is-small is-danger deleteBtn"> Hapus </button>
+                                        <button data-idSekolah="{{ $sekolah['id_sekolah_baru'] }}" class="button is-small is-primary verifBtn"> Verifikasi </button>
+                                        <button data-idSekolah="{{ $sekolah['id_sekolah_baru'] }}" class="button is-small is-success editBtn"> Edit </button>
+                                        <button data-idSekolah="{{ $sekolah['id_sekolah_baru'] }}" class="button is-small is-danger deleteBtn"> Hapus </button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -76,12 +77,12 @@
                     <span class="icon">
                         <i class="fas fa-plus"></i>  
                     </span>
-                    <span>Tambah Sekolah</span>
+                    <span>Tambah Sekolah Baru</span>
                 </span>
             </p>
             <button class="delete modal-closed" aria-label="close"></button>
           </header>
-          <form method="post" action="{{ url('sekolah') }}" id="addForm">
+          <form method="post" action="{{ url('sekolah_baru') }}" id="addForm">
             <section class="modal-card-body">
                 @csrf
                 <div class="field">
@@ -116,7 +117,7 @@
                     <span class="icon">
                         <i class="fas fa-edit"></i>  
                     </span>
-                    <span>Edit Sekolah</span>
+                    <span>Edit Sekolah Baru</span>
                 </span>
             </p>
             <button class="delete modal-closed" aria-label="close"></button>
@@ -167,10 +168,38 @@
                 @method('delete')
                 @csrf
                 <p>Apa anda yakin ingin menghapus data <span id="namaSekolahHps"></span> ?</p>
-                <input type="hidden" name="id_sekolah" id="id_sekolah">
+                <input type="hidden" name="id_sekolah_baru" id="id_sekolah_baru">
             </section>
                 <footer class="modal-card-foot">
                     <button type="submit" class="button is-danger">Hapus</button>
+                    <a href="#" class="button modal-closed">Batal</a>
+                </footer>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="modal_verif">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">
+                <span class="icon-text has-text-primary">
+                    <span class="icon">
+                        <i class="fas fa-exclamation-circle"></i>  
+                    </span>
+                    <span>Verifikasi Sekolah</span>
+                </span>
+            </p>
+            <button class="delete modal-closed" aria-label="close"></button>
+          </header>
+          <form method="post" action="" id="verifyForm">
+            <section class="modal-card-body">
+                @csrf
+                <p>Apa anda yakin ingin memverifikasi data <span id="namaSekolahVerif"></span> ?</p>
+                <input type="hidden" name="nama_sekolah" id="nama_sekolah_verif">
+            </section>
+                <footer class="modal-card-foot">
+                    <button type="submit" class="button is-primary">Verifikasi</button>
                     <a href="#" class="button modal-closed">Batal</a>
                 </footer>
             </form>
@@ -199,7 +228,7 @@
 
             $('#idSekolah').val(data[1]);
             $('#nama_sekolah').val(data[2]);
-            $('#editForm').attr('action', '/sekolah/'+data[1]);
+            $('#editForm').attr('action', '/sekolah_baru/'+data[1]);
 
             $('#modal_edit').addClass('is-active');
 
@@ -217,16 +246,35 @@
             
             $('#idSekolah').val(data[1]);
             $('#namaSekolahHps').html(data[2]);
-            $('#deleteForm').attr('action', '/sekolah/'+data[1]);
+            $('#deleteForm').attr('action', '/sekolah_baru/'+data[1]);
 
             $('#modal_hapus').addClass('is-active');
             
+        })
+
+        $('#table_sekolah tbody').on('click', '.verifBtn', function(){
+
+            $tr = $(this).closest('tr');
+            if($($tr).hasClass('child')) {
+                $tr = $tr.prev('.parent');
+            }
+
+            var data = table.row($tr).data();
+            console.log(data);
+
+            $('#namaSekolahVerif').html(data[2]);
+            $('#nama_sekolah_verif').val(data[2]);
+            $('#verifyForm').attr('action', '/sekolah_baru/verify/'+data[1]);
+
+            $('#modal_verif').addClass('is-active');
+
         })
 
         $('.modal-closed').on('click', function () {
             $('#modal_tambah').removeClass('is-active');
             $('#modal_edit').removeClass('is-active');
             $('#modal_hapus').removeClass('is-active');
+            $('#modal_verif').removeClass('is-active');
         })
 
         $('.deleteNotif').on('click', function () {

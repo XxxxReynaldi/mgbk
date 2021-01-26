@@ -1,6 +1,6 @@
 @extends('layouts.template_app')
 
-@section('title', '- Menu Sekolah')
+@section('title', '- Menu Week')
 
 @section('content')
 
@@ -9,7 +9,7 @@
 <div class="container">
     <div class="columns">
         <div class="column is-8">
-            <h1 class="title ">Sekolah</h1>
+            <h1 class="title ">Week</h1>
             @if (session('status'))
                 <div class="notification is-info column is-5">
                     <button class="delete deleteNotif"></button>
@@ -18,8 +18,10 @@
             @endif
         </div>
         <div class="column is-4">
-            <a href="#" class="button is-link importBtn is-pulled-right">Import </a>
-            <a href="#" class="button is-info addBtn is-pulled-right">Tambah </a>
+            <div class="buttons is-pulled-right">
+                <a href="#" class="button is-link importBtn ">Import </a>
+                <a href="#" class="button is-info addBtn ">Tambah </a>
+            </div>
         </div>
     </div>
     <div class="columns is-multiline">
@@ -91,14 +93,14 @@
             </p>
             <button class="delete modal-closed" aria-label="close"></button>
           </header>
-          <form method="post" action="{{ route('week.import') }}" id="importForm">
+          <form method="post" action="{{ route('week.import') }}" id="importForm" enctype="multipart/form-data">
             <section class="modal-card-body">
                 @csrf
                 <div class="field">
                     <label class="label" >File Excel</label>
                     <div id="file-js-example" class="file has-name">
                         <label class="file-label">
-                            <input class="file-input" type="file" name="file_excel">
+                            <input class="file-input" type="file" name="file_excel_week">
                             <span class="file-cta">
                             <span class="file-icon">
                                 <i class="fas fa-upload"></i>
@@ -143,28 +145,39 @@
                     <label class="label" for="week">Week</label>
                     <div class="field">
                         <div class="control">
-                            <input name="week" id="week" class="input" type="text" placeholder="week">
+                            <input name="week" class="input @error('week') is-invalid @enderror" type="text" placeholder="week" required>
                         </div>
                     </div>
+                    @error('week')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                 </div>
                 <div class="field">
                     <label class="label" for="year">Year</label>
                     <div class="field">
                         <div class="control">
-                            <input name="year" id="year" class="input" type="text" placeholder="year">
+                            <input name="year" class="input @error('year') is-invalid @enderror" type="text" placeholder="year" required>
                         </div>
                     </div>
+                    @error('year')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                 </div>
                 <div class="field">
                     <label class="label">Start Date</label>
                     <p class="control">
-                      <input class="input" type="date" id="addStartDate" name="start_date">
+                      <input class="input" type="date" name="start_date" required>
+                      {{-- <p class="help">To view a demo just click into the input above.</p> --}}
                     </p>
-                  </div>
+                </div>
                 <div class="field">
                     <label class="label">End Date</label>
                     <p class="control">
-                        <input class="input" type="date" id="addEndDate" name="start_date">
+                        <input class="input" type="date" name="end_date" required>
                     </p>
                 </div>
             </section>
@@ -198,23 +211,33 @@
                     <label class="label" for="week">Week</label>
                     <div class="field">
                         <div class="control">
-                            <input name="week" id="week" class="input" type="text" placeholder="week">
+                            <input name="week" id="week" class="input @error('week') is-invalid @enderror" type="text" placeholder="week" required>
                         </div>
                     </div>
+                    @error('week')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                 </div>
                 <div class="field">
                     <label class="label" for="year">Year</label>
                     <div class="field">
                         <div class="control">
-                            <input name="year" id="year" class="input" type="text" placeholder="year">
+                            <input name="year" id="year" class="input @error('year') is-invalid @enderror" type="text" placeholder="year" required>
                         </div>
                     </div>
+                    @error('year')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                 </div>
                 <div class="field">
                     <label class="label" for="start_date">Start Date</label>
                     <div class="field">
                         <div class="control">
-                            <input name="start_date" id="start_date" class="input" type="text" placeholder="start_date">
+                            <input name="start_date" id="start_date" class="input" type="date" placeholder="start_date" required>
                         </div>
                     </div>
                 </div>
@@ -222,7 +245,7 @@
                     <label class="label" for="end_date">End Date</label>
                     <div class="field">
                         <div class="control">
-                            <input name="end_date" id="end_date" class="input" type="text" placeholder="end_date">
+                            <input name="end_date" id="end_date" class="input" type="date" placeholder="end_date" required>
                         </div>
                     </div>
                 </div>
@@ -253,8 +276,8 @@
             <section class="modal-card-body">
                 @method('delete')
                 @csrf
-                <p>Apa anda yakin ingin menghapus data <span id="namaSekolahHps"></span> ?</p>
-                <input type="hidden" name="id_sekolah" id="id_sekolah">
+                <p>Apa anda yakin ingin menghapus data Minggu ke-<span id="weekHps"></span> ?</p>
+                <input type="hidden" name="id_week" id="id_week">
             </section>
                 <footer class="modal-card-foot">
                     <button type="submit" class="button is-danger">Hapus</button>
@@ -272,6 +295,7 @@
 
         $('.addBtn').click(function () {
             $('#modal_tambah').addClass('is-active');
+
         })
 
         $('.importBtn').click(function () {
@@ -287,10 +311,28 @@
 
             var data = table.row($tr).data();
             console.log(data);
+            
+            var dateStart    = new Date(data[4]),
+            yrStart      = dateStart.getFullYear(),
+            monthStart   = (dateStart.getMonth()+1) < 10 ? '0' + (dateStart.getMonth()+1) : (dateStart.getMonth()+1),
+            dayStart     = dateStart.getDate()  < 10 ? '0' + dateStart.getDate()  : dateStart.getDate(),
+            tglAwal = yrStart + '-' + monthStart + '-' + dayStart;
 
-            $('#idSekolah').val(data[1]);
-            $('#nama_sekolah').val(data[2]);
-            $('#editForm').attr('action', '/sekolah/'+data[1]);
+            var dateEnd    = new Date(data[5]),
+            yrEnd      = dateEnd.getFullYear(),
+            monthEnd   = (dateEnd.getMonth()+1) < 10 ? '0' + (dateEnd.getMonth()+1) : (dateEnd.getMonth()+1),
+            dayEnd     = dateEnd.getDate()  < 10 ? '0' + dateEnd.getDate()  : dateEnd.getDate(),
+            tglAkhir = yrEnd + '-' + monthEnd + '-' + dayEnd;
+
+            console.log(tglAwal);
+            console.log(tglAkhir);
+
+            $('#idWeek').val(data[1]);
+            $('#week').val(data[2]);
+            $('#year').val(data[3]);
+            $('#start_date').val(tglAwal);
+            $('#end_date').val(tglAkhir);
+            $('#editForm').attr('action', '/week/'+data[1]);
 
             $('#modal_edit').addClass('is-active');
 
@@ -306,9 +348,9 @@
             var data = table.row($tr).data();
             console.log(data);
             
-            $('#idSekolah').val(data[1]);
-            $('#namaSekolahHps').html(data[2]);
-            $('#deleteForm').attr('action', '/sekolah/'+data[1]);
+            $('#id_week').val(data[1]);
+            $('#weekHps').html(data[2]);
+            $('#deleteForm').attr('action', '/week/'+data[1]);
 
             $('#modal_hapus').addClass('is-active');
             
@@ -334,28 +376,39 @@
             }
         }
 
-        // Initialize all input of date type.
-        const calendars = bulmaCalendar.attach('[type="date"]', {});
+        // // Initialize all input of date type.
+        // const calendars = bulmaCalendar.attach('[type="date"]', {
+        //     displayMode: 'default',
+        //     closeOnSelect: false,
+        // });
 
-        // Loop on each calendar initialized
-        calendars.forEach(calendar => {
-            // Add listener to select event
-            calendar.on('select', date => {
-                console.log(date);
-            });
-        });
+        // // Loop on each calendar initialized
+        // calendars.forEach(calendar => {
+        //     // Add listener to select event
+        //     calendar.on('select', date => {
+        //         console.log(date);
+        //     });
+        // });
 
         // // To access to bulmaCalendar instance of an element
         // const element = document.querySelector('#addStartDate');
+        
         // if (element) {
         //     // bulmaCalendar instance is available as element.bulmaCalendar
-        //     element.bulmaCalendar.on('select', datepicker => {
+        //     element.bulmaCalendar.on('click', datepicker => {
         //         console.log(datepicker.data.value());
         //     });
         // }
 
+
     });
 
+    // function convert(str) {
+    // var date = new Date(str),
+    //     mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+    //     day = ("0" + date.getDate()).slice(-2);
+    // return [date.getFullYear(), mnth, day].join("-");
+    // }
 
 </script>
 @endsection

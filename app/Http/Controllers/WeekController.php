@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Imports\WeekImport;
 use App\Models\Week;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Excel;
+use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class WeekController extends Controller
 {
@@ -17,6 +18,11 @@ class WeekController extends Controller
     public function index()
     {
         $weeks = Week::all();
+        $weeks = $weeks->map(function ($week, $key) {
+            $week->start_date   = date('d F Y', strtotime($week->start_date));
+            $week->end_date     = date('d F Y', strtotime($week->end_date));
+            return $week;
+        });
         return view('master_data.week.index', compact('weeks'));
     }
 
@@ -32,12 +38,17 @@ class WeekController extends Controller
 
     public function import(Request $request)
     {
-        $file       = $request->file('file_excel');
-        $namaFile   = $file->getClientOriginalName();
-        $file->move('DataWeeks', $namaFile);
 
-        Excel::import(new WeekImport, public_path('/DataWeeks/' . $namaFile));
-        return redirect('/week')->with('status', 'Data sekolah berhasil diimport !');
+        $request->validate([
+            'file' => 'required|file',
+        ]);
+
+        $file       = $request->file('file_excel_week');
+        $namaFile   = $file->getClientOriginalName();
+        Excel::import(new WeekImport, $file);
+        // Storage::makeDirectory('public/dokumenWeek/' . $namaFile);
+
+        return redirect('/week')->with('status', 'Data week berhasil diimport !');
     }
 
     /**
@@ -48,7 +59,14 @@ class WeekController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'week'       => 'required|max:255',
+            'year'       => 'required|max:9',
+            'start_date' => 'required',
+            'end_date'   => 'required',
+        ]);
+        Week::create($request->all());
+        return redirect('/week')->with('status', 'Data week berhasil ditambahkan !');
     }
 
     /**
@@ -82,6 +100,12 @@ class WeekController extends Controller
      */
     public function update(Request $request, Week $week)
     {
+        $request->validate([
+            'week'       => 'required|max:255',
+            'year'       => 'required|max:9',
+            'start_date' => 'required',
+            'end_date'   => 'required',
+        ]);
         Week::where('id_week', $week->id_week)
             ->update([
                 'week'          => $request->week,

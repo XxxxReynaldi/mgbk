@@ -1,46 +1,82 @@
-@extends('layouts.app')
+@extends('layouts.template_login')
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+    <div class="columns is-centered">
+        <div class="column is-4">
+
             <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
+                @if (session('status'))
+                    <div class="notification is-success" role="alert">
+                        {{ session('status') }}
+                    </div>
+                @endif
+                <div class="card-content">
+                    <h1 class="title">Lupa Password</h1>
                     <form method="POST" action="{{ route('password.email') }}">
                         @csrf
-
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                        <div class="field">
+                            <label for="inputEmail" class="label">Email</label>
+                            <p class="control has-icons-left">
+                                <input type="email" id="inputEmail" class="input @error('email') is-invalid @enderror"
+                                name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="Email" >
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
+                            </p>
+                            <p class="help">
+                                <em>
+                                    * Setelah meng-klik tombol dibawah ini, Anda akan
+                                    menerima email untuk mereset password Anda.
+                                </em>
+                            </p>
+                            @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                        <div class="field">
+                            <p class="control">
+                                <button type="submit" class="button is-link is-fullwidth">
                                     {{ __('Send Password Reset Link') }}
                                 </button>
-                            </div>
+                            </p>
                         </div>
                     </form>
+                    <div class="field">
+                        <div class="divider">Atau</div>
+                    </div>
+                    <div class="field">
+                        <p class="control">
+                            @if (Route::has('login'))
+                            <a href="{{ route('login') }}" class="button is-light is-fullwidth">
+                                <span>
+                                    Login
+                                </span>
+                            </a>
+                            @endif
+                        </p>
+                    </div>
                 </div>
             </div>
+
+            <p class="has-text-centered mt-4">
+                Belum punya akun?
+                @if (Route::has('register'))
+                <a href="{{ route('register') }}">
+                    <u>
+                       Daftar Disini!
+                    </u>
+                </a>
+                @endif
+            </p>
+
+            <p class="mt-4 has-text-centered">
+                &copy; MGBK Malang
+            </p>
+
+
         </div>
     </div>
 </div>
