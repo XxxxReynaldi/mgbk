@@ -14,7 +14,8 @@ class SekolahController extends Controller
      */
     public function index()
     {
-        $schools = Sekolah::all();
+        // $schools = Sekolah::all();
+        $schools = Sekolah::where('is_verified', 1)->get();
         return view('master_data.sekolah.index', compact('schools'));
     }
 
@@ -40,7 +41,10 @@ class SekolahController extends Controller
             'nama_sekolah'      => 'required|max:255',
         ]);
 
-        Sekolah::create($request->all());
+        Sekolah::create([
+            'nama_sekolah'  => $request->nama_sekolah,
+            'is_verified'   => 1,
+        ]);
         return redirect('/sekolah')->with('status', 'Data sekolah berhasil ditambahkan !');
     }
 
@@ -84,7 +88,7 @@ class SekolahController extends Controller
                 'nama_sekolah'  => $request->nama_sekolah,
             ]);
 
-        return redirect('/sekolah')->with('status', 'Data sekolah berhasil diubah !');
+        return redirect()->back()->with('status', 'Data sekolah berhasil diubah !');
     }
 
     /**
@@ -96,6 +100,57 @@ class SekolahController extends Controller
     public function destroy(Sekolah $sekolah)
     {
         Sekolah::destroy($sekolah->id_sekolah);
-        return redirect('/sekolah')->with('status', 'Data sekolah berhasil dihapus !');
+        return redirect()->back()->with('status', 'Data sekolah berhasil dihapus !');
+    }
+
+    /**
+     * View index new school
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function newSekolahIndex()
+    {
+        $schools = Sekolah::where('is_verified', 0)->get();
+        return view('master_data.sekolah_baru.index', compact('schools'));
+    }
+
+    /**
+     * Teacher store new School
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function newSekolahStore(Request $request)
+    {
+        $request->validate([
+            'nama_sekolah'      => 'required|max:255',
+        ]);
+
+        Sekolah::create([
+            'nama_sekolah'  => $request->nama_sekolah,
+            'is_verified'   => 0,
+        ]);
+        return redirect()->back()->with('status', 'Data sekolah berhasil ditambahkan !');
+    }
+
+    /**
+     * Verified new school
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Sekolah  $sekolah
+     * @return \Illuminate\Http\Response
+     */
+    public function verify(Request $request, Sekolah $sekolah)
+    {
+        $request->validate([
+            'nama_sekolah'      => 'required|max:255',
+        ]);
+
+        Sekolah::where('id_sekolah', $sekolah->id_sekolah)
+            ->update([
+                'is_verified'  => 1,
+            ]);
+
+        return redirect()->back()->with('status', 'Verifikasi Sekolah berhasil!');
     }
 }

@@ -47,6 +47,10 @@
             background-color: #f5f5f5 !important; 
         }
 
+        .modal-card{
+            overflow-y: auto ;
+        }
+
         .modal .datetimepicker {
             display: none;
             max-height: 95vh;

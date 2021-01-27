@@ -52,7 +52,7 @@
                     </div>
                 </div>
                 <footer class="card-footer">
-                    <a href="{{ route('sekolah_baru.index') }}" class="card-footer-item">
+                    <a href="{{ route('new_sekolah.index') }}" class="card-footer-item">
                         Verifikasi
                     </a>
                 </footer>

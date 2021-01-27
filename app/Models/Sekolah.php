@@ -13,6 +13,6 @@ class Sekolah extends Model
     protected $primaryKey = "id_sekolah";
     protected $fillable =
     [
-        'nama_sekolah'
+        'nama_sekolah', 'is_verified'
     ];
 }

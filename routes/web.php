@@ -27,19 +27,21 @@ Route::get('/', function () {
 
 // Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->middleware(['verified'])->name('home');
 Route::get('/profile', [ProfilesController::class, 'index'])->name('profile');
 
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::post('week/import', [WeekController::class, 'import'])->name(('week.import'));
+    Route::post('week/import', [WeekController::class, 'import'])->name('week.import');
     Route::resource('week', WeekController::class)->except(['create', 'show', 'edit']);
 
     Route::resource('kegiatan', KegiatanController::class);
+
+    Route::post('sekolah/new_sekolah', [SekolahController::class, 'newSekolahStore'])->name('new_sekolah.store');
+    Route::get('sekolah/new_sekolah', [SekolahController::class, 'newSekolahIndex'])->name('new_sekolah.index');
+    Route::post('sekolah/{sekolah}/verify', [SekolahController::class, 'verify'])->name('sekolah.verify');
     Route::resource('sekolah', SekolahController::class)->except(['create', 'show', 'edit']);
 
-    Route::post('sekolah_baru/verify/{sekolah_baru}', [SekolahBaruController::class, 'verify'])->name(('sekolah_baru.verify'));
-    Route::resource('sekolah_baru', SekolahBaruController::class)->except(['create', 'show', 'edit']);
     //
 });
 

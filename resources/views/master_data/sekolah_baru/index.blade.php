@@ -49,12 +49,12 @@
                                 @foreach ($schools as $sekolah)
                                 <tr>
                                     <th>{{ $loop->iteration }}</th>
-                                    <td class="is-hidden">{{ $sekolah['id_sekolah_baru'] }}</td>
+                                    <td class="is-hidden">{{ $sekolah['id_sekolah'] }}</td>
                                     <td>{{ $sekolah['nama_sekolah'] }}</td>
                                     <td>
-                                        <button data-idSekolah="{{ $sekolah['id_sekolah_baru'] }}" class="button is-small is-primary verifBtn"> Verifikasi </button>
-                                        <button data-idSekolah="{{ $sekolah['id_sekolah_baru'] }}" class="button is-small is-success editBtn"> Edit </button>
-                                        <button data-idSekolah="{{ $sekolah['id_sekolah_baru'] }}" class="button is-small is-danger deleteBtn"> Hapus </button>
+                                        <button data-idSekolah="{{ $sekolah['id_sekolah'] }}" class="button is-small is-primary verifBtn"> Verifikasi </button>
+                                        <button data-idSekolah="{{ $sekolah['id_sekolah'] }}" class="button is-small is-success editBtn"> Edit </button>
+                                        <button data-idSekolah="{{ $sekolah['id_sekolah'] }}" class="button is-small is-danger deleteBtn"> Hapus </button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -82,7 +82,7 @@
             </p>
             <button class="delete modal-closed" aria-label="close"></button>
           </header>
-          <form method="post" action="{{ url('sekolah_baru') }}" id="addForm">
+          <form method="post" action="{{ route('new_sekolah.store') }}" id="addForm">
             <section class="modal-card-body">
                 @csrf
                 <div class="field">
@@ -168,7 +168,7 @@
                 @method('delete')
                 @csrf
                 <p>Apa anda yakin ingin menghapus data <span id="namaSekolahHps"></span> ?</p>
-                <input type="hidden" name="id_sekolah_baru" id="id_sekolah_baru">
+                <input type="hidden" name="id_sekolah" id="id_sekolah">
             </section>
                 <footer class="modal-card-foot">
                     <button type="submit" class="button is-danger">Hapus</button>
@@ -228,7 +228,7 @@
 
             $('#idSekolah').val(data[1]);
             $('#nama_sekolah').val(data[2]);
-            $('#editForm').attr('action', '/sekolah_baru/'+data[1]);
+            $('#editForm').attr('action', '/sekolah/'+data[1]);
 
             $('#modal_edit').addClass('is-active');
 
@@ -246,7 +246,7 @@
             
             $('#idSekolah').val(data[1]);
             $('#namaSekolahHps').html(data[2]);
-            $('#deleteForm').attr('action', '/sekolah_baru/'+data[1]);
+            $('#deleteForm').attr('action', '/sekolah/'+data[1]);
 
             $('#modal_hapus').addClass('is-active');
             
@@ -264,7 +264,7 @@
 
             $('#namaSekolahVerif').html(data[2]);
             $('#nama_sekolah_verif').val(data[2]);
-            $('#verifyForm').attr('action', '/sekolah_baru/verify/'+data[1]);
+            $('#verifyForm').attr('action', '/sekolah/'+data[1]+'/verify');
 
             $('#modal_verif').addClass('is-active');
 
