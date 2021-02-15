@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Laporan;
+use App\Models\Profile;
+use App\Models\Sekolah;
 use Illuminate\Http\Request;
 
 class LaporanController extends Controller
@@ -85,7 +87,9 @@ class LaporanController extends Controller
 
     public function harian()
     {
-        return view('laporan.admin.harian');
+        $schools = Sekolah::pluck('nama_sekolah', 'id_sekolah');
+
+        return view('laporan.admin.harian', compact('schools'));
     }
 
     public function mingguan()
@@ -106,5 +110,13 @@ class LaporanController extends Controller
     public function tahunan()
     {
         return view('laporan.admin.tahunan');
+    }
+
+    public function loadGuru(Request $request)
+    {
+        $guru = Profile::where('id_sekolah', $request->get('id_sekolah'))
+            ->pluck('nama_lengkap', 'id_profile');
+
+        return response()->json($guru);
     }
 }

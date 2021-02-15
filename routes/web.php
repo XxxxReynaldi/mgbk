@@ -55,6 +55,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('sekolah/{sekolah}/verify', [SekolahController::class, 'verify'])->name('sekolah.verify');
         Route::resource('sekolah', SekolahController::class)->except(['create', 'show', 'edit']);
 
+        Route::get('laporan/load-guru', [LaporanController::class, 'loadGuru'])->name('laporan.load-guru');
+
         Route::get('laporan/harian', [LaporanController::class, 'harian'])->name('laporan.harian');
         Route::get('laporan/mingguan', [LaporanController::class, 'mingguan'])->name('laporan.mingguan');
         Route::get('laporan/bulanan', [LaporanController::class, 'bulanan'])->name('laporan.bulanan');

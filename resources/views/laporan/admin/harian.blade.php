@@ -19,10 +19,10 @@
                     <label class="label">Pilih Sekolah</label>
                     <div class="control">
                         <div class="select is-fullwidth">
-                            <select name="id_sekolah">
-                                <option>-- Pilih Sekolah --</option>
-                                <option>SMA N 1 Malang</option>
-                                <option>SMA N 2 Malang</option>
+                            <select name="id_sekolah" id="sekolah" class="select-school" style="width: 100%" data-placeholder="Pilih Sekolah">
+                                @foreach ($schools as $id_sekolah => $nama_sekolah)
+                                    <option value="{{ $id_sekolah }}">{{ $nama_sekolah }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -35,10 +35,8 @@
                     <label class="label">Pilih Guru</label>
                     <div class="control">
                         <div class="select is-fullwidth">
-                            <select name="id_user">
-                                <option>-- Pilih Guru --</option>
-                                <option>Yahya Purnomo</option>
-                                <option>Basuki</option>
+                            <select name="id_profile" class="select-teacher" id="guru">
+                                <option value="">-- Pilih Guru --</option>
                             </select>
                         </div>
                     </div>
@@ -150,5 +148,42 @@
     </a>
 
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('.select-school').select2();
+        $('.select-teacher').select2();
+
+        
+        $('#sekolah').on('change', function () {
+            var id_sekolah = $(this).val();
+            console.log(id_sekolah);
+
+            $.ajax({
+                url         : '{{ route('admin.laporan.load-guru') }}',
+                type        : 'get',
+                dataType    : 'json',
+                data        : {
+                    'id_sekolah': id_sekolah
+                },
+                success: function (response) {
+                    console.log('success');
+                    console.log(response);
+
+                    $('#guru').empty();
+                    $('#guru').append('<option value="">-- Pilih Guru --</option>');
+
+                    $.each(response, function (id_profile, nama_lengkap) {
+                        $('#guru').append(new Option(nama_lengkap, id_profile))
+                    });
+                    $('#guru').show(150);
+
+                }
+            });
+        });
+
+
+    });
+</script>
 
 @endsection
