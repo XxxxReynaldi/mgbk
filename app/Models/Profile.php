@@ -13,7 +13,12 @@ class Profile extends Model
     protected $primaryKey = "id_profile";
     protected $fillable =
     [
-        'id_user', 'nama_lengkap', 'alamat_sekolah', 'nama_kepala_sekolah',
-        'asal_sekolah', 'tambahan_informasi', 'logo_sekolah'
+        'id_user', 'nama_lengkap', 'foto_profil', 'alamat_sekolah', 'nama_kepala_sekolah',
+        'id_sekolah', 'tambahan_informasi', 'logo_sekolah'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user');
+    }
 }

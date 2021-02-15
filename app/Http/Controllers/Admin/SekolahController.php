@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Sekolah;
 use Illuminate\Http\Request;
 
@@ -45,7 +46,7 @@ class SekolahController extends Controller
             'nama_sekolah'  => $request->nama_sekolah,
             'is_verified'   => 1,
         ]);
-        return redirect('/sekolah')->with('status', 'Data sekolah berhasil ditambahkan !');
+        return redirect('/admin/sekolah')->with('status', 'Data sekolah berhasil ditambahkan !');
     }
 
     /**

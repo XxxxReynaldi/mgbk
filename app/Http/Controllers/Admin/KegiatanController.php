@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Kegiatan;
 use Illuminate\Http\Request;
 
@@ -37,7 +38,7 @@ class KegiatanController extends Controller
     public function store(Request $request)
     {
         Kegiatan::create($request->all());
-        return redirect('/kegiatan')->with('status', 'Data kegiatan berhasil ditambahkan !');
+        return redirect('/admin/kegiatan')->with('status', 'Data kegiatan berhasil ditambahkan !');
     }
 
     /**
@@ -84,7 +85,7 @@ class KegiatanController extends Controller
                 'ekuivalen'         => $request->ekuivalen,
             ]);
 
-        return redirect('/kegiatan')->with('status', 'Data kegiatan berhasil diubah !');
+        return redirect('/admin/kegiatan')->with('status', 'Data kegiatan berhasil diubah !');
     }
 
     /**
@@ -96,6 +97,6 @@ class KegiatanController extends Controller
     public function destroy(Kegiatan $kegiatan)
     {
         Kegiatan::destroy($kegiatan->id_kegiatan);
-        return redirect('/kegiatan')->with('status', 'Data kegiatan berhasil dihapus !');
+        return redirect('/admin/kegiatan')->with('status', 'Data kegiatan berhasil dihapus !');
     }
 }

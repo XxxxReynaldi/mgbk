@@ -216,6 +216,7 @@
             $('#modal_tambah').addClass('is-active');
         })
 
+        // edit pop-up
         $('#table_sekolah tbody').on('click', '.editBtn', function(){
 
             $tr = $(this).closest('tr');
@@ -228,12 +229,13 @@
 
             $('#idSekolah').val(data[1]);
             $('#nama_sekolah').val(data[2]);
-            $('#editForm').attr('action', '/sekolah/'+data[1]);
+            $('#editForm').attr('action', '/admin/sekolah/'+data[1]);
 
             $('#modal_edit').addClass('is-active');
 
         })
 
+        // hapus pop-up
         $('#table_sekolah tbody').on('click', '.deleteBtn', function(){
 
             $tr = $(this).closest('tr');
@@ -246,12 +248,13 @@
             
             $('#idSekolah').val(data[1]);
             $('#namaSekolahHps').html(data[2]);
-            $('#deleteForm').attr('action', '/sekolah/'+data[1]);
+            $('#deleteForm').attr('action', '/admin/sekolah/'+data[1]);
 
             $('#modal_hapus').addClass('is-active');
             
         })
 
+        // verifikasi pop up
         $('#table_sekolah tbody').on('click', '.verifBtn', function(){
 
             $tr = $(this).closest('tr');
@@ -264,7 +267,7 @@
 
             $('#namaSekolahVerif').html(data[2]);
             $('#nama_sekolah_verif').val(data[2]);
-            $('#verifyForm').attr('action', '/sekolah/'+data[1]+'/verify');
+            $('#verifyForm').attr('action', '/admin/sekolah/'+data[1]+'/verify');
 
             $('#modal_verif').addClass('is-active');
 

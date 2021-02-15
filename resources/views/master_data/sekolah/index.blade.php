@@ -15,6 +15,15 @@
                     <button class="delete deleteNotif"></button>
                     {{ session('status') }}
                 </div>
+            @else 
+                @if($errors->any())
+                <div class="notification is-danger column is-5">
+                    <button class="delete deleteNotif"></button>
+                    @foreach ($errors->all() as $error)
+                    {{ $error }} <br/>
+                    @endforeach
+                </div>
+                @endif
             @endif
         </div>
         <div class="column is-4">
@@ -81,7 +90,7 @@
             </p>
             <button class="delete modal-closed" aria-label="close"></button>
           </header>
-          <form method="post" action="{{ url('sekolah') }}" id="addForm">
+          <form method="post" action="{{ url('admin/sekolah') }}" id="addForm">
             <section class="modal-card-body">
                 @csrf
                 <div class="field">
@@ -199,7 +208,7 @@
 
             $('#idSekolah').val(data[1]);
             $('#nama_sekolah').val(data[2]);
-            $('#editForm').attr('action', '/sekolah/'+data[1]);
+            $('#editForm').attr('action', '/admin/sekolah/'+data[1]);
 
             $('#modal_edit').addClass('is-active');
 
@@ -217,7 +226,7 @@
             
             $('#idSekolah').val(data[1]);
             $('#namaSekolahHps').html(data[2]);
-            $('#deleteForm').attr('action', '/sekolah/'+data[1]);
+            $('#deleteForm').attr('action', '/admin/sekolah/'+data[1]);
 
             $('#modal_hapus').addClass('is-active');
             

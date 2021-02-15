@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Imports\WeekImport;
 use App\Models\Week;
 use Illuminate\Http\Request;
@@ -38,17 +39,16 @@ class WeekController extends Controller
 
     public function import(Request $request)
     {
-
-        $request->validate([
-            'file' => 'required|file',
+        $this->validate($request, [
+            'file_excel_week'       => 'required|file|mimes:xls,xlsx|max:2048',
         ]);
-
         $file       = $request->file('file_excel_week');
         $namaFile   = $file->getClientOriginalName();
+
         Excel::import(new WeekImport, $file);
         // Storage::makeDirectory('public/dokumenWeek/' . $namaFile);
 
-        return redirect('/week')->with('status', 'Data week berhasil diimport !');
+        return redirect('/admin/week')->with('status', 'Data week berhasil diimport !');
     }
 
     /**
@@ -66,7 +66,7 @@ class WeekController extends Controller
             'end_date'   => 'required',
         ]);
         Week::create($request->all());
-        return redirect('/week')->with('status', 'Data week berhasil ditambahkan !');
+        return redirect('/admin/week')->with('status', 'Data week berhasil ditambahkan !');
     }
 
     /**
@@ -114,7 +114,7 @@ class WeekController extends Controller
                 'end_date'      => $request->end_date,
             ]);
 
-        return redirect('/week')->with('status', 'Data week berhasil diubah !');
+        return redirect('/admin/week')->with('status', 'Data week berhasil diubah !');
     }
 
     /**
@@ -126,6 +126,6 @@ class WeekController extends Controller
     public function destroy(Week $week)
     {
         Week::destroy($week->id_week);
-        return redirect('/week')->with('status', 'Data week berhasil dihapus !');
+        return redirect('/admin/week')->with('status', 'Data week berhasil dihapus !');
     }
 }

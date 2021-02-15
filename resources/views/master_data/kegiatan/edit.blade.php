@@ -16,7 +16,7 @@
 
     <div class="columns is-centered">
         <div class="column is-5">
-            <form method="POST" action="{{ route('kegiatan.update', $kegiatan->id_kegiatan) }}">
+            <form method="POST" action="{{ route('admin.kegiatan.update', $kegiatan->id_kegiatan) }}">
                 @method('patch')
                 @csrf
                 <div class="field">
@@ -105,7 +105,7 @@
                     <div class="control">
                         <div class="columns">
                             <div class="column">
-                                <a href="{{ url('kegiatan') }}" class="button is-fullwidth"> Batal </a>
+                                <a href="{{ url('admin/kegiatan') }}" class="button is-fullwidth"> Batal </a>
                             </div>
                             <div class="column">
                                 <button type="submit" class="button is-success is-fullwidth">Simpan</button>

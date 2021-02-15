@@ -15,10 +15,19 @@
                     <button class="delete deleteNotif"></button>
                     {{ session('status') }}
                 </div>
+            @else 
+                @if($errors->any())
+                <div class="notification is-danger column is-5">
+                    <button class="delete deleteNotif"></button>
+                    @foreach ($errors->all() as $error)
+                    {{ $error }} <br/>
+                    @endforeach
+                </div>
+                @endif
             @endif
         </div>
         <div class="column is-4">
-            <a href="{{ route('kegiatan.create') }}" class="button is-link is-pulled-right">Tambah </a>
+            <a href="{{ route('admin.kegiatan.create') }}" class="button is-link is-pulled-right">Tambah </a>
         </div>
     </div>
     <div class="columns is-multiline">
@@ -76,7 +85,7 @@
                                     <td>{{ $kegiatan['jumlah_pertemuan'] }}</td>
                                     <td>{{ $kegiatan['ekuivalen'] }}</td>
                                     <td>
-                                        <a href="{{ route('kegiatan.edit', [$kegiatan->id_kegiatan]) }}" class="button is-small is-success"> Edit </a>
+                                        <a href="{{ route('admin.kegiatan.edit', [$kegiatan->id_kegiatan]) }}" class="button is-small is-success"> Edit </a>
                                         <button data-idKegiatan="{{ $kegiatan['id_kegiatan'] }}" class="button is-small is-danger deleteBtn"> Hapus </button>
                                     </td>
                                 </tr>
@@ -140,7 +149,7 @@
             
             $('#idKegiatan').val(data[1]);
             $('#namaKegiatan').html(data[3]);
-            $('#deleteForm').attr('action', '/kegiatan/'+data[1]);
+            $('#deleteForm').attr('action', '/admin/kegiatan/'+data[1]);
 
             $('.modal').addClass('is-active');
             // modal.classList.add('is-active');

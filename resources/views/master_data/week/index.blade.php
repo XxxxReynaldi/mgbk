@@ -15,6 +15,15 @@
                     <button class="delete deleteNotif"></button>
                     {{ session('status') }}
                 </div>
+            @else 
+                @if($errors->any())
+                <div class="notification is-danger column is-5">
+                    <button class="delete deleteNotif"></button>
+                    @foreach ($errors->all() as $error)
+                    {{ $error }} <br/>
+                    @endforeach
+                </div>
+                @endif
             @endif
         </div>
         <div class="column is-4">
@@ -93,14 +102,14 @@
             </p>
             <button class="delete modal-closed" aria-label="close"></button>
           </header>
-          <form method="post" action="{{ route('week.import') }}" id="importForm" enctype="multipart/form-data">
+          <form method="post" action="{{ route('admin.week.import') }}" id="importForm" enctype="multipart/form-data">
             <section class="modal-card-body">
                 @csrf
                 <div class="field">
                     <label class="label" >File Excel</label>
                     <div id="file-js-example" class="file has-name">
                         <label class="file-label">
-                            <input class="file-input" type="file" name="file_excel_week">
+                            <input class="file-input" type="file" name="file_excel_week" required>
                             <span class="file-cta">
                             <span class="file-icon">
                                 <i class="fas fa-upload"></i>
@@ -114,6 +123,7 @@
                             </span>
                         </label>
                     </div>
+                    <p class="help">format yang diperbolehkan xls, xlsx .</p>
                 </div>
             </section>
                 <footer class="modal-card-foot">
@@ -138,7 +148,7 @@
             </p>
             <button class="delete modal-closed" aria-label="close"></button>
           </header>
-          <form method="post" action="{{ url('week') }}" id="addForm">
+          <form method="post" action="{{ url('admin/week') }}" id="addForm">
             <section class="modal-card-body">
                 @csrf
                 <div class="field">
@@ -332,7 +342,7 @@
             $('#year').val(data[3]);
             $('#start_date').val(tglAwal);
             $('#end_date').val(tglAkhir);
-            $('#editForm').attr('action', '/week/'+data[1]);
+            $('#editForm').attr('action', '/admin/week/'+data[1]);
 
             $('#modal_edit').addClass('is-active');
 
@@ -350,7 +360,7 @@
             
             $('#id_week').val(data[1]);
             $('#weekHps').html(data[2]);
-            $('#deleteForm').attr('action', '/week/'+data[1]);
+            $('#deleteForm').attr('action', '/admin/week/'+data[1]);
 
             $('#modal_hapus').addClass('is-active');
             
