@@ -26,9 +26,9 @@
     {{-- <link rel="stylesheet" href="https://unpkg.com/buefy/dist/buefy.min.css"> --}}
 
     <!-- DataTable -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/dataTables.bulma.min.css">
     {{-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.0/css/bulma.min.css"> --}}
+    {{-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css"> --}}
     
     <!-- DatePicker -->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bulma-calendar.min.css') }}">

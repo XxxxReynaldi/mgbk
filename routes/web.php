@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 use App\Models\User;
+use App\Models\Laporan;
 use App\Models\Profile;
 
 /*
@@ -56,6 +57,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('sekolah', SekolahController::class)->except(['create', 'show', 'edit']);
 
         Route::get('laporan/load-guru', [LaporanController::class, 'loadGuru'])->name('laporan.load-guru');
+        Route::get('laporan/load-weeks', [LaporanController::class, 'loadWeeks'])->name('laporan.load-weeks');
+        Route::post('laporan/cari', [LaporanController::class, 'cari'])->name('laporan.cari');
 
         Route::get('laporan/harian', [LaporanController::class, 'harian'])->name('laporan.harian');
         Route::get('laporan/mingguan', [LaporanController::class, 'mingguan'])->name('laporan.mingguan');
@@ -66,23 +69,41 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 
-
 // Route::get('/dashboard', function () {
 //     // ...
 //     dd("ada di dashboard");
 // })->middleware(['verified']);
 
 Route::get('/read_profile', function () {
-    $user = User::find(2);
+    // $user = User::find(2);
 
-    // $profile = Profile::with('user')->where('id_user', auth()->user()->id_user)->first();
-    // dump($profile);
     // $profile = Profile::where('id_user', auth()->user()->id_user)->first();
+    // dump($profile);
+    // $profile = Profile::with('user')->where('id_user', auth()->user()->id_user)->first();
     // dump($profile);
     // $profile = Profile::with('user')->where('id_user', auth()->user()->id_user)->first();
     // dump($profile->user->name);
 
     // return $user;
-    return $user->profile()->get();
+    // return $user->profile()->get();
     // return $user->profile->nama_lengkap;
+
+    $users = User::with('profile')->get();
+    foreach ($users as $value) {
+        dump($value);
+        if ($value->profile != null) {
+            dump($value->profile->nama_lengkap);
+        }
+    }
+
+    // dd($users);
+});
+
+Route::get('/tes', function () {
+    $reports = Laporan::with(['user', 'sekolah', 'kegiatan'])
+        ->where('id_sekolah', '3')
+        ->where('id_user', '11')
+        ->where('tgl_transaksi', '2021-02-15')
+        ->get();
+    dd($reports);
 });

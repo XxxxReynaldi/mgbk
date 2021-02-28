@@ -26,16 +26,16 @@
                         </div>
                     </div>
                     <footer class="card-footer">
-                        <a href="/laporan-harian.html" class="card-footer-item">
+                        <a href="{{ route('admin.laporan.harian') }}" class="card-footer-item">
                             Harian
                         </a>
-                        <a href="/laporan-harian.html" class="card-footer-item">
+                        <a href="{{ route('admin.laporan.mingguan') }}" class="card-footer-item">
                             Mingguan
                         </a>
-                        <a href="/laporan-harian.html" class="card-footer-item">
+                        <a href="{{ route('admin.laporan.bulanan') }}" class="card-footer-item">
                             Bulanan
                         </a>
-                        <a href="/laporan-harian.html" class="card-footer-item">
+                        <a href="{{ route('admin.laporan.tahunan') }}" class="card-footer-item">
                             Tahunan
                         </a>
                     </footer>

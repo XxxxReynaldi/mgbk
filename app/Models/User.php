@@ -50,4 +50,9 @@ class User extends Authenticatable implements MustVerifyEmail
         // return $this->hasOne(Profile::class, 'foreign_key', 'local_key');
         return $this->hasOne(Profile::class, 'id_user');
     }
+
+    public function laporan()
+    {
+        return $this->hasMany(Laporan::class, 'id_laporan');
+    }
 }

@@ -37,7 +37,7 @@
             <div class="columns">
                 <div class="column">
                     <div class="tabel-container">
-                        <table class="table" id="table_sekolah">
+                        <table class="table is-fullwidth" id="table_sekolah">
                             <thead>
                                 <tr>
                                     <th>#</th>
