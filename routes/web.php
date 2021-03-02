@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use App\Models\Laporan;
 use App\Models\Profile;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,6 +61,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('laporan/load-guru', [LaporanController::class, 'loadGuru'])->name('laporan.load-guru');
         Route::get('laporan/load-weeks', [LaporanController::class, 'loadWeeks'])->name('laporan.load-weeks');
         Route::post('laporan/cari', [LaporanController::class, 'cari'])->name('laporan.cari');
+        Route::post('laporan/tb-semesteran', [LaporanController::class, 'tableSemester'])->name('laporan.tb-semesteran');
+
+        Route::post('laporan/print/date/', [LaporanController::class, 'printByDate'])->name('laporan.print.date');
+        Route::post('laporan/print/week', [LaporanController::class, 'printByWeek'])->name('laporan.print.week');
+        Route::post('laporan/print/month', [LaporanController::class, 'printByMonth'])->name('laporan.print.month');
 
         Route::get('laporan/harian', [LaporanController::class, 'harian'])->name('laporan.harian');
         Route::get('laporan/mingguan', [LaporanController::class, 'mingguan'])->name('laporan.mingguan');
@@ -112,4 +119,19 @@ Route::get('/tes', function () {
     //     ->whereBetween('tgl_transaksi', [date("Y-m-d",  strtotime("2021 - 02 - 1")), date("Y-m-d",  strtotime("2021-02-7"))])
     //     ->get();
     // dd($reports);
+
+    // $dateS = Carbon::now()->startOfMonth()->subMonth();
+    // dd($dateS);
+
+    // $year = "2021";
+    // $start_date  =  date('Y-m-d', strtotime($year . "-01-01"));
+    // $end_date    =  date('Y-m-d', strtotime($year . "-06-30"));
+
+    // $jml = Laporan::with(['user', 'sekolah', 'kegiatan'])
+    //     ->where('id_sekolah', '3')
+    //     ->where('id_user', '11')
+    //     ->whereYear('tgl_transaksi', $year)
+    //     ->whereBetween('tgl_transaksi', [$start_date, $end_date])
+    //     ->count();
+    // dd($jml);
 });

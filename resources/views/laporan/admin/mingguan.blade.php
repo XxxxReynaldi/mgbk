@@ -250,7 +250,7 @@
                 type        : 'post',
                 data        : function (d) {
                     d.laporan       = $('input[name=laporan]').val();
-                    d.id_sekolah    = $('select[name=id_sekolah]').val();;
+                    d.id_sekolah    = $('select[name=id_sekolah]').val();
                     d.id_user       = $('select[name=id_user]').val();
                     d.year          = $('select[name=year]').val();
                     d.id_week       = $('select[name=id_week]').val();

@@ -88,19 +88,9 @@ class LaporanController extends Controller
         //
     }
 
-    public function harian(Request $request)
+    public function harian()
     {
         $schools = Sekolah::pluck('nama_sekolah', 'id_sekolah');
-
-        // if ($request->ajax()) {
-
-        //     $laporan = Laporan::with(['user', 'sekolah', 'kegiatan'])
-        //         ->where('id_sekolah', $request->id_sekolah)
-        //         ->where('id_user', $request->id_user)
-        //         ->where('tgl_transaksi', $request->tgl_transaksi);
-
-        //     $dataTable = DataTables::eloquent($laporan)->make(true);
-        // }
 
         return view('laporan.admin.harian', compact('schools'));
     }
@@ -121,7 +111,7 @@ class LaporanController extends Controller
         return view('laporan.admin.bulanan', compact('schools'));
     }
 
-    public function semesteran()
+    public function semesteran(Request $request)
     {
         $schools = Sekolah::pluck('nama_sekolah', 'id_sekolah');
 
@@ -189,6 +179,18 @@ class LaporanController extends Controller
                     } else if ($request->has('month')) {
                         $query->whereMonth('tgl_transaksi', $request->month);
                     }
+                } else if ($request->has('laporan') && $request->get('laporan') == "semester") {
+                    if ($request->has('year') && $request->has('semester') && $request->get('year') != "" && $request->get('semester') != "") {
+                        if ($request->semester == "1") {
+                            $start_date  =  date('Y-m-d', strtotime($request->year . "-01-01"));
+                            $end_date    =  date('Y-m-d', strtotime($request->year . "-06-30"));
+                        } else {
+                            $start_date  =  date('Y-m-d', strtotime($request->year . "-07-01"));
+                            $end_date    =  date('Y-m-d', strtotime($request->year . "-12-31"));
+                        }
+                        $query->whereYear('tgl_transaksi', $request->year);
+                        $query->whereBetween('tgl_transaksi', [$start_date, $end_date]);
+                    }
                 } else if ($request->has('laporan') && $request->get('laporan') == "tahunan") {
                     if ($request->has('year') && $request->get('year') != "") {
                         $query->whereYear('tgl_transaksi', $request->year);
@@ -197,5 +199,49 @@ class LaporanController extends Controller
             })
             ->make(true);
         //
+    }
+
+    public function tableSemester(Request $request)
+    {
+        $laporan = Laporan::with(['user', 'sekolah', 'kegiatan']);
+
+        return datatables()->of($laporan)
+            ->addIndexColumn()
+            ->addColumn('kegiatan', function (Laporan $laporan) {
+                return $laporan->kegiatan->kegiatan;
+            })
+            ->filter(function ($query) use ($request) {
+                if ($request->has('id_sekolah')) {
+                    $query->where('id_sekolah', $request->id_sekolah);
+                }
+
+                if ($request->has('id_user')) {
+                    $query->where('id_user', $request->id_user);
+                }
+
+                if ($request->has('year') && $request->has('semester') && $request->get('year') != "" && $request->get('semester') != "") {
+                    if ($request->semester == "1") {
+                        $start_date  =  date('Y-m-d', strtotime($request->year . "-01-01"));
+                        $end_date    =  date('Y-m-d', strtotime($request->year . "-06-30"));
+                    } else {
+                        $start_date  =  date('Y-m-d', strtotime($request->year . "-07-01"));
+                        $end_date    =  date('Y-m-d', strtotime($request->year . "-12-31"));
+                    }
+                    $query->whereYear('tgl_transaksi', $request->year);
+                    $query->whereBetween('tgl_transaksi', [$start_date, $end_date]);
+                }
+            })
+            ->make(true);
+        //
+    }
+
+    public function printByDate(Request $request)
+    {
+        $data = [
+            $request->get('id_sekolah-p'),
+            $request->get('id_user-p'),
+            $request->get('tgl_transaksi-p'),
+        ];
+        return dd($data);
     }
 }

@@ -69,7 +69,13 @@
             <h1 class="title is-5">Harian </h1>
         </div>
         <div class="column is-half">
-            <button class="button is-warning is-pulled-right"><i class="fas fa-print fa-fw" aria-hidden="true"></i>&nbsp; Cetak </button>
+            <form action="{{ route('admin.laporan.print.date') }}" method="post" id="print-form">
+                @csrf
+                <input type="hidden" id="id_sekolah-p" name="id_sekolah-p" value="">
+                <input type="hidden" id="id_user-p" name="id_user-p" value="">
+                <input type="hidden" id="tgl_transaksi-p" name="tgl_transaksi-p" value="">
+                <button type="submit" class="button is-warning is-pulled-right"><i class="fas fa-print fa-fw" aria-hidden="true"></i>&nbsp; Cetak </button>
+            </form>
         </div>
     </div>
 
@@ -146,7 +152,11 @@
             id_user         = $('#guru').val();
             tgl_transaksi   = $('#tgl').val();
             console.log([laporan, id_sekolah, id_user, tgl_transaksi]);
-        });
+
+            $('#id_sekolah-p').val(id_sekolah);      
+            $('#id_user-p').val(id_user);
+            $('#tgl_transaksi-p').val(tgl_transaksi);
+        });    
         
         $('#sekolah').on('change', function () {
             var id_sekolah = $(this).val();
@@ -187,7 +197,7 @@
                 type        : 'post',
                 data        : function (d) {
                     d.laporan       = $('input[name=laporan]').val();
-                    d.id_sekolah    = $('select[name=id_sekolah]').val();;
+                    d.id_sekolah    = $('select[name=id_sekolah]').val();
                     d.id_user       = $('select[name=id_user]').val();
                     d.tgl_transaksi = $('input[name=tgl_transaksi]').val();
                     console.log([d.laporan, d.id_sekolah, d.id_user, d.tgl_transaksi]);

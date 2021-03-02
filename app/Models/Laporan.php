@@ -31,4 +31,15 @@ class Laporan extends Model
     {
         return $this->belongsTo(Kegiatan::class, 'id_kegiatan');
     }
+
+    public function jmlKegiatan($id_user, $id_sekolah, $id_kegiatan, $year, $start_date, $end_date)
+    {
+        // $jml = Laporan::with(['user', 'sekolah', 'kegiatan'])
+        // ->where('id_user', '$id_user')
+        // ->where('id_sekolah', 'id_sekolah')
+        // ->where('id_kegiatan', '$id_kegiatan')
+        // ->whereYear('tgl_transaksi', $year)
+        // ->whereBetween('tgl_transaksi', [$start_date, $end_date])
+        // ->count();
+    }
 }
