@@ -110,7 +110,14 @@
 
     </form>
 
-    <h1 class="title is-5">Bulanan</h1>
+    <div class="columns is-multiline is-mobile">        
+        <div class="column is-half">
+            <h1 class="title is-5">Bulanan </h1>
+        </div>
+        <div class="column is-half">
+            <button class="button is-warning is-pulled-right"><i class="fas fa-print fa-fw" aria-hidden="true"></i>&nbsp; Cetak </button>
+        </div>
+    </div>
 
     <div class="columns">
         <div class="column">
@@ -147,14 +154,14 @@
         </div>
     </div>
 
-    <a href="#" class="button is-warning is-fullwidth">
+    {{-- <a href="#" class="button is-warning is-fullwidth">
         <span>
             Cetak Semua
         </span>
         <span class="icon">
             <i class="fas fa-long-arrow-alt-right"></i>
         </span>
-    </a>
+    </a> --}}
 
 </div>
 
@@ -223,7 +230,7 @@
             year            = $('#tahun').val();
             month           = $('#bulan').val();
             console.log([laporan, id_sekolah, id_user, year, month]);
-        })
+        });
 
         var table = $('#table-laporan').DataTable({
 

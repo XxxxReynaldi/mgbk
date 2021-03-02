@@ -153,92 +153,49 @@ class LaporanController extends Controller
 
     public function cari(Request $request)
     {
-        if ($request->has('laporan') == "harian") {
-            //
-            $reports = Laporan::with(['user', 'sekolah', 'kegiatan']);
-            return Datatables::eloquent($reports)
-                ->addIndexColumn()
-                ->addColumn('kegiatan', function (Laporan $laporan) {
-                    return $laporan->kegiatan->kegiatan;
-                })
-                ->filter(function ($query) use ($request) {
-                    if ($request->has('id_sekolah')) {
-                        $query->where('id_sekolah', $request->id_sekolah);
-                    }
+        $reports = Laporan::with(['user', 'sekolah', 'kegiatan']);
+        return Datatables::eloquent($reports)
+            ->addIndexColumn()
+            ->addColumn('kegiatan', function (Laporan $laporan) {
+                return $laporan->kegiatan->kegiatan;
+            })
+            ->filter(function ($query) use ($request) {
+                if ($request->has('id_sekolah')) {
+                    $query->where('id_sekolah', $request->id_sekolah);
+                }
 
-                    if ($request->has('id_user')) {
-                        $query->where('id_user', $request->id_user);
-                    }
+                if ($request->has('id_user')) {
+                    $query->where('id_user', $request->id_user);
+                }
 
+                if ($request->has('laporan') && $request->get('laporan') == "harian") {
                     if ($request->has('tgl_transaksi')) {
                         $query->where('tgl_transaksi', $request->tgl_transaksi);
                     }
-                })
-                ->make(true);
-            //
-        } else if ($request->has('laporan') == "mingguan") {
-            //
-            $reports = Laporan::with(['user', 'sekolah', 'kegiatan']);
-            return Datatables::eloquent($reports)
-                ->addIndexColumn()
-                ->addColumn('kegiatan', function (Laporan $laporan) {
-                    return $laporan->kegiatan->kegiatan;
-                })
-                ->filter(function ($query) use ($request) {
-                    if ($request->has('id_sekolah')) {
-                        $query->where('id_sekolah', $request->id_sekolah);
-                    }
-
-                    if ($request->has('id_user')) {
-                        $query->where('id_user', $request->id_user);
-                    }
-
-                    if ($request->has('id_week')) {
+                } else if ($request->has('laporan') && $request->get('laporan') == "mingguan") {
+                    if ($request->has('id_week') && $request->get('id_week') != "") {
                         $week = DB::table('weeks')
                             ->where('id_week', $request->id_week)
                             ->first();
+                        $tgl_awal  = date('Y-m-d', strtotime($week->start_date));
+                        $tgl_akhir = date('Y-m-d', strtotime($week->end_date));
 
-                        $query->whereBetween('tgl_transaksi', [$week->start_date, $week->end_date]);
+                        $query->whereBetween('tgl_transaksi', [$tgl_awal, $tgl_akhir]);
                     }
-                })
-                ->make(true);
-            //
-        } else if ($request->has('laporan') == "bulanan") {
-            //
-            // $reports = Laporan::with(['user', 'sekolah', 'kegiatan']);
-            $reports =  $reports = DB::table('laporan')
-                ->leftJoin('kegiatan', 'laporan.id_kegiatan', '=', 'kegiatan.id_kegiatan')
-                ->leftJoin('sekolah', 'laporan.id_sekolah', '=', 'sekolah.id_sekolah')
-                ->leftJoin('profiles', 'laporan.id_user', '=', 'profiles.id_user')
-                ->select('laporan.*', 'kegiatan.*', 'sekolah.nama_sekolah', 'profiles.nama_lengkap');
-
-            return Datatables::eloquent($reports)
-                ->addIndexColumn()
-                ->filter(function ($query) use ($request) {
-                    if ($request->has('id_sekolah')) {
-                        $query->where('id_sekolah', $request->id_sekolah);
-                    }
-
-                    if ($request->has('id_user')) {
-                        $query->where('id_user', $request->id_user);
-                    }
-
-                    if ($request->has('year') && $request->has('month')) {
+                } else if ($request->has('laporan') && $request->get('laporan') == "bulanan") {
+                    if ($request->has('year') && $request->has('month') && $request->get('year') != "") {
                         $query->whereYear('tgl_transaksi', $request->year);
                         $query->whereMonth('tgl_transaksi', $request->month);
                     } else if ($request->has('month')) {
                         $query->whereMonth('tgl_transaksi', $request->month);
                     }
-                })
-                ->make(true);
-            //
-        } else if ($request->has('laporan') == "semesteran") {
-            # code...
-        } else if ($request->has('laporan') == "tahunan") {
-            # code...
-        } else {
-            $reports = Laporan::all();
-            return datatables()->of($reports)->toJson();
-        }
+                } else if ($request->has('laporan') && $request->get('laporan') == "tahunan") {
+                    if ($request->has('year') && $request->get('year') != "") {
+                        $query->whereYear('tgl_transaksi', $request->year);
+                    }
+                }
+            })
+            ->make(true);
+        //
     }
 }

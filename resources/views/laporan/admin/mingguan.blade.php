@@ -135,14 +135,14 @@
         </div>
     </div>
 
-    <a href="#" class="button is-warning is-fullwidth">
+    {{-- <a href="#" class="button is-warning is-fullwidth">
         <span>
             Cetak Semua
         </span>
         <span class="icon">
             <i class="fas fa-long-arrow-alt-right"></i>
         </span>
-    </a>
+    </a> --}}
 
 </div>
 
@@ -237,7 +237,7 @@
             year            = $('#tahun').val();
             id_week         = $('#minggu').val();
             console.log([laporan, id_sekolah, id_user, year, id_week]);
-        })
+        });
 
         var table = $('#table-laporan').DataTable({
 

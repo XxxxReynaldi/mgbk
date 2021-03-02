@@ -100,10 +100,16 @@ Route::get('/read_profile', function () {
 });
 
 Route::get('/tes', function () {
-    $reports = Laporan::with(['user', 'sekolah', 'kegiatan'])
-        ->where('id_sekolah', '3')
-        ->where('id_user', '11')
-        ->where('tgl_transaksi', '2021-02-15')
-        ->get();
-    dd($reports);
+    //     $reports = Laporan::with(['user', 'sekolah', 'kegiatan'])
+    //         ->where('id_sekolah', '3')
+    //         ->where('id_user', '11')
+    //         ->where('tgl_transaksi', '2021-02-15')
+    //         ->get();
+
+    // $reports = Laporan::with(['user', 'sekolah', 'kegiatan'])
+    //     ->where('id_sekolah', '3')
+    //     ->where('id_user', '11')
+    //     ->whereBetween('tgl_transaksi', [date("Y-m-d",  strtotime("2021 - 02 - 1")), date("Y-m-d",  strtotime("2021-02-7"))])
+    //     ->get();
+    // dd($reports);
 });

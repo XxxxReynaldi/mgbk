@@ -146,7 +146,7 @@
             id_user         = $('#guru').val();
             tgl_transaksi   = $('#tgl').val();
             console.log([laporan, id_sekolah, id_user, tgl_transaksi]);
-        })
+        });
         
         $('#sekolah').on('change', function () {
             var id_sekolah = $(this).val();
