@@ -9,6 +9,7 @@ use App\Models\Week;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\DB;
+use PDF;
 
 class LaporanController extends Controller
 {
@@ -237,11 +238,19 @@ class LaporanController extends Controller
 
     public function printByDate(Request $request)
     {
-        $data = [
-            $request->get('id_sekolah-p'),
-            $request->get('id_user-p'),
-            $request->get('tgl_transaksi-p'),
-        ];
-        return dd($data);
+        $reports = DB::table('laporan')
+            ->leftJoin('kegiatan', 'laporan.id_kegiatan', '=', 'kegiatan.id_kegiatan')
+            ->leftJoin('sekolah', 'laporan.id_sekolah', '=', 'sekolah.id_sekolah')
+            ->leftJoin('profiles', 'laporan.id_user', '=', 'profiles.id_user')
+            ->select('laporan.*', 'kegiatan.*', 'sekolah.nama_sekolah', 'profiles.nama_lengkap')
+            ->where('laporan.id_user', $request->get('id_user-p'))
+            ->where('laporan.id_sekolah', $request->get('id_sekolah-p'))
+            ->where('laporan.tgl_transaksi', $request->get('tgl_transaksi-p'))
+            ->get();
+
+        $pdf = PDF::loadView('laporan.print.harian', compact('reports'));
+        $pdf->setPaper('legal', 'potrait');
+        return $pdf->download('laporan-harian.pdf');
+        // return $pdf->stream();
     }
 }
