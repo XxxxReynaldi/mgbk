@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Profile;
+use App\Models\Sekolah;
 use Carbon\Carbon;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
@@ -35,10 +36,12 @@ class ProfilesController extends Controller
             $checkProfile = Profile::with('user')->where('id_user', auth()->user()->id_user)->exists();
 
             if ($checkProfile) {
-                $profile = Profile::where('id_user', auth()->user()->id_user)->first();
+                $profile = Profile::with('user', 'sekolah')->where('id_user', auth()->user()->id_user)->first();
             }
 
-            return view('profile.user.edit', compact('checkProfile', 'profile'));
+            $schools = Sekolah::pluck('nama_sekolah', 'id_sekolah');
+
+            return view('profile.user.edit', compact('checkProfile', 'profile', 'schools'));
         } else {
             return view('profile.admin.edit');
         }
@@ -68,7 +71,7 @@ class ProfilesController extends Controller
             'alamat_sekolah'        => 'required|max:255',
             'nama_kepala_sekolah'   => 'required|max:255',
             'id_sekolah'            => 'required',
-            'tambahan_informasi'    => 'required|max:255',
+            'tambahan_informasi'    => 'nullable|max:255',
             'logo_sekolah'          => 'required|file|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
@@ -133,12 +136,12 @@ class ProfilesController extends Controller
             'alamat_sekolah'        => 'required|max:255',
             'nama_kepala_sekolah'   => 'required|max:255',
             'id_sekolah'            => 'required',
-            'tambahan_informasi'    => 'required|max:255',
+            'tambahan_informasi'    => 'nullable|max:255',
             'logo_sekolah'          => 'file|image|mimes:jpeg,png,jpg|max:5120',
         ]);
 
-        $nama_foto = $request->foto_profile;
-        $nama_logo = $request->logo_sekolah;
+        $nama_foto = $profile->foto_profil;
+        $nama_logo = $profile->logo_sekolah;
 
         if ($request->hasFile('foto_profil')) {
             $foto_profil    = $request->file('foto_profil');

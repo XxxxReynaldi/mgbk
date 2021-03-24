@@ -21,4 +21,9 @@ class Profile extends Model
     {
         return $this->belongsTo(User::class, 'id_user');
     }
+
+    public function sekolah()
+    {
+        return $this->belongsTo(Sekolah::class, 'id_sekolah');
+    }
 }

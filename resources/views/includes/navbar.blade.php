@@ -2,7 +2,7 @@
 <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a class="navbar-item" href="{{ route('home') }}">
-            <span class="subtitle"><strong>MGBK Malang</strong></span>
+            <span class="subtitle"><strong>MGBK SMA Kota Malang</strong></span>
         </a>
 
         <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarTop">
@@ -129,7 +129,7 @@
 <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a class="navbar-item" href="{{ route('home') }}">
-            <span class="subtitle"><strong>MGBK Malang</strong></span>
+            <span class="subtitle"><strong>MGBK SMA Kota Malang</strong></span>
         </a>
 
         <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarTop">
@@ -149,6 +149,14 @@
                     Home
                 </span>
             </a>
+            <a class="navbar-item" href="/buat-laporan.html">
+                <span class="icon">
+                    <i class="fas fa-plus"></i>
+                </span>
+                <span>
+                    Buat Laporan
+                </span>
+            </a>
             <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link">
                     <span class="icon">
@@ -160,23 +168,34 @@
                 </a>
 
                 <div class="navbar-dropdown is-right">
-                    <a class="navbar-item" href="/buat-laporan.html">
-                        <span class="icon">
-                            <i class="fas fa-plus"></i>
-                        </span>
-                        <span>
-                            Buat Laporan
-                        </span>
+                    <a class="navbar-item" href="{{ route('user.laporan.harian') }}">
+                        Harian
                     </a>
                     <hr class="navbar-divider">
-                    <a class="navbar-item" href="/laporan.html">
+                    <a class="navbar-item" href="{{ route('user.laporan.mingguan') }}">
+                        Mingguan
+                    </a>
+                    <hr class="navbar-divider">
+                    <a class="navbar-item" href="{{ route('user.laporan.bulanan') }}">
+                        Bulanan
+                    </a>
+                    <hr class="navbar-divider">
+                    <a class="navbar-item" href="{{ route('user.laporan.semesteran') }}">
+                        Semesteran
+                    </a>
+                    <hr class="navbar-divider">
+                    <a class="navbar-item" href="{{ route('user.laporan.tahunan') }}">
+                        Tahunan
+                    </a>
+                    {{-- <hr class="navbar-divider"> --}}
+                    {{-- <a class="navbar-item" href="{{ route('user.laporan.harian') }}">
                         <span class="icon">
                             <i class="fas fa-book-open"></i>
                         </span>
                         <span>
                             Lihat Laporan
                         </span>
-                    </a>
+                    </a> --}}
                 </div>
             </div>
             <div class="navbar-item has-dropdown is-hoverable">

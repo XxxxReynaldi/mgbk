@@ -131,7 +131,6 @@
                             <th>Tanggal transaksi</th>
                             <th>Upload document 1</th>
                             <th>Upload document 2</th>
-                            <th>Upload document 3</th>
                             {{-- <th>Opsi</th> --}}
                         </tr>
                     </thead>
@@ -143,7 +142,6 @@
                             <th>Tanggal transaksi</th>
                             <th>Upload document 1</th>
                             <th>Upload document 2</th>
-                            <th>Upload document 3</th>
                             {{-- <th>Opsi</th> --}}
                         </tr>
                     </tfoot>
@@ -258,7 +256,6 @@
                 { data: 'tgl_transaksi', name: 'laporan.tgl_transaksi' },
                 { data: 'upload_doc_1', name: 'laporan.upload_doc_1' },
                 { data: 'upload_doc_2', name: 'laporan.upload_doc_2' },
-                { data: 'upload_doc_3', name: 'laporan.upload_doc_3' },
             ],
         });
 

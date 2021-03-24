@@ -74,7 +74,7 @@
                         </div>
                     </div>
                     <footer class="card-footer">
-                        <a href="#" class="card-footer-item">
+                        <a href="{{ route('profile.index') }}" class="card-footer-item">
                             <span>
                                 Mulai
                             </span>

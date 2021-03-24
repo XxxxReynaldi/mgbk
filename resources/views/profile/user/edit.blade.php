@@ -72,7 +72,9 @@
                         <label class="label">Asal Sekolah</label>
                         <div class="control">
                             <select class="select-school @error('asal_sekolah') is-invalid @enderror" style="width: 100%" name="id_sekolah" data-placeholder="Pilih Sekolah">
-                                <option value="{{ $profile->id_sekolah }}">Alabama</option>
+                                @foreach ($schools as $id_sekolah => $nama_sekolah)
+                                    <option value="{{ $id_sekolah }}"  {{ ($profile->sekolah->id_sekolah == $id_sekolah) ? 'selected' : '' }}>{{ $nama_sekolah }}</option>
+                                @endforeach 
                             </select>
                         </div>
                         @error('asal_sekolah')
@@ -132,7 +134,7 @@
                     <div class="field">
                         <label class="label">Tambahan Informasi</label>
                         <div class="control">
-                            <input value="{{ $profile->tambahan_informasi }}" name="tambahan_informasi" class="input @error('tambahan_informasi') is-invalid @enderror" type="text" placeholder="Tambahan Informasi">
+                            <textarea name="tambahan_informasi" class="textarea @error('tambahan_informasi') is-invalid @enderror" type="text" placeholder="Tambahan Informasi" rows="4">{{ $profile->tambahan_informasi }}</textarea>
                         </div>
                         @error('tambahan_informasi')
                         <span class="invalid-feedback" role="alert">
@@ -260,7 +262,7 @@
                     <div class="field">
                         <label class="label">Tambahan Informasi</label>
                         <div class="control">
-                            <input class="input @error('tambahan_informasi') is-invalid @enderror" name="tambahan_informasi" type="text" placeholder="Tambahan Informasi">
+                            <textarea class="textarea @error('tambahan_informasi') is-invalid @enderror" name="tambahan_informasi" type="text" placeholder="Tambahan Informasi" rows="4"></textarea>
                         </div>
                         @error('tambahan_informasi')
                         <span class="invalid-feedback" role="alert">
@@ -290,7 +292,10 @@
 
 <script>
     $(document).ready(function() {
-        $('.select-school').select2();
+        $('.select-school').select2({
+            placeholder: "Pilih Sekolah",
+            allowClear: true
+        });
     });
 </script>
 

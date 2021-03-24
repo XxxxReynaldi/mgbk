@@ -42,6 +42,21 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'checkRole:user'], function () {
         Route::post('sekolah/new_sekolah', [SekolahController::class, 'newSekolahStore'])->name('new_sekolah.store');
         Route::get('sekolah/new_sekolah', [SekolahController::class, 'newSekolahIndex'])->name('new_sekolah.index');
+
+        Route::group([
+            'prefix' => 'user',
+            'as' => 'user.',
+        ], function () {
+            Route::get('laporan/harian', [LaporanController::class, 'index'])->name('laporan.harian');
+            Route::get('laporan/mingguan', [LaporanController::class, 'index'])->name('laporan.mingguan');
+            Route::get('laporan/bulanan', [LaporanController::class, 'index'])->name('laporan.bulanan');
+            Route::get('laporan/semesteran', [LaporanController::class, 'index'])->name('laporan.semesteran');
+            Route::get('laporan/tahunan', [LaporanController::class, 'index'])->name('laporan.tahunan');
+            Route::post('laporan/cari', [LaporanController::class, 'cari'])->name('laporan.cari');
+
+            Route::post('laporan/import', [LaporanController::class, 'import'])->name('laporan.import');
+            Route::post('laporan/print/date/', [LaporanController::class, 'printByDate'])->name('laporan.print.date');
+        });
     });
 
     // admin

@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\ReportImport;
 use App\Models\Laporan;
 use App\Models\Profile;
 use App\Models\Sekolah;
 use App\Models\Week;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 use PDF;
 
 class LaporanController extends Controller
@@ -20,7 +23,40 @@ class LaporanController extends Controller
      */
     public function index()
     {
-        //
+        $id_user = Auth::user()->id_user;
+        $profile = Profile::where('id_user', $id_user)->first();
+
+        $file = null;
+
+        if (request()->segment(3) == 'harian') {
+            $file = "harian";
+        } else if (request()->segment(3) == 'mingguan') {
+            $file = "mingguan";
+        } else if (request()->segment(3) == 'bulanan') {
+            $file = "bulanan";
+        } else if (request()->segment(3) == 'semesteran') {
+            $file = "semesteran";
+        } else if (request()->segment(3) == 'tahunan') {
+            $file = "tahunan";
+        }
+
+        return view('laporan.guru.' . $file, compact('id_user', 'profile'));
+    }
+
+    public function import(Request $request)
+    {
+        $this->validate($request, [
+            'file_excel_report'       => 'required|file|mimes:xls,xlsx|max:2048',
+        ]);
+        $file       = $request->file('file_excel_report');
+        $namaFile   = $file->getClientOriginalName();
+
+        $statImport = Excel::import(new ReportImport, $file);
+        dump($statImport);
+        // Excel::import(new WeekImport, $file);
+        // Storage::makeDirectory('public/dokumenWeek/' . $namaFile);
+
+        // return redirect()->back()->with('status', 'Data week berhasil diimport !');
     }
 
     /**
@@ -211,6 +247,9 @@ class LaporanController extends Controller
             ->addColumn('kegiatan', function (Laporan $laporan) {
                 return $laporan->kegiatan->kegiatan;
             })
+            ->addColumn('jumlah', function ($query) {
+                return $query->kegiatan->kegiatan;
+            })
             ->filter(function ($query) use ($request) {
                 if ($request->has('id_sekolah')) {
                     $query->where('id_sekolah', $request->id_sekolah);
@@ -238,17 +277,29 @@ class LaporanController extends Controller
 
     public function printByDate(Request $request)
     {
-        $reports = DB::table('laporan')
-            ->leftJoin('kegiatan', 'laporan.id_kegiatan', '=', 'kegiatan.id_kegiatan')
-            ->leftJoin('sekolah', 'laporan.id_sekolah', '=', 'sekolah.id_sekolah')
-            ->leftJoin('profiles', 'laporan.id_user', '=', 'profiles.id_user')
-            ->select('laporan.*', 'kegiatan.*', 'sekolah.nama_sekolah', 'profiles.nama_lengkap')
-            ->where('laporan.id_user', $request->get('id_user-p'))
-            ->where('laporan.id_sekolah', $request->get('id_sekolah-p'))
-            ->where('laporan.tgl_transaksi', $request->get('tgl_transaksi-p'))
-            ->get();
 
-        $pdf = PDF::loadView('laporan.print.harian', compact('reports'));
+        // $laporan = DB::table('laporan')
+        //     ->Join('kegiatan', 'laporan.id_kegiatan', '=', 'kegiatan.id_kegiatan')
+        //     ->Join('sekolah', 'laporan.id_sekolah', '=', 'sekolah.id_sekolah')
+        //     ->Join('users', 'laporan.id_user', '=', 'users.id_user')
+        //     ->Join('profiles', 'users.id_user', '=', 'profiles.id_user')
+        //     ->select('laporan.*', 'kegiatan.*', 'sekolah.nama_sekolah', 'profiles.*')
+        //     ->where('profiles.id_user', $request->get('id_user-p'))
+        //     ->where('laporan.id_user', $request->get('id_user-p'))
+        //     ->where('laporan.id_sekolah', $request->get('id_sekolah-p'))
+        //     ->where('laporan.tgl_transaksi', $request->get('tgl_transaksi-p'));
+
+        $laporan = Laporan::with(['sekolah', 'user.profile', 'kegiatan']);
+        $laporan->where('id_user', $request->get('id_user-p'));
+        $laporan->where('id_sekolah', $request->get('id_sekolah-p'));
+        $laporan->where('tgl_transaksi', $request->get('tgl_transaksi-p'));
+
+        $reports = $laporan->get();
+        $guru = $laporan->first();
+        // dd([$reports, $guru]);
+        // return view('laporan.print.laporan_harian', compact('guru', 'reports'));
+
+        $pdf = PDF::loadView('laporan.print.laporan_harian', compact('guru', 'reports'));
         $pdf->setPaper('legal', 'potrait');
         return $pdf->download('laporan-harian.pdf');
         // return $pdf->stream();

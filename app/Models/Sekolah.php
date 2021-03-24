@@ -21,4 +21,9 @@ class Sekolah extends Model
         // return $this->hasOne(Profile::class, 'foreign_key', 'local_key');
         return $this->hasMany(Laporan::class, 'id_laporan');
     }
+
+    public function profile()
+    {
+        return $this->hasMany(Profile::class, 'id_sekolah');
+    }
 }

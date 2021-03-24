@@ -2,20 +2,16 @@
 
 namespace App\Imports;
 
-use App\Models\Week as Week;
+use App\Models\Laporan;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Request;
-use Maatwebsite\Excel\Concerns\ToCollection;
-
-class WeekImport implements
+class ReportImport implements
     ToModel,
-    // ToCollection,
     WithHeadingRow,
     WithChunkReading,
     WithBatchInserts
@@ -42,15 +38,37 @@ class WeekImport implements
      */
     public function model(array $row)
     {
-        $tglawal    = date('Y-m-d', strtotime($this->transformDate($row['startdate'])));
-        $tglakhir   = date('Y-m-d', strtotime($this->transformDate($row['enddate'])));
+        $id_kegiatan_cek    = $this->checkActivity($row['kegiatan']);
+        $tgl_transaksi      = date('Y-m-d', strtotime($this->transformDate($row['tgl_transaksi'])));
 
-        return new Week([
-            'week'          => $row['week'],
-            'year'          => $row['year'],
-            'start_date'    => $tglawal,
-            'end_date'      => $tglakhir,
-        ]);
+        $kosong = null;
+        if ($id_kegiatan_cek == null) {
+            return $kosong;
+        } else {
+
+            return new Laporan([
+                'id_sekolah'        => $row['id_sekolah'],
+                'id_user'           => $row['id_user'],
+                'id_kegiatan'       => $id_kegiatan_cek->id_kegiatan,
+                'tgl_transaksi'     => $tgl_transaksi,
+                'detail'            => $row['detail'],
+            ]);
+        }
+    }
+
+    /**
+     * @param array $activity_name
+     *
+     * @return $id_kegiatan
+     */
+    public function checkActivity($activity_name)
+    {
+        $id_kegiatan = DB::table('kegiatan')
+            ->select('id_kegiatan')
+            ->where('kegiatan', '=', $activity_name)
+            ->first();
+
+        return $id_kegiatan;
     }
 
     public function headingRow(): int

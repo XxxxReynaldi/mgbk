@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'MGBK Malang') }} @yield('title')</title>
+    <title>{{ config('app.name', 'MGBK SMA Kota Malang') }} @yield('title')</title>
 
     <!-- Scripts -->
     {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
