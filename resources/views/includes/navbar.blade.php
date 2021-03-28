@@ -149,14 +149,14 @@
                     Home
                 </span>
             </a>
-            <a class="navbar-item" href="/buat-laporan.html">
+            {{-- <a class="navbar-item" href="/buat-laporan.html">
                 <span class="icon">
                     <i class="fas fa-plus"></i>
                 </span>
                 <span>
                     Buat Laporan
                 </span>
-            </a>
+            </a> --}}
             <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link">
                     <span class="icon">

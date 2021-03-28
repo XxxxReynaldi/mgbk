@@ -56,6 +56,9 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('laporan/semesteran', [LaporanController::class, 'index'])->name('laporan.semesteran');
             Route::get('laporan/tahunan', [LaporanController::class, 'index'])->name('laporan.tahunan');
             Route::post('laporan/cari', [LaporanController::class, 'cari'])->name('laporan.cari');
+            Route::post('laporan/tb-bulanan', [LaporanController::class, 'tableBST'])->name('laporan.tb-bulanan');
+            Route::post('laporan/tb-semesteran', [LaporanController::class, 'tableBST'])->name('laporan.tb-semesteran');
+            Route::post('laporan/tb-tahunan', [LaporanController::class, 'tableBST'])->name('laporan.tb-tahunan');
 
             Route::post('laporan/import', [LaporanController::class, 'import'])->name('laporan.import');
             Route::post('laporan/print/date', [LaporanController::class, 'printByDate'])->name('laporan.print.date');
@@ -83,7 +86,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('laporan/load-guru', [LaporanController::class, 'loadGuru'])->name('laporan.load-guru');
         Route::get('laporan/load-weeks', [LaporanController::class, 'loadWeeks'])->name('laporan.load-weeks');
         Route::post('laporan/cari', [LaporanController::class, 'cari'])->name('laporan.cari');
-        Route::post('laporan/tb-semesteran', [LaporanController::class, 'tableSemester'])->name('laporan.tb-semesteran');
+        Route::post('laporan/tb-bulanan', [LaporanController::class, 'tableBST'])->name('laporan.tb-bulanan');
+        Route::post('laporan/tb-semesteran', [LaporanController::class, 'tableBST'])->name('laporan.tb-semesteran');
+        Route::post('laporan/tb-tahunan', [LaporanController::class, 'tableBST'])->name('laporan.tb-tahunan');
 
         Route::post('laporan/print/date', [LaporanController::class, 'printByDate'])->name('laporan.print.date');
         Route::post('laporan/print/week', [LaporanController::class, 'printByWeek'])->name('laporan.print.week');

@@ -245,7 +245,7 @@ class LaporanController extends Controller
         //
     }
 
-    public function tableSemester(Request $request)
+    public function tableBST(Request $request)
     {
         $laporan = Laporan::with(['user', 'sekolah', 'kegiatan']);
 
@@ -266,7 +266,14 @@ class LaporanController extends Controller
                     $query->where('id_user', $request->id_user);
                 }
 
-                if ($request->has('year') && $request->has('semester') && $request->get('year') != "" && $request->get('semester') != "") {
+                if ($request->has('laporan') && $request->get('laporan') == "bulanan") {
+                    if ($request->has('year') && $request->has('month') && $request->get('year') != "") {
+                        $query->whereYear('tgl_transaksi', $request->year);
+                        $query->whereMonth('tgl_transaksi', $request->month);
+                    } else if ($request->has('month')) {
+                        $query->whereMonth('tgl_transaksi', $request->month);
+                    }
+                } else if ($request->has('year') && $request->has('semester') && $request->get('year') != "" && $request->get('semester') != "") {
                     if ($request->semester == "1") {
                         $start_date  =  date('Y-m-d', strtotime($request->year . "-01-01"));
                         $end_date    =  date('Y-m-d', strtotime($request->year . "-06-30"));
@@ -276,6 +283,10 @@ class LaporanController extends Controller
                     }
                     $query->whereYear('tgl_transaksi', $request->year);
                     $query->whereBetween('tgl_transaksi', [$start_date, $end_date]);
+                } else if ($request->has('laporan') && $request->get('laporan') == "tahunan") {
+                    if ($request->has('year') && $request->get('year') != "") {
+                        $query->whereYear('tgl_transaksi', $request->year);
+                    }
                 }
             })
             ->make(true);
@@ -284,7 +295,6 @@ class LaporanController extends Controller
 
     public function printByDate(Request $request)
     {
-
         if ($request->get('tgl_transaksi-p') == null) {
             return redirect()->back()->with('status', 'Print gagal, Lakukan filtering harian terlebih dahulu !');
         }
@@ -300,12 +310,14 @@ class LaporanController extends Controller
         if ($guru == null) {
             return abort(404, 'Maaf, data Tidak Ditemukan');
         }
-        // return view('laporan.print.laporan_harian', compact('guru', 'reports'));
 
-        $pdf = PDF::loadView('laporan.print.laporan_harian', compact('guru', 'reports'));
+        $namaLengkap = $guru->user->profile->nama_lengkap;
+        // return view('laporan.print.harian', compact('guru', 'reports'));
+
+        $pdf = PDF::loadView('laporan.print.harian', compact('guru', 'reports'));
         $pdf->setPaper('legal', 'potrait');
-        return $pdf->download('laporan-harian.pdf');
-        // return $pdf->stream();
+        return $pdf->download('laporan-harian_' . $namaLengkap . '.pdf');
+        return $pdf->stream();
     }
 
     public function printByWeek(Request $request)
@@ -331,42 +343,186 @@ class LaporanController extends Controller
         if ($guru == null) {
             return abort(404, 'Maaf, data Tidak Ditemukan');
         }
-        // return view('laporan.print.laporan_mingguan', compact('guru', 'reports', 'week'));
 
-        $pdf = PDF::loadView('laporan.print.laporan_mingguan', compact('guru', 'reports', 'week'));
+        $namaLengkap = $guru->user->profile->nama_lengkap;
+        // return view('laporan.print.mingguan', compact('guru', 'reports', 'week'));
+
+        $pdf = PDF::loadView('laporan.print.mingguan', compact('guru', 'reports', 'week'));
         $pdf->setPaper('legal', 'potrait');
-        return $pdf->download('laporan-mingguan.pdf');
+        return $pdf->download('laporan-mingguan_' . $namaLengkap . '.pdf');
         // return $pdf->stream();
     }
 
     public function printByMonth(Request $request)
     {
-
-        $tahun      = $request->get('year-p');
-        $bulan      = $request->get('month-p');
+        $year      = $request->get('year-p');
+        $month      = $request->get('month-p');
         $id_user    = $request->get('id_user-p');
         $id_sekolah = $request->get('id_sekolah-p');
 
-        $report = DB::table('laporan')->join('kegiatan', 'kegiatan.id_kegiatan', '=', 'laporan.id_kegiatan')
-            ->selectRaw('laporan.id_user, laporan.id_kegiatan, kegiatan.id_kegiatan, kegiatan.kegiatan, 
-            SUM(ekuivalen) as jumlah_ekuivalen,
-            COUNT(laporan.id_laporan) as jumlah_kegiatan');
-        $report->where('id_user', $request->get('id_user-p'));
-        $report->where('id_sekolah', $request->get('id_sekolah-p'));
-        $report->whereYear('tgl_transaksi', $request->get('year-p'));
-        $report->whereMonth('tgl_transaksi', $request->get('month-p'));
-        $report->groupBy('laporan.id_user', 'kegiatan.id_kegiatan', 'kegiatan.kegiatan', 'laporan.id_kegiatan');
-        $reports = $report->get();
-        dd($reports);
+        if ($month == null || $year == null) {
+            return redirect()->back()->with('status', 'Print gagal, Lakukan filtering bulanan terlebih dahulu !');
+        }
+
+        $laporan = DB::table('laporan')
+            ->Join('kegiatan', 'laporan.id_kegiatan', '=', 'kegiatan.id_kegiatan')
+            ->Join('sekolah', 'laporan.id_sekolah', '=', 'sekolah.id_sekolah')
+            ->Join('users', 'laporan.id_user', '=', 'users.id_user')
+            ->Join('profiles', 'users.id_user', '=', 'profiles.id_user')
+            ->select(
+                'laporan.id_user',
+                'laporan.id_kegiatan',
+                'laporan.tgl_transaksi',
+                'kegiatan.id_kegiatan',
+                'kegiatan.kegiatan',
+                'sekolah.nama_sekolah',
+                'profiles.nama_lengkap',
+                'profiles.logo_sekolah',
+                'profiles.alamat_sekolah',
+                'profiles.tambahan_informasi',
+                'profiles.kelas_pengampu',
+                DB::raw('COUNT(laporan.id_laporan) as jumlah_kegiatan'),
+                DB::raw('SUM(ekuivalen) as jumlah_ekuivalen')
+            )
+            ->where('laporan.id_user', $id_user)
+            ->where('laporan.id_sekolah', $id_sekolah)
+            ->groupBy(
+                'laporan.id_user',
+                'laporan.id_kegiatan',
+                'laporan.tgl_transaksi',
+                'kegiatan.id_kegiatan',
+                'kegiatan.kegiatan',
+                'sekolah.nama_sekolah',
+                'profiles.nama_lengkap',
+                'profiles.logo_sekolah',
+                'profiles.alamat_sekolah',
+                'profiles.tambahan_informasi',
+                'profiles.kelas_pengampu',
+            )
+            ->orderBy('laporan.id_laporan', 'desc');
+        $laporan->whereYear('tgl_transaksi', $year);
+        $laporan->whereMonth('tgl_transaksi', $month);
+        $reports = $laporan->get();
+        $guru = $laporan->first();
+        // dd([$reports, $guru]);
+
+        if ($guru == null) {
+            return abort(404, 'Maaf, data Tidak Ditemukan');
+        }
+        return view('laporan.print.bulanan', compact('guru', 'reports'));
     }
 
     public function printBySemester(Request $request)
     {
-        # code...
+        $semester   = $request->get('semester-p');
+        $year       = $request->get('year-p');
+
+        if ($semester == null || $year == null) {
+            return redirect()->back()->with('status', 'Print gagal, Lakukan filtering Semester terlebih dahulu !');
+        }
+
+        if ($semester == "1") {
+            $start_date  =  date('Y-m-d', strtotime($request->year . "-01-01"));
+            $end_date    =  date('Y-m-d', strtotime($request->year . "-06-30"));
+        } else {
+            $start_date  =  date('Y-m-d', strtotime($request->year . "-07-01"));
+            $end_date    =  date('Y-m-d', strtotime($request->year . "-12-31"));
+        }
+
+        $laporan = DB::table('laporan')
+            ->Join('kegiatan', 'laporan.id_kegiatan', '=', 'kegiatan.id_kegiatan')
+            ->Join('sekolah', 'laporan.id_sekolah', '=', 'sekolah.id_sekolah')
+            ->Join('users', 'laporan.id_user', '=', 'users.id_user')
+            ->Join('profiles', 'users.id_user', '=', 'profiles.id_user')
+            ->select(
+                'laporan.id_user',
+                'laporan.id_kegiatan',
+                'kegiatan.id_kegiatan',
+                'kegiatan.kegiatan',
+                'sekolah.nama_sekolah',
+                'profiles.nama_lengkap',
+                'profiles.logo_sekolah',
+                'profiles.alamat_sekolah',
+                'profiles.tambahan_informasi',
+                'profiles.kelas_pengampu',
+                DB::raw('COUNT(laporan.id_laporan) as jumlah_kegiatan'),
+                DB::raw('SUM(ekuivalen) as jumlah_ekuivalen')
+            )
+            ->where('laporan.id_user', $request->get('id_user-p'))
+            ->where('laporan.id_sekolah', $request->get('id_sekolah-p'))
+            ->groupBy(
+                'laporan.id_user',
+                'laporan.id_kegiatan',
+                'kegiatan.id_kegiatan',
+                'kegiatan.kegiatan',
+                'sekolah.nama_sekolah',
+                'profiles.nama_lengkap',
+                'profiles.logo_sekolah',
+                'profiles.alamat_sekolah',
+                'profiles.tambahan_informasi',
+                'profiles.kelas_pengampu',
+            )
+            ->orderBy('laporan.id_laporan', 'desc');
+        $laporan->whereYear('tgl_transaksi', $request->get('year-p'));
+        $laporan->whereBetween('tgl_transaksi', [$start_date, $end_date]);
+        $reports    = $laporan->get();
+        $guru       = $laporan->first();
+
+        if ($guru == null) {
+            return abort(404, 'Maaf, data Tidak Ditemukan');
+        }
+        return view('laporan.print.semesteran', compact('guru', 'reports', 'semester'));
     }
 
     public function printByYear(Request $request)
     {
-        # code...
+        $year = $request->get('year-p');
+
+        if ($year == null) {
+            return redirect()->back()->with('status', 'Print gagal, Lakukan filtering Tahunan terlebih dahulu !');
+        }
+
+        $laporan = DB::table('laporan')
+            ->Join('kegiatan', 'laporan.id_kegiatan', '=', 'kegiatan.id_kegiatan')
+            ->Join('sekolah', 'laporan.id_sekolah', '=', 'sekolah.id_sekolah')
+            ->Join('users', 'laporan.id_user', '=', 'users.id_user')
+            ->Join('profiles', 'users.id_user', '=', 'profiles.id_user')
+            ->select(
+                'laporan.id_user',
+                'laporan.id_kegiatan',
+                'kegiatan.id_kegiatan',
+                'kegiatan.kegiatan',
+                'sekolah.nama_sekolah',
+                'profiles.nama_lengkap',
+                'profiles.logo_sekolah',
+                'profiles.alamat_sekolah',
+                'profiles.tambahan_informasi',
+                'profiles.kelas_pengampu',
+                DB::raw('COUNT(laporan.id_laporan) as jumlah_kegiatan'),
+                DB::raw('SUM(ekuivalen) as jumlah_ekuivalen')
+            )
+            ->where('laporan.id_user', $request->get('id_user-p'))
+            ->where('laporan.id_sekolah', $request->get('id_sekolah-p'))
+            ->groupBy(
+                'laporan.id_user',
+                'laporan.id_kegiatan',
+                'kegiatan.id_kegiatan',
+                'kegiatan.kegiatan',
+                'sekolah.nama_sekolah',
+                'profiles.nama_lengkap',
+                'profiles.logo_sekolah',
+                'profiles.alamat_sekolah',
+                'profiles.tambahan_informasi',
+                'profiles.kelas_pengampu',
+            )
+            ->orderBy('laporan.id_laporan', 'desc');
+        $laporan->whereYear('tgl_transaksi', $request->get('year-p'));
+        $reports    = $laporan->get();
+        $guru       = $laporan->first();
+
+        if ($guru == null) {
+            return abort(404, 'Maaf, data Tidak Ditemukan');
+        }
+        return view('laporan.print.tahunan', compact('guru', 'reports', 'year'));
     }
 }

@@ -8,6 +8,21 @@
     <div class="columns">
         <div class="column">
             <h1 class="title is-5">Laporan Harian</h1>
+            @if (session('status'))
+                <div class="notification is-info column is-5">
+                    <button class="delete deleteNotif"></button>
+                    {{ session('status') }}
+                </div>
+            @else 
+                @if($errors->any())
+                <div class="notification is-danger column is-5">
+                    <button class="delete deleteNotif"></button>
+                    @foreach ($errors->all() as $error)
+                    {{ $error }} <br/>
+                    @endforeach
+                </div>
+                @endif
+            @endif
         </div>
     </div>
 
@@ -147,7 +162,7 @@
             id_sekolah      = $('#sekolah').val();
             id_user         = $('#guru').val();
             tgl_transaksi   = $('#tgl').val();
-            console.log([laporan, id_sekolah, id_user, tgl_transaksi]);
+            // console.log([laporan, id_sekolah, id_user, tgl_transaksi]);
 
             $('#id_sekolah-p').val(id_sekolah);      
             $('#id_user-p').val(id_user);

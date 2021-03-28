@@ -7,7 +7,7 @@
 <div class="container">
     <div class="columns">
         <div class="column">
-            <h1 class="title is-5">Laporan Bulanan</h1>
+            <h1 class="title is-5">Laporan Semesteran</h1>
             @if (session('status'))
                 <div class="notification is-info column is-5">
                     <button class="delete deleteNotif"></button>
@@ -27,28 +27,12 @@
     </div>
 
     @php
-        $bln = array(
-            1=>'Januari',
-            'Februari',
-            'Maret',
-            'April',
-            'Mei',
-            'Juni',
-            'July',
-            'Agustus',
-            'September',
-            'Oktober',
-            'November',
-            'Desember'
-        );
-
         $year_now = date('Y');
-
     @endphp
 
-    <form action="" method="POST" id="search-form">
+    <form action="" method="post" id="search-form">
         @csrf
-        <input type="hidden" id="laporan" name="laporan" value="bulanan">
+        <input type="hidden" id="laporan" name="laporan" value="semester">
         <input type="hidden" id="sekolah" name="id_sekolah" value="{{ $profile->id_sekolah }}">
         <input type="hidden" id="guru" name="id_user" value="{{ Auth::user()->id_user }}">
         <div class="columns">
@@ -71,14 +55,13 @@
         <div class="columns">
             <div class="column is-4">
                 <div class="field">
-                    <label class="label">Pilih Bulan</label>
+                    <label class="label">Pilih Semester</label>
                     <div class="control">
                         <div class="is-fullwidth">
-                            <select name="month" id="bulan" class="select-filter filter" style="width: 100%">
+                            <select name="semester" id="semester" class="select-filter filter" style="width: 100%">
                                 <option></option>
-                                @foreach ($bln as $key => $val)
-                                    <option value="{{ $key }}">{{ $val }}</option>
-                                @endforeach
+                                <option value="1">Ganjil </option>
+                                <option value="2">Genap </option>
                             </select>
                         </div>
                     </div>
@@ -96,10 +79,10 @@
 
     </form>
 
-  
+
     <div class="columns is-multiline is-mobile">        
         <div class="column is-half">
-            <h1 class="title is-5">Bulanan </h1>
+            <h1 class="title is-5">Semesteran </h1>
         </div>
         <div class="column is-half">
             <div class="field is-grouped is-grouped-right">
@@ -107,12 +90,12 @@
                     <a class="button is-info is-pulled-right importBtn"><i class="fas fa-file-import fa-fw" aria-hidden="true"></i>&nbsp; Import </a>
                 </p>
                 <p class="control">
-                    <form action="{{ route('user.laporan.print.month') }}" method="post" id="print-form">
+                    <form action="{{ route('user.laporan.print.semester') }}" method="post" id="print-form">
                         @csrf
                         <input type="hidden" id="id_sekolah-p" name="id_sekolah-p" value="">
                         <input type="hidden" id="id_user-p" name="id_user-p" value="">
                         <input type="hidden" id="tahun-p" name="year-p" value="">
-                        <input type="hidden" id="bulan-p" name="month-p" value="">
+                        <input type="hidden" id="semester-p" name="semester-p" value="">
                         <button type="submit" class="button is-warning is-pulled-right"><i class="fas fa-print fa-fw" aria-hidden="true"></i>&nbsp; Cetak </button>
                     </form>
                 </p>
@@ -126,27 +109,40 @@
                 <table class="table is-fullwidth" id="table-laporan">
                     <thead>
                         <tr>
+                            {{-- <th>#</th>
+                            <th>Nama Kegiatan</th>
+                            <th>Jumlah Kegiatan</th>
+                            <th>Detail</th> --}}
                             <th>#</th>
                             <th>Nama Kegiatan</th>
                             <th>Detail</th>
                             <th>Tanggal transaksi</th>
                             <th>Upload document 1</th>
                             <th>Upload document 2</th>
-                            {{-- <th>Opsi</th> --}}
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
+                            {{-- <th>#</th>
+                            <th>Nama Kegiatan</th>
+                            <th>Jumlah Kegiatan</th>
+                            <th>Detail</th> --}}
                             <th>#</th>
                             <th>Nama Kegiatan</th>
                             <th>Detail</th>
                             <th>Tanggal transaksi</th>
                             <th>Upload document 1</th>
                             <th>Upload document 2</th>
-                            {{-- <th>Opsi</th> --}}
                         </tr>
                     </tfoot>
                     <tbody>
+                        {{-- <tr>
+                            <th>1</th>
+                            <td>Kegiatan A</td>
+                            <td>8 Kali</td>
+                            <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio aut et nihil
+                                necessitatibus architecto laboriosam.</td>
+                        </tr> --}}
                     </tbody>
                 </table>
             </div>
@@ -224,8 +220,8 @@
             placeholder: "Pilih Tahun",
             allowClear: true
         });
-        $('#bulan').select2({
-            placeholder: "Pilih Bulan",
+        $('#semester').select2({
+            placeholder: "Pilih Semester",
             allowClear: true
         });
 
@@ -233,19 +229,19 @@
         let id_sekolah      = $('#sekolah').val();
         let id_user         = $('#guru').val();
         let year            = $('#tahun').val();
-        let month           = $('#bulan').val();
+        let semester        = $('#semester').val();
 
         $('.filter').on('change',function () {
             id_sekolah      = $('#sekolah').val();
             id_user         = $('#guru').val();
             year            = $('#tahun').val();
-            month           = $('#bulan').val();
-            // console.log([laporan, id_sekolah, id_user, year, month]);
-
+            semester        = $('#semester').val();
+            // console.log([laporan, id_sekolah, id_user, year, semester]);
+            
             $('#id_sekolah-p').val(id_sekolah);      
             $('#id_user-p').val(id_user);
             $('#tahun-p').val(year);
-            $('#bulan-p').val(month);
+            $('#semester-p').val(semester);
         });
 
         $('.importBtn').click(function () {
@@ -262,6 +258,14 @@
             $('.notification').addClass('is-hidden')
         })    
 
+        const fileInput = document.querySelector('#file-js-example input[type=file]');
+        fileInput.onchange = () => {
+            if (fileInput.files.length > 0) {
+            const fileName = document.querySelector('#file-js-example .file-name');
+            fileName.textContent = fileInput.files[0].name;
+            }
+        }
+
         var table = $('#table-laporan').DataTable({
 
             searching: false,
@@ -269,25 +273,26 @@
             serverSide: true,
             order: [[1, 'desc']],
             ajax: {
-                url         : '{!! route('user.laporan.cari') !!}',
-                type        : 'post',
-                data        : function (d) {
-                    d.laporan       = $('input[name=laporan]').val();
-                    d.id_sekolah    = $('input[name=id_sekolah]').val();
-                    d.id_user       = $('input[name=id_user]').val();
-                    d.year          = $('select[name=year]').val();
-                    d.month         = $('select[name=month]').val();
-                    console.log([d.laporan, d.id_sekolah, d.id_user, d.year, d.month]);
-                },
-                
+            url         : '{!! route('user.laporan.tb-semesteran') !!}',
+            // url         : '{!! route('user.laporan.cari') !!}',
+            type        : 'post',
+            data        : function (d) {
+                d.laporan       = $('input[name=laporan]').val();
+                d.id_sekolah    = $('input[name=id_sekolah]').val();
+                d.id_user       = $('input[name=id_user]').val();
+                d.year          = $('select[name=year]').val();
+                d.semester      = $('select[name=semester]').val();
+                console.log([d.laporan, d.id_sekolah, d.id_user, d.year, d.semester]);
+            },
+
             },
             columns: [
                 { data: 'DT_RowIndex', orderable: false, searchable: false },
                 { data: 'kegiatan', name: 'kegiatan' },
-                { data: 'detail', name: 'laporan.detail' },
-                { data: 'tgl_transaksi', name: 'laporan.tgl_transaksi' },
-                { data: 'upload_doc_1', name: 'laporan.upload_doc_1' },
-                { data: 'upload_doc_2', name: 'laporan.upload_doc_2' },
+                { data: 'detail', name: 'detail' },
+                { data: 'tgl_transaksi', name: 'tgl_transaksi' },
+                { data: 'upload_doc_1', name: 'upload_doc_1' },
+                { data: 'upload_doc_2', name: 'upload_doc_2' },
             ],
         });
 
@@ -295,6 +300,7 @@
             table.draw();
             e.preventDefault();
         });
+
     });
 </script>
 

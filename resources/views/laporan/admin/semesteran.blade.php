@@ -8,6 +8,21 @@
     <div class="columns">
         <div class="column">
             <h1 class="title is-5">Laporan Semesteran</h1>
+            @if (session('status'))
+                <div class="notification is-info column is-5">
+                    <button class="delete deleteNotif"></button>
+                    {{ session('status') }}
+                </div>
+            @else 
+                @if($errors->any())
+                <div class="notification is-danger column is-5">
+                    <button class="delete deleteNotif"></button>
+                    @foreach ($errors->all() as $error)
+                    {{ $error }} <br/>
+                    @endforeach
+                </div>
+                @endif
+            @endif
         </div>
     </div>
 
@@ -99,7 +114,14 @@
             <h1 class="title is-5">Semesteran </h1>
         </div>
         <div class="column is-half">
-            <button class="button is-warning is-pulled-right"><i class="fas fa-print fa-fw" aria-hidden="true"></i>&nbsp; Cetak </button>
+            <form action="{{ route('admin.laporan.print.semester') }}" method="post" id="print-form">
+                @csrf
+                <input type="hidden" id="id_sekolah-p" name="id_sekolah-p" value="">
+                <input type="hidden" id="id_user-p" name="id_user-p" value="">
+                <input type="hidden" id="tahun-p" name="year-p" value="">
+                <input type="hidden" id="semester-p" name="semester-p" value="">
+                <button type="submit" class="button is-warning is-pulled-right"><i class="fas fa-print fa-fw" aria-hidden="true"></i>&nbsp; Cetak </button>
+            </form>
         </div>
     </div>
 
@@ -224,7 +246,7 @@
             id_user         = $('#guru').val();
             year            = $('#tahun').val();
             semester        = $('#semester').val();
-            console.log([laporan, id_sekolah, id_user, year, semester]);
+            // console.log([laporan, id_sekolah, id_user, year, semester]);
         });
 
         var table = $('#table-laporan').DataTable({
@@ -235,6 +257,7 @@
             order: [[1, 'desc']],
             ajax: {
             url         : '{!! route('admin.laporan.tb-semesteran') !!}',
+            // url         : '{!! route('admin.laporan.cari') !!}',
             type        : 'post',
             data        : function (d) {
                 d.laporan       = $('input[name=laporan]').val();

@@ -8,6 +8,21 @@
     <div class="columns">
         <div class="column">
             <h1 class="title is-5">Laporan Mingguan</h1>
+            @if (session('status'))
+                <div class="notification is-info column is-5">
+                    <button class="delete deleteNotif"></button>
+                    {{ session('status') }}
+                </div>
+            @else 
+                @if($errors->any())
+                <div class="notification is-danger column is-5">
+                    <button class="delete deleteNotif"></button>
+                    @foreach ($errors->all() as $error)
+                    {{ $error }} <br/>
+                    @endforeach
+                </div>
+                @endif
+            @endif
         </div>
     </div>
 
@@ -93,10 +108,17 @@
 
     <div class="columns is-multiline is-mobile">        
         <div class="column is-half">
-            <h1 class="title is-5">Harian </h1>
+            <h1 class="title is-5">Mingguan </h1>
         </div>
         <div class="column is-half">
-            <button class="button is-warning is-pulled-right"><i class="fas fa-print fa-fw" aria-hidden="true"></i>&nbsp; Cetak </button>
+            <form action="{{ route('admin.laporan.print.week') }}" method="post" id="print-form">
+                @csrf
+                <input type="hidden" id="id_sekolah-p" name="id_sekolah-p" value="">
+                <input type="hidden" id="id_user-p" name="id_user-p" value="">
+                <input type="hidden" id="year-p" name="year-p" value="">
+                <input type="hidden" id="id_week-p" name="id_week-p" value="">
+                <button type="submit" class="button is-warning is-pulled-right"><i class="fas fa-print fa-fw" aria-hidden="true"></i>&nbsp; Cetak </button>
+            </form>
         </div>
     </div>
 
@@ -234,7 +256,7 @@
             id_user         = $('#guru').val();
             year            = $('#tahun').val();
             id_week         = $('#minggu').val();
-            console.log([laporan, id_sekolah, id_user, year, id_week]);
+            // console.log([laporan, id_sekolah, id_user, year, id_week]);
         });
 
         var table = $('#table-laporan').DataTable({
