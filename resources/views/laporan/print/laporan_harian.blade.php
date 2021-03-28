@@ -72,7 +72,7 @@
         </tr>
     </table>
     @php
-        
+
         function tgl_indo($tanggal){
         $bulan = array (
             1 =>   'Januari',
@@ -141,7 +141,6 @@
             @foreach($reports as $report)
             <tr>
                 <td class="text-align-left border-right border-bottom p-min">{{ $loop->iteration }}</td>
-                {{-- <td class="text-align-left border-right border-bottom p-min">{{ $report->kegiatan->kegiatan }}</td> --}}
                 <td class="text-align-left border-right border-bottom p-min">{{ $report->kegiatan->kegiatan }}</td>
                 <td class="text-align-left border-right border-bottom p-min">{{ $report->detail }}</td>
             </tr>

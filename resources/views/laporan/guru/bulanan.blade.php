@@ -34,37 +34,8 @@
     <form action="" method="POST" id="search-form">
         @csrf
         <input type="hidden" id="laporan" name="laporan" value="bulanan">
-        <div class="columns">
-            <div class="column is-4">
-                <div class="field">
-                    <label class="label">Pilih Sekolah</label>
-                    <div class="control">
-                        <div class="is-fullwidth">
-                            <select name="id_sekolah" id="sekolah" class="select-filter filter" style="width: 100%">
-                                <option></option>
-                                @foreach ($schools as $id_sekolah => $nama_sekolah)
-                                    <option value="{{ $id_sekolah }}">{{ $nama_sekolah }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="columns">
-            <div class="column is-4">
-                <div class="field">
-                    <label class="label">Pilih Guru</label>
-                    <div class="control">
-                        <div class="is-fullwidth">
-                            <select name="id_user" id="guru" class="select-filter filterr" style="width: 100%">
-                                <option value=""></option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <input type="hidden" id="sekolah" name="id_sekolah" value="{{ $profile->id_sekolah }}">
+        <input type="hidden" id="guru" name="id_user" value="{{ Auth::user()->id_user }}">
         <div class="columns">
             <div class="column is-4">
                 <div class="field">
@@ -110,17 +81,18 @@
 
     </form>
 
+  
     <div class="columns is-multiline is-mobile">        
         <div class="column is-half">
             <h1 class="title is-5">Bulanan </h1>
         </div>
         <div class="column is-half">
             <div class="field is-grouped is-grouped-right">
-                {{-- <p class="control">
-                    <a class="button is-info is-pulled-right importBtn"><i class="fas fa-file-import fa-fw" aria-hidden="true"></i>&nbsp; Import </a>
-                </p> --}}
                 <p class="control">
-                    <form action="{{ route('admin.laporan.print.month') }}" method="post" id="print-form">
+                    <a class="button is-info is-pulled-right importBtn"><i class="fas fa-file-import fa-fw" aria-hidden="true"></i>&nbsp; Import </a>
+                </p>
+                <p class="control">
+                    <form action="{{ route('user.laporan.print.month') }}" method="post" id="print-form">
                         @csrf
                         <input type="hidden" id="id_sekolah-p" name="id_sekolah-p" value="">
                         <input type="hidden" id="id_user-p" name="id_user-p" value="">
@@ -185,14 +157,6 @@
             }
         });
 
-        $('#sekolah').select2({
-            placeholder: "Pilih Sekolah",
-            allowClear: true
-        });
-        $('#guru').select2({
-            placeholder: "Pilih Guru",
-            allowClear: true
-        });
         $('#tahun').select2({
             placeholder: "Pilih Tahun",
             allowClear: true
@@ -200,34 +164,6 @@
         $('#bulan').select2({
             placeholder: "Pilih Bulan",
             allowClear: true
-        });
-
-        
-        $('#sekolah').on('change', function () {
-            var id_sekolah = $(this).val();
-            // console.log(id_sekolah);
-
-            $.ajax({
-                url         : '{{ route('admin.laporan.load-guru') }}',
-                type        : 'get',
-                dataType    : 'json',
-                data        : {
-                    'id_sekolah': id_sekolah
-                },
-                success: function (response) {
-                    // console.log('success');
-                    // console.log(response);
-
-                    $('#guru').empty();
-                    $('#guru').append('<option value="">-- Pilih Guru --</option>');
-
-                    $.each(response, function (id_profile, nama_lengkap) {
-                        $('#guru').append(new Option(nama_lengkap, id_profile))
-                    });
-                    $('#guru').show(150);
-
-                }
-            });
         });
 
         let laporan         = $('#laporan').val();
@@ -249,6 +185,20 @@
             $('#bulan-p').val(month);
         });
 
+        $('.importBtn').click(function () {
+            $('#modal_import').addClass('is-active');
+            $('input[name=id_sekolah]').val(id_sekolah);
+            $('input[name=id_user]').val(id_user);
+        })
+
+        $('.modal-closed').on('click', function () {
+            $('#modal_import').removeClass('is-active');
+        })
+
+        $('.deleteNotif').on('click', function () {
+            $('.notification').addClass('is-hidden')
+        })    
+
         var table = $('#table-laporan').DataTable({
 
             searching: false,
@@ -256,12 +206,12 @@
             serverSide: true,
             order: [[1, 'desc']],
             ajax: {
-                url         : '{!! route('admin.laporan.cari') !!}',
+                url         : '{!! route('user.laporan.cari') !!}',
                 type        : 'post',
                 data        : function (d) {
                     d.laporan       = $('input[name=laporan]').val();
-                    d.id_sekolah    = $('select[name=id_sekolah]').val();
-                    d.id_user       = $('select[name=id_user]').val();
+                    d.id_sekolah    = $('input[name=id_sekolah]').val();
+                    d.id_user       = $('input[name=id_user]').val();
                     d.year          = $('select[name=year]').val();
                     d.month         = $('select[name=month]').val();
                     console.log([d.laporan, d.id_sekolah, d.id_user, d.year, d.month]);

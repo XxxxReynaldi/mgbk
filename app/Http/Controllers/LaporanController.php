@@ -28,9 +28,16 @@ class LaporanController extends Controller
 
         $file = null;
 
+        $years = null;
+        $weeks = null;
+
         if (request()->segment(3) == 'harian') {
             $file = "harian";
         } else if (request()->segment(3) == 'mingguan') {
+
+            $years   = Week::pluck('year', 'year');
+            $weeks   = Week::pluck('week', 'id_week');
+
             $file = "mingguan";
         } else if (request()->segment(3) == 'bulanan') {
             $file = "bulanan";
@@ -40,7 +47,7 @@ class LaporanController extends Controller
             $file = "tahunan";
         }
 
-        return view('laporan.guru.' . $file, compact('id_user', 'profile'));
+        return view('laporan.guru.' . $file, compact('id_user', 'profile', 'years', 'weeks'));
     }
 
     public function import(Request $request)
@@ -278,16 +285,9 @@ class LaporanController extends Controller
     public function printByDate(Request $request)
     {
 
-        // $laporan = DB::table('laporan')
-        //     ->Join('kegiatan', 'laporan.id_kegiatan', '=', 'kegiatan.id_kegiatan')
-        //     ->Join('sekolah', 'laporan.id_sekolah', '=', 'sekolah.id_sekolah')
-        //     ->Join('users', 'laporan.id_user', '=', 'users.id_user')
-        //     ->Join('profiles', 'users.id_user', '=', 'profiles.id_user')
-        //     ->select('laporan.*', 'kegiatan.*', 'sekolah.nama_sekolah', 'profiles.*')
-        //     ->where('profiles.id_user', $request->get('id_user-p'))
-        //     ->where('laporan.id_user', $request->get('id_user-p'))
-        //     ->where('laporan.id_sekolah', $request->get('id_sekolah-p'))
-        //     ->where('laporan.tgl_transaksi', $request->get('tgl_transaksi-p'));
+        if ($request->get('tgl_transaksi-p') == null) {
+            return redirect()->back()->with('status', 'Print gagal, Lakukan filtering harian terlebih dahulu !');
+        }
 
         $laporan = Laporan::with(['sekolah', 'user.profile', 'kegiatan']);
         $laporan->where('id_user', $request->get('id_user-p'));
@@ -297,11 +297,76 @@ class LaporanController extends Controller
         $reports = $laporan->get();
         $guru = $laporan->first();
         // dd([$reports, $guru]);
+        if ($guru == null) {
+            return abort(404, 'Maaf, data Tidak Ditemukan');
+        }
         // return view('laporan.print.laporan_harian', compact('guru', 'reports'));
 
         $pdf = PDF::loadView('laporan.print.laporan_harian', compact('guru', 'reports'));
         $pdf->setPaper('legal', 'potrait');
         return $pdf->download('laporan-harian.pdf');
         // return $pdf->stream();
+    }
+
+    public function printByWeek(Request $request)
+    {
+        if ($request->get('id_week-p') == null) {
+            return redirect()->back()->with('status', 'Print gagal, Lakukan filtering mingguan terlebih dahulu !');
+        }
+        $week = DB::table('weeks')
+            ->where('id_week', $request->get('id_week-p'))
+            ->first();
+        $tgl_awal  = date('Y-m-d', strtotime($week->start_date));
+        $tgl_akhir = date('Y-m-d', strtotime($week->end_date));
+
+        $laporan = Laporan::with(['sekolah', 'user.profile', 'kegiatan']);
+        $laporan->where('id_user', $request->get('id_user-p'));
+        $laporan->where('id_sekolah', $request->get('id_sekolah-p'));
+        $laporan->whereBetween('tgl_transaksi', [$tgl_awal, $tgl_akhir]);
+
+        $reports = $laporan->get();
+        $guru = $laporan->first();
+        // dd([$reports, $guru, $week->week]);
+
+        if ($guru == null) {
+            return abort(404, 'Maaf, data Tidak Ditemukan');
+        }
+        // return view('laporan.print.laporan_mingguan', compact('guru', 'reports', 'week'));
+
+        $pdf = PDF::loadView('laporan.print.laporan_mingguan', compact('guru', 'reports', 'week'));
+        $pdf->setPaper('legal', 'potrait');
+        return $pdf->download('laporan-mingguan.pdf');
+        // return $pdf->stream();
+    }
+
+    public function printByMonth(Request $request)
+    {
+
+        $tahun      = $request->get('year-p');
+        $bulan      = $request->get('month-p');
+        $id_user    = $request->get('id_user-p');
+        $id_sekolah = $request->get('id_sekolah-p');
+
+        $report = DB::table('laporan')->join('kegiatan', 'kegiatan.id_kegiatan', '=', 'laporan.id_kegiatan')
+            ->selectRaw('laporan.id_user, laporan.id_kegiatan, kegiatan.id_kegiatan, kegiatan.kegiatan, 
+            SUM(ekuivalen) as jumlah_ekuivalen,
+            COUNT(laporan.id_laporan) as jumlah_kegiatan');
+        $report->where('id_user', $request->get('id_user-p'));
+        $report->where('id_sekolah', $request->get('id_sekolah-p'));
+        $report->whereYear('tgl_transaksi', $request->get('year-p'));
+        $report->whereMonth('tgl_transaksi', $request->get('month-p'));
+        $report->groupBy('laporan.id_user', 'kegiatan.id_kegiatan', 'kegiatan.kegiatan', 'laporan.id_kegiatan');
+        $reports = $report->get();
+        dd($reports);
+    }
+
+    public function printBySemester(Request $request)
+    {
+        # code...
+    }
+
+    public function printByYear(Request $request)
+    {
+        # code...
     }
 }

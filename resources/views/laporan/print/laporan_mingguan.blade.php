@@ -64,12 +64,36 @@
                 <img src="https://vidyagata.files.wordpress.com/2011/03/logo-sma-6-edit.jpg" width="80" height="80">
             </th>
             <th>
-                <span class="text-title">SMA Negeri 6 Kota Malang</span><br>
-                <span class="text-regular">Jl. Mayjend Sungkono No 58 Malang</span><br>
-                <span class="text-regular">Website: https://sman6malang.sch.id; E-mail: kontak@sman6malang.sch.id</span><br>
+                <span class="text-title">{{ $guru->sekolah->nama_sekolah }}</span><br>
+                <span class="text-regular">{{ $guru->user->profile->alamat_sekolah }}</span><br>
+                <span class="text-regular">{{ $guru->user->profile->tambahan_informasi }}</span><br>
+                {{-- <span class="text-regular">Website: https://sman6malang.sch.id; E-mail: kontak@sman6malang.sch.id</span><br> --}}
             </th>
         </tr>
     </table>
+
+    @php
+        
+        function tgl_indo($tanggal){
+        $bulan = array (
+            1 =>   'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember'
+        );
+        $pecahkan = explode('-', $tanggal);
+        
+        return $pecahkan[2] . ' ' . $bulan[ (int)$pecahkan[1] ] . ' ' . $pecahkan[0];
+    }
+    @endphp
 
     <table class="mb-max">
         <tr>
@@ -77,7 +101,7 @@
                 Nama Guru
             </th>
             <td>
-                : ...
+                : {{ $guru->user->profile->nama_lengkap }}
             </td>
         </tr>
         <tr>
@@ -85,15 +109,15 @@
                 Kelas yang diampuh
             </th>
             <td>
-                : ...
+                : {{ $guru->user->profile->kelas_pengampu }}
             </td>
         </tr>
         <tr>
             <th class="text-align-left">
-                Tanggal laporan
+                Minggu ke
             </th>
             <td>
-                : ...
+                : {{$week->week}}
             </td>
         </tr>
     </table>
@@ -102,6 +126,8 @@
         Berikut detail laporan dari Guru BK yang bersangkutan :
     </p>
 
+    
+
     <table class="border w-100 border-collapse">
         <tr>
             <th class="text-align-left border-right border-bottom p-min">No</th>
@@ -109,37 +135,24 @@
             <th class="border-right border-bottom p-min">Jenis Kegiatan</th>
             <th class="border-bottom p-min">Detail</th>
         </tr>
-        <tr>
-            <td class="text-align-left border-right border-bottom p-min">...</td>
-            <td class="text-align-left border-right border-bottom p-min">...</td>
-            <td class="text-align-left border-right border-bottom p-min">...</td>
-            <td class="text-align-left border-right border-bottom p-min">...</td>
-        </tr>
-        <tr>
-            <td class="text-align-left border-right border-bottom p-min">...</td>
-            <td class="text-align-left border-right border-bottom p-min">...</td>
-            <td class="text-align-left border-right border-bottom p-min">...</td>
-            <td class="text-align-left border-right border-bottom p-min">...</td>
-        </tr>
-        <tr>
-            <td class="text-align-left border-right border-bottom p-min">...</td>
-            <td class="text-align-left border-right border-bottom p-min">...</td>
-            <td class="text-align-left border-right border-bottom p-min">...</td>
-            <td class="text-align-left border-right border-bottom p-min">...</td>
-        </tr>
-        <tr>
-            <td class="text-align-left border-right border-bottom p-min">...</td>
-            <td class="text-align-left border-right border-bottom p-min">...</td>
-            <td class="text-align-left border-right border-bottom p-min">...</td>
-            <td class="text-align-left border-right border-bottom p-min">...</td>
-        </tr>
-        <tr>
-            <td class="text-align-left border-right border-bottom p-min">...</td>
-            <td class="text-align-left border-right border-bottom p-min">...</td>
-            <td class="text-align-left border-right border-bottom p-min">...</td>
-            <td class="text-align-left border-right border-bottom p-min">...</td>
-        </tr>
+
+        @if (count($reports) == 0)
+            <tr>
+                <td>No data found</td>
+            </tr>
+        @else
+            @foreach($reports as $report)
+            <tr>
+                <td class="text-align-left border-right border-bottom p-min">{{ $loop->iteration }}</td>
+                <td class="text-align-left border-right border-bottom p-min">{{ tgl_indo($report->tgl_transaksi) }}</td>
+                <td class="text-align-left border-right border-bottom p-min">{{ $report->kegiatan->kegiatan }}</td>
+                <td class="text-align-left border-right border-bottom p-min">{{ $report->detail }}</td>
+            </tr>
+            @endforeach
+        @endif
     </table>
+
+
 </body>
 
 </html>

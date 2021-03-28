@@ -47,6 +47,9 @@ Route::group(['middleware' => 'auth'], function () {
             'prefix' => 'user',
             'as' => 'user.',
         ], function () {
+
+            Route::get('laporan/load-weeks', [LaporanController::class, 'loadWeeks'])->name('laporan.load-weeks');
+
             Route::get('laporan/harian', [LaporanController::class, 'index'])->name('laporan.harian');
             Route::get('laporan/mingguan', [LaporanController::class, 'index'])->name('laporan.mingguan');
             Route::get('laporan/bulanan', [LaporanController::class, 'index'])->name('laporan.bulanan');
@@ -55,7 +58,11 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('laporan/cari', [LaporanController::class, 'cari'])->name('laporan.cari');
 
             Route::post('laporan/import', [LaporanController::class, 'import'])->name('laporan.import');
-            Route::post('laporan/print/date/', [LaporanController::class, 'printByDate'])->name('laporan.print.date');
+            Route::post('laporan/print/date', [LaporanController::class, 'printByDate'])->name('laporan.print.date');
+            Route::post('laporan/print/week', [LaporanController::class, 'printByWeek'])->name('laporan.print.week');
+            Route::post('laporan/print/month', [LaporanController::class, 'printByMonth'])->name('laporan.print.month');
+            Route::post('laporan/print/semester', [LaporanController::class, 'printBySemester'])->name('laporan.print.semester');
+            Route::post('laporan/print/year', [LaporanController::class, 'printByYear'])->name('laporan.print.year');
         });
     });
 
@@ -78,9 +85,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('laporan/cari', [LaporanController::class, 'cari'])->name('laporan.cari');
         Route::post('laporan/tb-semesteran', [LaporanController::class, 'tableSemester'])->name('laporan.tb-semesteran');
 
-        Route::post('laporan/print/date/', [LaporanController::class, 'printByDate'])->name('laporan.print.date');
+        Route::post('laporan/print/date', [LaporanController::class, 'printByDate'])->name('laporan.print.date');
         Route::post('laporan/print/week', [LaporanController::class, 'printByWeek'])->name('laporan.print.week');
         Route::post('laporan/print/month', [LaporanController::class, 'printByMonth'])->name('laporan.print.month');
+        Route::post('laporan/print/semester', [LaporanController::class, 'printBySemester'])->name('laporan.print.semester');
+        Route::post('laporan/print/year', [LaporanController::class, 'printByYear'])->name('laporan.print.year');
 
         Route::get('laporan/harian', [LaporanController::class, 'harian'])->name('laporan.harian');
         Route::get('laporan/mingguan', [LaporanController::class, 'mingguan'])->name('laporan.mingguan');
@@ -149,4 +158,28 @@ Route::get('/tes', function () {
     //     ->whereBetween('tgl_transaksi', [$start_date, $end_date])
     //     ->count();
     // dd($jml);
+
+    // Query laporan By Date
+    // $laporan = DB::table('laporan')
+    //     ->Join('kegiatan', 'laporan.id_kegiatan', '=', 'kegiatan.id_kegiatan')
+    //     ->Join('sekolah', 'laporan.id_sekolah', '=', 'sekolah.id_sekolah')
+    //     ->Join('users', 'laporan.id_user', '=', 'users.id_user')
+    //     ->Join('profiles', 'users.id_user', '=', 'profiles.id_user')
+    //     ->select('laporan.*', 'kegiatan.*', 'sekolah.nama_sekolah', 'profiles.*')
+    //     ->where('profiles.id_user', $request->get('id_user-p'))
+    //     ->where('laporan.id_user', $request->get('id_user-p'))
+    //     ->where('laporan.id_sekolah', $request->get('id_sekolah-p'))
+    //     ->where('laporan.tgl_transaksi', $request->get('tgl_transaksi-p'));
+
+
+    // Query Laporan By Month, Semester, Year
+    // $result = DB::select("select Detail_Laporan.id_usr, kegiatan.kegiatan, 
+    //     SUM(ekuivalen) as jumlah_ekuivalen, count(Detail_Laporan.id_keg) as jumlah_kegiatan 
+    //     From (select laporan.id_user as id_usr,laporan.id_kegiatan as id_keg,laporan.id_sekolah 
+    //     From laporan where YEAR(laporan.tgl_transaksi) = '$tahun' and MONTH(laporan.tgl_transaksi) = '$bulan'
+    //     and id_user = '$id_user' and id_sekolah = '$id_sekolah') as Detail_Laporan 
+    //     inner  JOIN kegiatan on Detail_Laporan.id_keg = kegiatan.id_kegiatan 
+    //     GROUP by Detail_Laporan.id_usr, Detail_Laporan.id_kegiatan");
+
+    // dd($result);
 });
