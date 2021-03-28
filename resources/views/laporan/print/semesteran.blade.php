@@ -119,7 +119,7 @@
                 Kelas yang diampuh
             </th>
             <td>
-                : ...
+                : 
             </td>
         </tr>
         <tr>
@@ -136,7 +136,7 @@
                 Semester
             </th>
             <td>
-                : {{ semester }}
+                : {{ $semester }}
             </td>
         </tr>
     </table>

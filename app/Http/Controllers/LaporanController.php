@@ -311,8 +311,8 @@ class LaporanController extends Controller
             return abort(404, 'Maaf, data Tidak Ditemukan');
         }
 
-        $namaLengkap = $guru->user->profile->nama_lengkap;
         // return view('laporan.print.harian', compact('guru', 'reports'));
+        $namaLengkap = $guru->user->profile->nama_lengkap;
 
         $pdf = PDF::loadView('laporan.print.harian', compact('guru', 'reports'));
         $pdf->setPaper('legal', 'potrait');
@@ -344,8 +344,8 @@ class LaporanController extends Controller
             return abort(404, 'Maaf, data Tidak Ditemukan');
         }
 
-        $namaLengkap = $guru->user->profile->nama_lengkap;
         // return view('laporan.print.mingguan', compact('guru', 'reports', 'week'));
+        $namaLengkap = $guru->user->profile->nama_lengkap;
 
         $pdf = PDF::loadView('laporan.print.mingguan', compact('guru', 'reports', 'week'));
         $pdf->setPaper('legal', 'potrait');
@@ -409,7 +409,12 @@ class LaporanController extends Controller
         if ($guru == null) {
             return abort(404, 'Maaf, data Tidak Ditemukan');
         }
-        return view('laporan.print.bulanan', compact('guru', 'reports'));
+        // return view('laporan.print.bulanan', compact('guru', 'reports'));
+        $namaLengkap = $guru->nama_lengkap;
+
+        $pdf = PDF::loadView('laporan.print.bulanan', compact('guru', 'reports'));
+        $pdf->setPaper('legal', 'potrait');
+        return $pdf->download('laporan-bulanan' . $namaLengkap . '.pdf');
     }
 
     public function printBySemester(Request $request)
@@ -422,11 +427,11 @@ class LaporanController extends Controller
         }
 
         if ($semester == "1") {
-            $start_date  =  date('Y-m-d', strtotime($request->year . "-01-01"));
-            $end_date    =  date('Y-m-d', strtotime($request->year . "-06-30"));
+            $start_date  =  date('Y-m-d', strtotime($year . "-01-01"));
+            $end_date    =  date('Y-m-d', strtotime($year . "-06-30"));
         } else {
-            $start_date  =  date('Y-m-d', strtotime($request->year . "-07-01"));
-            $end_date    =  date('Y-m-d', strtotime($request->year . "-12-31"));
+            $start_date  =  date('Y-m-d', strtotime($year . "-07-01"));
+            $end_date    =  date('Y-m-d', strtotime($year . "-12-31"));
         }
 
         $laporan = DB::table('laporan')
@@ -471,7 +476,12 @@ class LaporanController extends Controller
         if ($guru == null) {
             return abort(404, 'Maaf, data Tidak Ditemukan');
         }
-        return view('laporan.print.semesteran', compact('guru', 'reports', 'semester'));
+        // return view('laporan.print.semesteran', compact('guru', 'reports', 'semester'));
+        $namaLengkap = $guru->nama_lengkap;
+
+        $pdf = PDF::loadView('laporan.print.semesteran', compact('guru', 'reports', 'semester'));
+        $pdf->setPaper('legal', 'potrait');
+        return $pdf->download('laporan-semesteran' . $namaLengkap . '.pdf');
     }
 
     public function printByYear(Request $request)
@@ -523,6 +533,11 @@ class LaporanController extends Controller
         if ($guru == null) {
             return abort(404, 'Maaf, data Tidak Ditemukan');
         }
-        return view('laporan.print.tahunan', compact('guru', 'reports', 'year'));
+        // return view('laporan.print.tahunan', compact('guru', 'reports', 'year'));
+        $namaLengkap = $guru->nama_lengkap;
+
+        $pdf = PDF::loadView('laporan.print.tahunan', compact('guru', 'reports', 'year'));
+        $pdf->setPaper('legal', 'potrait');
+        return $pdf->download('laporan-tahunan' . $namaLengkap . '.pdf');
     }
 }
