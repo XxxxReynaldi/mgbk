@@ -61,7 +61,7 @@
                     <a class="button is-info is-pulled-right importBtn"><i class="fas fa-file-import fa-fw" aria-hidden="true"></i>&nbsp; Import </a>
                 </p>
                 <p class="control">
-                    <form action="{{ route('user.laporan.print.date') }}" method="post" id="print-form">
+                    <form action="{{ route('user.laporan.print.tes') }}" method="post" id="print-form">
                         @csrf
                         <input type="hidden" id="id_sekolah-p" name="id_sekolah-p" value="">
                         <input type="hidden" id="id_user-p" name="id_user-p" value="">
@@ -69,7 +69,7 @@
                         <button type="submit" class="button is-warning is-pulled-right"><i class="fas fa-print fa-fw" aria-hidden="true"></i>&nbsp; Cetak </button>
                     </form>
                 </p>
-              </div>
+            </div>
         </div>
     </div>
 

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use PDF;
 
@@ -58,12 +59,13 @@ class LaporanController extends Controller
         $file       = $request->file('file_excel_report');
         $namaFile   = $file->getClientOriginalName();
 
-        $statImport = Excel::import(new ReportImport, $file);
-        dump($statImport);
-        // Excel::import(new WeekImport, $file);
-        // Storage::makeDirectory('public/dokumenWeek/' . $namaFile);
+        // $statImport = Excel::import(new ReportImport, $file);
+        // dump($statImport);
 
-        // return redirect()->back()->with('status', 'Data week berhasil diimport !');
+        Excel::import(new ReportImport, $file);
+        // Storage::makeDirectory('public/dokumenReport/' . $namaFile);
+
+        return redirect()->back()->with('status', 'Data Laporan berhasil diimport !');
     }
 
     /**
@@ -315,9 +317,9 @@ class LaporanController extends Controller
         $namaLengkap = $guru->user->profile->nama_lengkap;
 
         $pdf = PDF::loadView('laporan.print.harian', compact('guru', 'reports'));
-        $pdf->setPaper('legal', 'potrait');
+        $pdf->setPaper('A4', 'potrait');
         return $pdf->download('laporan-harian_' . $namaLengkap . '.pdf');
-        return $pdf->stream();
+        // return $pdf->stream();
     }
 
     public function printByWeek(Request $request)
@@ -348,7 +350,7 @@ class LaporanController extends Controller
         $namaLengkap = $guru->user->profile->nama_lengkap;
 
         $pdf = PDF::loadView('laporan.print.mingguan', compact('guru', 'reports', 'week'));
-        $pdf->setPaper('legal', 'potrait');
+        $pdf->setPaper('A4', 'potrait');
         return $pdf->download('laporan-mingguan_' . $namaLengkap . '.pdf');
         // return $pdf->stream();
     }
@@ -413,7 +415,7 @@ class LaporanController extends Controller
         $namaLengkap = $guru->nama_lengkap;
 
         $pdf = PDF::loadView('laporan.print.bulanan', compact('guru', 'reports'));
-        $pdf->setPaper('legal', 'potrait');
+        $pdf->setPaper('A4', 'potrait');
         return $pdf->download('laporan-bulanan' . $namaLengkap . '.pdf');
     }
 
@@ -480,7 +482,7 @@ class LaporanController extends Controller
         $namaLengkap = $guru->nama_lengkap;
 
         $pdf = PDF::loadView('laporan.print.semesteran', compact('guru', 'reports', 'semester'));
-        $pdf->setPaper('legal', 'potrait');
+        $pdf->setPaper('A4', 'potrait');
         return $pdf->download('laporan-semesteran' . $namaLengkap . '.pdf');
     }
 
@@ -537,7 +539,38 @@ class LaporanController extends Controller
         $namaLengkap = $guru->nama_lengkap;
 
         $pdf = PDF::loadView('laporan.print.tahunan', compact('guru', 'reports', 'year'));
-        $pdf->setPaper('legal', 'potrait');
+        $pdf->setPaper('A4', 'potrait');
         return $pdf->download('laporan-tahunan' . $namaLengkap . '.pdf');
+    }
+
+    public function printByTes(Request $request)
+    {
+        if ($request->get('tgl_transaksi-p') == null) {
+            return redirect()->back()->with('status', 'Print gagal, Lakukan filtering harian terlebih dahulu !');
+        }
+
+        $laporan = Laporan::with(['sekolah', 'user.profile', 'kegiatan']);
+        $laporan->where('id_user', $request->get('id_user-p'));
+        $laporan->where('id_sekolah', $request->get('id_sekolah-p'));
+        $laporan->where('tgl_transaksi', $request->get('tgl_transaksi-p'));
+
+        $reports = $laporan->get();
+        $guru = $laporan->first();
+        // dd([$reports, $guru]);
+        if ($guru == null) {
+            return abort(404, 'Maaf, data Tidak Ditemukan');
+        }
+
+        // return view('laporan.print.tes', compact('guru', 'reports'));
+        $namaLengkap = $guru->user->profile->nama_lengkap;
+
+        $pdf = PDF::loadView('laporan.print.tes', compact('guru', 'reports'));
+        $pdf->setPaper('A4', 'potrait');
+        Storage::put('laporan/harian/' . 'LaporanHarian_' . $namaLengkap . '.pdf', $pdf->output());
+        return $pdf->stream(('laporan/harian/') . 'LaporanHarian_' . $namaLengkap . '.pdf', compact($pdf));
+        // return $pdf->download('laporan-harian_' . $namaLengkap . '.pdf');
+        // $pdf->save(storage_path('laporan/harian/') . 'LaporanHarian_' . $namaLengkap . '.pdf');
+        // return $pdf->stream(storage_path('laporan/harian/') . 'LaporanHarian_' . $namaLengkap . '.pdf', compact($pdf));
+        // return $pdf->stream('laporan-tes_' . $namaLengkap . '.pdf', array('Attachment' => false));
     }
 }

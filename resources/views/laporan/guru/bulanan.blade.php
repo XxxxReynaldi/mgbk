@@ -116,7 +116,7 @@
                         <button type="submit" class="button is-warning is-pulled-right"><i class="fas fa-print fa-fw" aria-hidden="true"></i>&nbsp; Cetak </button>
                     </form>
                 </p>
-              </div>
+            </div>
         </div>
     </div>
 

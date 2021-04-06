@@ -5,16 +5,19 @@ namespace App\Imports;
 use App\Models\Laporan;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
+use Maatwebsite\Excel\Concerns\WithValidation;
 
 class ReportImport implements
     ToModel,
     WithHeadingRow,
     WithChunkReading,
-    WithBatchInserts
+    WithBatchInserts,
+    WithValidation
 {
 
     /**
@@ -61,7 +64,7 @@ class ReportImport implements
      *
      * @return $id_kegiatan
      */
-    public function checkActivity($activity_name)
+    public function checkActivity($activity_name = null)
     {
         $id_kegiatan = DB::table('kegiatan')
             ->select('id_kegiatan')
@@ -84,5 +87,23 @@ class ReportImport implements
     public function batchSize(): int
     {
         return 1000;
+    }
+
+    public function rules(): array
+    {
+        $kegiatan = DB::table('kegiatan')->select('kegiatan')->get();
+        $activity = [];
+        foreach ($kegiatan as $key => $value) {
+            array_push($activity, $value->kegiatan);
+        }
+
+        return [
+            'kegiatan' => Rule::in($activity),
+            // Above is alias for as it always validates in batches
+            '*.kegiatan' => Rule::in($activity),
+        ];
+
+        // https://laracasts.com/discuss/channels/laravel/getting-validation-errors-from-laravel-excel
+        // https://github.com/Maatwebsite/Laravel-Excel/issues/2111
     }
 }

@@ -146,7 +146,7 @@
 
         <tr>
             <th style="width: 10px;" class="text-align-left border-right border-bottom p-min">No</th>
-            <th style="width: 20%;" class="border-right border-bottom p-min">Jenis Kegiatan</th>
+            <th style="width: 30%;" class="border-right border-bottom p-min">Jenis Kegiatan</th>
             <th class="border-bottom p-min">Detail</th>
         </tr>
 
