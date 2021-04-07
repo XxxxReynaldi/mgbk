@@ -149,8 +149,8 @@
         <tr>
             <th style="width: 10px;" class="border-right border-bottom p-min">No</th>
             <th style="width: 40%;" class="border-right border-bottom p-min">Jenis Kegiatan</th>
-            <th style="width: 20%;" class="border-right border-bottom p-min">Summary</th>
-            <th class="border-bottom p-min">Ekivalensi</th>
+            <th style="width: 20%;" class="border-right border-bottom p-min">Jumlah Kegiatan</th>
+            <th class="border-bottom p-min">Jumlah Jam Ekuivalensi</th>
         </tr>
         @if (count($reports) == 0)
             <tr>
