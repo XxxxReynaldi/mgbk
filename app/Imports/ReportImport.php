@@ -3,6 +3,7 @@
 namespace App\Imports;
 
 use App\Models\Laporan;
+use App\Models\Profile;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -43,6 +44,8 @@ class ReportImport implements
     {
         $id_kegiatan_cek    = $this->checkActivity($row['kegiatan']);
         $tgl_transaksi      = date('Y-m-d', strtotime($this->transformDate($row['tgl_transaksi'])));
+        $id_user            = auth()->user()->id;
+        $profile            = Profile::with('user', 'sekolah')->where('id_user', auth()->user()->id_user)->first();
 
         $kosong = null;
         if ($id_kegiatan_cek == null) {

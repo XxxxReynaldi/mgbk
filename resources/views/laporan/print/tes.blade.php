@@ -20,11 +20,11 @@
         }
 
         .p-max {
-            padding: 2em;
+            padding: 1em;
         }
 
         .mb-max {
-            margin-bottom: 3em;
+            margin-bottom: 2em;
         }
 
         .border-collapse {
@@ -86,7 +86,7 @@
         main:last-child { page-break-after: never; }
 
         .main-content {
-            margin-top: 120px;
+            margin-top: 300px;
         }
         /* main { 
             margin-top: 120px;
@@ -120,24 +120,21 @@
         <table class="border w-100 p-max mb-max valign-middle">
             <tr>
                 <th>
-                    <img src="https://vidyagata.files.wordpress.com/2011/03/logo-sma-6-edit.jpg" width="80" height="80">
+                    {{-- <img src="https://vidyagata.files.wordpress.com/2011/03/logo-sma-6-edit.jpg" width="80" height="80"> --}}
+                    {{-- <img src="https://api-mgbk.bgskr-project.my.id/upload/logoSekolah/{{ $guru->user->profile->logo_sekolah }}" width="80" height="80"> --}}
+                    <img src="https://api-mgbk.bgskr-project.my.id/upload/logoSekolah/{{ $guru->logo_sekolah }}" width="80" height="80">
                 </th>
                 <th>
-                    <span class="text-title">{{ $guru->sekolah->nama_sekolah }}</span><br>
+                    {{-- <span class="text-title">{{ $guru->sekolah->nama_sekolah }}</span><br>
                     <span class="text-regular">{{ $guru->user->profile->alamat_sekolah }}</span><br>
-                    <span class="text-regular">{{ $guru->user->profile->tambahan_informasi }}</span><br>
+                    <span class="text-regular">{{ $guru->user->profile->tambahan_informasi }}</span><br> --}}
+                    <span class="text-title">{{ $guru->nama_sekolah }}</span><br>
+                    <span class="text-regular">{{ $guru->alamat_sekolah }}</span><br>
+                    <span class="text-regular">{{ $guru->tambahan_informasi }}</span><br>
                 </th>
             </tr>
         </table>
-    </header>
-    <footer style="width: 100%;" id="footer">
-        aaaa
-    </footer>
-
-    <main>
-        
-        <div class="main-content">
-            @php
+        @php
 
                 function tgl_indo($tanggal){
                     $bulan = array (
@@ -159,8 +156,10 @@
                     return $pecahkan[2] . ' ' . $bulan[ (int)$pecahkan[1] ] . ' ' . $pecahkan[0];
                 }
 
-                $kelas       = $guru->user->profile->kelas_pengampu;
-                $eachkelas   = explode(";",$kelas);
+                // $kelas       = $guru->user->profile->kelas_pengampu;
+                $kelas      = $guru->kelas_pengampu;
+                $eachkelas  = explode(";",$kelas);
+                $totalJam   = 0;
 
             @endphp
 
@@ -170,7 +169,8 @@
                         Nama Guru
                     </th>
                     <td>
-                        : {{ $guru->user->profile->nama_lengkap }}
+                        {{-- : {{ $guru->user->profile->nama_lengkap }} --}}
+                        : {{ $guru->nama_lengkap }}
                     </td>
                 </tr>
                 <tr>
@@ -203,13 +203,24 @@
             <p>
                 Berikut detail laporan dari Guru BK yang bersangkutan :
             </p>
+    </header>
+    <footer style="width: 100%;" id="footer">
+        aaaa
+    </footer>
+
+    <main>
+        
+        <div class="main-content">
+            
            
                 <table class="border w-100 border-collapse">
 
                     <tr>
                         <th style="width: 10px;" class="text-align-left border-right border-bottom p-min">No</th>
                         <th style="width: 30%;" class="border-right border-bottom p-min">Jenis Kegiatan</th>
-                        <th class="border-bottom p-min">Detail</th>
+                        <th style="width: 40%;" class="border-right border-bottom p-min">Detail</th>
+                        <th class="border-right border-bottom p-min">Jumlah Kegiatan</th>
+                        <th class="border-bottom p-min">Jumlah Ekuivalensi</th>
                     </tr>
 
                     @if (count($reports) == 0)
@@ -218,12 +229,33 @@
                         </tr>
                     @else
                         @foreach($reports as $report)
+                        @php
+                            // $totalJam += $report->kegiatan()->sum('ekuivalen');
+                            $totalJam += $report->jumlah_ekuivalen;
+                        @endphp
                         <tr>
-                            <td class="text-align-center border-right border-bottom p-min">{{ $loop->iteration }}</td>
+                            {{-- <td class="text-align-center border-right border-bottom p-min">{{ $loop->iteration }}</td>
                             <td class="text-align-left border-right border-bottom p-min">{{ $report->kegiatan->kegiatan }}</td>
                             <td class="text-align-justify border-right border-bottom p-min">{{ $report->detail }}</td>
+                            <td class="text-align-center border-right border-bottom p-min">{{ $report->kegiatan()->count() }}</td>
+                            <td class="text-align-center border-right border-bottom p-min">{{ $report->kegiatan()->sum('ekuivalen') }}</td> --}}
+
+                            <td class="text-align-center border-right border-bottom p-min">{{ $loop->iteration }}</td>
+                            <td class="text-align-left border-right border-bottom p-min">{{ $report->kegiatan }}</td>
+                            <td class="text-align-left border-right border-bottom p-min">{{ $report->detail }}</td>
+                            <td class="text-align-center border-right border-bottom p-min">{{ $report->jumlah_kegiatan }}</td>
+                            <td class="text-align-center border-right border-bottom p-min">{{ $report->jumlah_ekuivalen }}</td>
                         </tr>
                         @endforeach
+
+                        <tr>
+                            <th colspan="4" class="border-right border-bottom p-min">
+                                Total Jam
+                            </th>
+                            <td class="text-align-left border-right border-bottom p-min">
+                                {{ $totalJam }}
+                            </td>
+                        </tr>
                     @endif
 
                 </table>

@@ -67,6 +67,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('laporan/print/semester', [LaporanController::class, 'printBySemester'])->name('laporan.print.semester');
             Route::post('laporan/print/year', [LaporanController::class, 'printByYear'])->name('laporan.print.year');
             Route::post('laporan/print/tes', [LaporanController::class, 'printByTes'])->name('laporan.print.tes');
+            Route::post('laporan/print/tesMingguan', [LaporanController::class, 'printByTesMingguan'])->name('laporan.print.tesMingguan');
         });
     });
 
@@ -189,12 +190,29 @@ Route::get('/tes', function () {
 
     // dd($result);
 
-    $kegiatan = DB::table('kegiatan')->select('kegiatan')->get();
-    $activity = [];
-    foreach ($kegiatan as $key => $value) {
-        // dump($value->kegiatan);
-        array_push($activity, $value->kegiatan);
+
+    $laporan = Laporan::with(['sekolah', 'user.profile', 'kegiatan'])
+        ->where('id_user', '6')
+        ->where('id_sekolah', '4')
+        ->where('tgl_transaksi', '2021-03-22')
+        ->get();
+    $laporan[0]->sekolah->exists();
+
+    foreach ($laporan as $report) {
+        dump($report->kegiatan->kegiatan);
+        dump($report->kegiatan()->count());
+        dump($report->kegiatan()->sum('ekuivalen'));
+        // echo $report->kegiatan->kegiatan . "<br>";
+        // echo $report->kegiatan->count() . "<br>";
+        // echo $report->kegiatan->sum('ekuivalen');
     }
-    dd($activity);
+
+    // $kegiatan = DB::table('kegiatan')->select('kegiatan')->get();
+    // $activity = [];
+    // foreach ($kegiatan as $key => $value) {
+    //     // dump($value->kegiatan);
+    //     array_push($activity, $value->kegiatan);
+    // }
+    // dd($activity);
     // dd(collect($kegiatan));
 });

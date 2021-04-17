@@ -85,7 +85,7 @@
                     <a class="button is-info is-pulled-right importBtn"><i class="fas fa-file-import fa-fw" aria-hidden="true"></i>&nbsp; Import </a>
                 </p>
                 <p class="control">
-                    <form action="{{ route('user.laporan.print.week') }}" method="post" id="print-form">
+                    <form action="{{ route('user.laporan.print.tesMingguan') }}" method="post" id="print-form">
                         @csrf
                         <input type="hidden" id="id_sekolah-p" name="id_sekolah-p" value="">
                         <input type="hidden" id="id_user-p" name="id_user-p" value="">
