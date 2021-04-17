@@ -30,6 +30,10 @@
     border-right: 1px solid black;
 }
 
+.border-top {
+    border-top: 1px solid black;
+}
+
 .border-bottom {
     border-bottom: 1px solid black;
 }
@@ -65,7 +69,6 @@ ol {
 ol li {
     counter-increment: my-awesome-counter;
     display: flex;
-    width: 30%;
     font-size: 0.8rem;
     margin-bottom: 0.5rem;
 }
@@ -77,11 +80,31 @@ ol li::before {
     line-height: 1;
 }
 
+.custom-columns {
+    width: 200px;
+    border: 0px solid black;
+    -moz-column-count: 3;
+    -moz-column-gap: 20px;
+    -webkit-column-count: 2;
+    -webkit-column-gap: 20px;
+    column-count: 3;
+    column-gap: 20px;
+}
+
 /* @page { margin-top: 120px; margin-bottom: 300px } */
 /* header { position: fixed; left: 0px; top: -90px; right: 0px; height: 150px; text-align: center; } */
 /* @page {
     margin: 100px 25px;
 } */
+
+@media print {
+    html,
+    body {
+        height: 100vh;
+        overflow: hidden;
+    }
+}
+
 header {
     position: fixed;
     top: -60px;
@@ -103,20 +126,15 @@ header {
 .absolute {
     position: absolute;
 }
-.float-right {
-    float: right;
-}
-.float-right::after {
-    clear: both;
-}
 
-main {
-    page-break-after: always;
-}
 main:last-child {
-    page-break-after: avoid;
+    page-break-after: auto;
 }
 
 .main-content {
     margin-top: 300px;
+}
+
+.box-decoration-break {
+    box-decoration-break: clone;
 }

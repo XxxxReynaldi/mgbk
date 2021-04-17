@@ -631,7 +631,7 @@ class LaporanController extends Controller
         // $kelas       = $guru->user->profile->kelas_pengampu;
         $kelas      = $guru->kelas_pengampu;
         $eachkelas  = explode(";", $kelas);
-        $totalJam   = 0;
+
         $li = '';
         foreach ($eachkelas as $item) :
             $li .= '<li>' . $item . '</li>';
@@ -687,7 +687,7 @@ class LaporanController extends Controller
             </tr>
             <tr>
                 <td> 
-                    <ol>
+                    <ol class="custom-columns">
                         ' . $li . '
                     </ol> 
                 </td>
@@ -706,22 +706,29 @@ class LaporanController extends Controller
             Berikut detail laporan dari Guru BK yang bersangkutan :
         </p>');
         $mpdf->SetHTMLFooter('
-        <table class="border-1 border-collapse float-right table-layout-fixed" style="width: 400px; right: 0; position: absolute;">
+        <table class="table-layout-fixed w-100">
             <tr>
-                <th class="border-1 p-min w-50">Dibuat</th>
-                <th class="border-1 p-min w-50">Mengetahui</th>
-            </tr>
-            <tr class="text-align-center">
-                <td class="border-1 p-min"><img style="visibility: hidden;" src="https://via.placeholder.com/100" width="100px" height="100px" /></td>
-                <td class="border-1 p-min"><img style="visibility: hidden;" src="https://via.placeholder.com/100" width="100px" height="100px" /></td>
-            </tr>
-            <tr>
-                <td class="border-1 p-min text-align-center">' . $guru->nama_lengkap . '</td>
-                <td class="border-1 p-min text-align-center">' . $guru->nama_kepala_sekolah . '</td>
-            </tr>
-            <tr>
-                <td class="border-1 p-min text-align-center">Guru BK</td>
-                <td class="border-1 p-min text-align-center">Kepala Sekolah</td>
+                <td style="width:50%;"></td>
+                <td style="width:50%">
+                <table class="border-1 border-collapse table-layout-fixed" style="width: 400px;">
+                    <tr>
+                        <th class="border-1 p-min w-50">Dibuat</th>
+                        <th class="border-1 p-min w-50">Mengetahui</th>
+                    </tr>
+                    <tr class="text-align-center">
+                        <td class="border-1 p-min"><img style="visibility: hidden;" src="https://via.placeholder.com/100" width="100px" height="100px" /></td>
+                        <td class="border-1 p-min"><img style="visibility: hidden;" src="https://via.placeholder.com/100" width="100px" height="100px" /></td>
+                    </tr>
+                    <tr>
+                        <td class="border-1 p-min text-align-center">' . $guru->nama_lengkap . '</td>
+                        <td class="border-1 p-min text-align-center">' . $guru->nama_kepala_sekolah . '</td>
+                    </tr>
+                    <tr>
+                        <td class="border-1 p-min text-align-center">Guru BK</td>
+                        <td class="border-1 p-min text-align-center">Kepala Sekolah</td>
+                    </tr>
+                </table>
+                </td>
             </tr>
         </table>
         ');
