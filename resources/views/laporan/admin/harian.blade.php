@@ -109,7 +109,7 @@
                         <tr>
                             <th>#</th>
                             <th>Nama Kegiatan</th>
-                            <th>Detail</th>
+                            <th style="width: 35%;">Detail</th>
                             <th>Upload document 1</th>
                             <th>Upload document 2</th>
                             {{-- <th>Opsi</th> --}}
@@ -119,7 +119,7 @@
                         <tr>
                             <th>#</th>
                             <th>Nama Kegiatan</th>
-                            <th>Detail</th>
+                            <th style="width: 35%;">Detail</th>
                             <th>Upload document 1</th>
                             <th>Upload document 2</th>
                             {{-- <th>Opsi</th> --}}
