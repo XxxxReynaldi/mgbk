@@ -128,10 +128,10 @@
                         <tr>
                             <th>#</th>
                             <th>Nama Kegiatan</th>
-                            <th>Detail</th>
                             <th>Tanggal transaksi</th>
-                            <th>Upload document 1</th>
-                            <th>Upload document 2</th>
+                            <th style="width: 50%;">Detail</th>
+                            {{-- <th>Upload document 1</th> --}}
+                            {{-- <th>Upload document 2</th> --}}
                             {{-- <th>Opsi</th> --}}
                         </tr>
                     </thead>
@@ -139,10 +139,10 @@
                         <tr>
                             <th>#</th>
                             <th>Nama Kegiatan</th>
-                            <th>Detail</th>
                             <th>Tanggal transaksi</th>
-                            <th>Upload document 1</th>
-                            <th>Upload document 2</th>
+                            <th style="width: 50%;">Detail</th>
+                            {{-- <th>Upload document 1</th> --}}
+                            {{-- <th>Upload document 2</th> --}}
                             {{-- <th>Opsi</th> --}}
                         </tr>
                     </tfoot>
@@ -284,10 +284,10 @@
             columns: [
                 { data: 'DT_RowIndex', orderable: false, searchable: false },
                 { data: 'kegiatan', name: 'kegiatan' },
-                { data: 'detail', name: 'laporan.detail' },
                 { data: 'tgl_transaksi', name: 'laporan.tgl_transaksi' },
-                { data: 'upload_doc_1', name: 'laporan.upload_doc_1' },
-                { data: 'upload_doc_2', name: 'laporan.upload_doc_2' },
+                { data: 'detail', name: 'laporan.detail' },
+                // { data: 'upload_doc_1', name: 'laporan.upload_doc_1' },
+                // { data: 'upload_doc_2', name: 'laporan.upload_doc_2' },
             ],
         });
 

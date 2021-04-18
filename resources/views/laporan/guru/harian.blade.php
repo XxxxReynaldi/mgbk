@@ -61,7 +61,7 @@
                     <a class="button is-info is-pulled-right importBtn"><i class="fas fa-file-import fa-fw" aria-hidden="true"></i>&nbsp; Import </a>
                 </p>
                 <p class="control">
-                    <form action="{{ route('user.laporan.print.tes') }}" method="post" id="print-form">
+                    <form action="{{ route('user.laporan.print.date') }}" method="post" id="print-form">
                         @csrf
                         <input type="hidden" id="id_sekolah-p" name="id_sekolah-p" value="">
                         <input type="hidden" id="id_user-p" name="id_user-p" value="">
@@ -91,7 +91,7 @@
                         <tr>
                             <th>#</th>
                             <th>Nama Kegiatan</th>
-                            <th>Detail</th>
+                            <th style="width: 35%;">Detail</th>
                             <th>Upload document 1</th>
                             <th>Upload document 2</th>
                             {{-- <th>Opsi</th> --}}

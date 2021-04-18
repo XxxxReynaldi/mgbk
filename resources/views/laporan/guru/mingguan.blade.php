@@ -85,7 +85,7 @@
                     <a class="button is-info is-pulled-right importBtn"><i class="fas fa-file-import fa-fw" aria-hidden="true"></i>&nbsp; Import </a>
                 </p>
                 <p class="control">
-                    <form action="{{ route('user.laporan.print.tesMingguan') }}" method="post" id="print-form">
+                    <form action="{{ route('user.laporan.print.week') }}" method="post" id="print-form">
                         @csrf
                         <input type="hidden" id="id_sekolah-p" name="id_sekolah-p" value="">
                         <input type="hidden" id="id_user-p" name="id_user-p" value="">
@@ -106,8 +106,8 @@
                         <tr>
                             <th>#</th>
                             <th>Nama Kegiatan</th>
-                            <th>Detail</th>
                             <th>Tanggal transaksi</th>
+                            <th style="width: 50%;">Detail</th>
                             {{-- <th>Upload document 1</th> --}}
                             {{-- <th>Upload document 2</th> --}}
                             {{-- <th>Opsi</th> --}}
@@ -117,8 +117,8 @@
                         <tr>
                             <th>#</th>
                             <th>Nama Kegiatan</th>
-                            <th>Detail</th>
                             <th>Tanggal transaksi</th>
+                            <th style="width: 50%;">Detail</th>
                             {{-- <th>Upload document 1</th> --}}
                             {{-- <th>Upload document 2</th> --}}
                             {{-- <th>Opsi</th> --}}
@@ -297,8 +297,8 @@
             columns: [
                 { data: 'DT_RowIndex', orderable: false, searchable: false },
                 { data: 'kegiatan', name: 'kegiatan' },
-                { data: 'detail', name: 'detail' },
                 { data: 'tgl_transaksi', name: 'tgl_transaksi' },
+                { data: 'detail', name: 'detail' },
                 // { data: 'upload_doc_1', name: 'upload_doc_1' },
                 // { data: 'upload_doc_2', name: 'upload_doc_2' },
             ],

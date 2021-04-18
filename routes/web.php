@@ -66,8 +66,6 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('laporan/print/month', [LaporanController::class, 'printByMonth'])->name('laporan.print.month');
             Route::post('laporan/print/semester', [LaporanController::class, 'printBySemester'])->name('laporan.print.semester');
             Route::post('laporan/print/year', [LaporanController::class, 'printByYear'])->name('laporan.print.year');
-            Route::post('laporan/print/tes', [LaporanController::class, 'printByTes'])->name('laporan.print.tes');
-            Route::post('laporan/print/tesMingguan', [LaporanController::class, 'printByTesMingguan'])->name('laporan.print.tesMingguan');
         });
     });
 
