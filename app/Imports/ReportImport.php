@@ -5,6 +5,7 @@ namespace App\Imports;
 use App\Models\Laporan;
 use App\Models\Profile;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\ToModel;
@@ -20,6 +21,11 @@ class ReportImport implements
     WithBatchInserts,
     WithValidation
 {
+
+    public function  __construct($user_id)
+    {
+        $this->user_id = $user_id;
+    }
 
     /**
      * Transform a date value into a Carbon object.
@@ -42,10 +48,11 @@ class ReportImport implements
      */
     public function model(array $row)
     {
+
         $id_kegiatan_cek    = $this->checkActivity($row['kegiatan']);
         $tgl_transaksi      = date('Y-m-d', strtotime($this->transformDate($row['tgl_transaksi'])));
-        $id_user            = auth()->user()->id;
-        $profile            = Profile::with('user', 'sekolah')->where('id_user', auth()->user()->id_user)->first();
+
+        $profile            = Profile::with('user', 'sekolah')->where('id_user', $this->user_id)->first();
 
         $kosong = null;
         if ($id_kegiatan_cek == null) {
@@ -53,8 +60,8 @@ class ReportImport implements
         } else {
 
             return new Laporan([
-                'id_sekolah'        => $row['id_sekolah'],
-                'id_user'           => $row['id_user'],
+                'id_sekolah'        => $profile->id_sekolah,
+                'id_user'           => $this->user_id,
                 'id_kegiatan'       => $id_kegiatan_cek->id_kegiatan,
                 'tgl_transaksi'     => $tgl_transaksi,
                 'detail'            => $row['detail'],

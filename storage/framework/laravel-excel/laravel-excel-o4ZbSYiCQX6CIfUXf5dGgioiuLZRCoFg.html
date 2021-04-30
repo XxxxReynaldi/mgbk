@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="inYXajR6EAZxu75J9zR7ZJHmIqXYUuN7Mh5zCci5">
+
+    <title>MGBK Malang - Excel Export Kegiatan</title>
+
+    <!-- Scripts -->
+    
+
+    <!-- Fonts -->
+    
+
+    <!-- Styles -->
+    
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="http://127.0.0.1:8000/css/style.css">
+    
+    
+    
+
+    <!-- DataTable -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/dataTables.bulma.min.css">
+    
+    
+    
+    <!-- DatePicker -->
+    <link rel="stylesheet" type="text/css" href="http://127.0.0.1:8000/css/bulma-calendar.min.css">
+    
+    <!-- Select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+
+    <!-- =========================================================================================================================== -->
+
+    <!-- Scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Select2 -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <!-- DataTable -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/dataTables.bulma.min.js"></script>
+
+    <!-- DatePicker -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/bulma-calendar@6.0.9/dist/js/bulma-calendar.min.js" integrity="sha256-j5R7XaUm/P3SCc5bo5XQ8maH3vkFFlXNSeg4ckGiO0k=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js" integrity="sha512-LGXaggshOkD/at6PFNcp2V2unf9LzFq6LE+sChH7ceMTDP0g2kn6Vxwgg7wkPP7AAtX+lmPqPdxB47A0Nz0cMQ==" crossorigin="anonymous"></script>
+
+    <!-- Buefy components -->
+    <script src="https://unpkg.com/vue"></script>
+    <!-- Full bundle -->
+    <script src="https://unpkg.com/buefy/dist/buefy.min.js"></script>
+
+    <!-- Individual components -->
+    <script src="https://unpkg.com/buefy/dist/components/table"></script>
+    <script src="https://unpkg.com/buefy/dist/components/input"></script>
+
+    <style>
+        .card, .white-blue{
+            background-color: #f5f5f5 !important; 
+        }
+
+        .modal-card{
+            overflow-y: auto ;
+        }
+
+        .modal .datetimepicker {
+            display: none;
+            max-height: 95vh;
+            width: 22rem;
+            max-width: 95vw;
+            overflow-y: auto;
+
+        }
+        
+        .datetimepicker.is-active {
+            display: block;
+        }
+    </style>
+    
+</head>
+<body class="has-navbar-fixed-top">
+    
+    <section class="section">
+        
+    <div class="content">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Kegiatan</th>
+                    <th>Tgl_transaksi</th>
+                    <th>Detail</th>
+                </tr>
+            </thead>
+            <tbody>
+                                    <tr>
+                        <td>Konseling Individual</td>
+                        <td>2021-05-01</td>
+                        <td></td>
+                    </tr>
+                                    <tr>
+                        <td>Home Visit</td>
+                        <td>2021-05-01</td>
+                        <td></td>
+                    </tr>
+                                    <tr>
+                        <td>Layanan Advokasi</td>
+                        <td>2021-05-01</td>
+                        <td></td>
+                    </tr>
+                                    <tr>
+                        <td>Konseling Kelompok</td>
+                        <td>2021-05-01</td>
+                        <td></td>
+                    </tr>
+                                    <tr>
+                        <td>Bimbingan Kelompok</td>
+                        <td>2021-05-01</td>
+                        <td></td>
+                    </tr>
+                                    <tr>
+                        <td>Bimbingan Klasikal</td>
+                        <td>2021-05-01</td>
+                        <td></td>
+                    </tr>
+                                    <tr>
+                        <td>Bimbingan Kelas Besar atau Lintas Kelas</td>
+                        <td>2021-05-01</td>
+                        <td></td>
+                    </tr>
+                                    <tr>
+                        <td>Konsultasi</td>
+                        <td>2021-05-01</td>
+                        <td></td>
+                    </tr>
+                                    <tr>
+                        <td>Kolaborasi dengan Guru</td>
+                        <td>2021-05-01</td>
+                        <td></td>
+                    </tr>
+                                    <tr>
+                        <td>Kolaborasi dengan Orangtua</td>
+                        <td>2021-05-01</td>
+                        <td></td>
+                    </tr>
+                                    <tr>
+                        <td>Kolaborasi dengan Ahli Lain</td>
+                        <td>2021-05-01</td>
+                        <td></td>
+                    </tr>
+                                    <tr>
+                        <td>Kolaborasi dengan Lembaga Lain</td>
+                        <td>2021-05-01</td>
+                        <td></td>
+                    </tr>
+                                    <tr>
+                        <td>Konferensi Kasus</td>
+                        <td>2021-05-01</td>
+                        <td></td>
+                    </tr>
+                                    <tr>
+                        <td>Pengelolaan Papan Bimbingan</td>
+                        <td>2021-05-01</td>
+                        <td></td>
+                    </tr>
+                                    <tr>
+                        <td>Pengelolaan Kotak Masalah</td>
+                        <td>2021-05-01</td>
+                        <td></td>
+                    </tr>
+                                    <tr>
+                        <td>Pengelolaan Leaflet</td>
+                        <td>2021-05-01</td>
+                        <td></td>
+                    </tr>
+                                    <tr>
+                        <td>Pengembangan Media BK</td>
+                        <td>2021-05-01</td>
+                        <td></td>
+                    </tr>
+                                    <tr>
+                        <td>Kegiatan Tambahan (Pembina ekstrakurikuler atau Sebagai Ko. BK)</td>
+                        <td>2021-05-01</td>
+                        <td></td>
+                    </tr>
+                                    <tr>
+                        <td>Kegiatan Tambahan (Koordinator BK)</td>
+                        <td>2021-05-01</td>
+                        <td></td>
+                    </tr>
+                                    <tr>
+                        <td>Melaksanakan dan Menindaklanjuti Asesment Kebutuhan</td>
+                        <td>2021-05-01</td>
+                        <td></td>
+                    </tr>
+                                    <tr>
+                        <td>Menyusun dan Melaporkan Program Kerja</td>
+                        <td>2021-05-01</td>
+                        <td></td>
+                    </tr>
+                                    <tr>
+                        <td>Membuat Evaluasi</td>
+                        <td>2021-05-01</td>
+                        <td></td>
+                    </tr>
+                                    <tr>
+                        <td>Melaksanakan administrasi dan manajemen bimbingan dan konseling</td>
+                        <td>2021-05-01</td>
+                        <td></td>
+                    </tr>
+                            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+
+    </section>
+
+    <p class="mt-4 has-text-centered">
+        &copy; MGBK Malang
+    </p>
+
+    <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
+    <script src="http://127.0.0.1:8000/js/bulma-steps.min.js"></script>
+    <script src="http://127.0.0.1:8000/js/nav.js"></script>
+</body>
+</html>

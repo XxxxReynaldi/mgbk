@@ -60,6 +60,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('laporan/tb-semesteran', [LaporanController::class, 'tableBST'])->name('laporan.tb-semesteran');
             Route::post('laporan/tb-tahunan', [LaporanController::class, 'tableBST'])->name('laporan.tb-tahunan');
 
+            Route::get('laporan/exportActivity', [LaporanController::class, 'exportActivity'])->name('laporan.exportActivity');
             Route::post('laporan/import', [LaporanController::class, 'import'])->name('laporan.import');
             Route::post('laporan/print/date', [LaporanController::class, 'printByDate'])->name('laporan.print.date');
             Route::post('laporan/print/week', [LaporanController::class, 'printByWeek'])->name('laporan.print.week');
@@ -76,6 +77,7 @@ Route::group(['middleware' => 'auth'], function () {
         'as' => 'admin.',
     ], function () {
         Route::post('week/import', [WeekController::class, 'import'])->name('week.import');
+        Route::get('week/downloadMWeek', [WeekController::class, 'downloadMWeek'])->name('week.downloadMWeek');
         Route::resource('week', WeekController::class)->except(['create', 'show', 'edit']);
 
         Route::resource('kegiatan', KegiatanController::class);

@@ -89,7 +89,7 @@
                     <label class="label" for="jumlah_pertemuan">Jumlah Pertemuan</label>
                     <div class="field">
                         <div class="control">
-                            <input value="{{ $kegiatan->jumlah_pertemuan }}" name="jumlah_pertemuan" id="jumlah_pertemuan" class="input" type="number" min="1" placeholder="Jumlah Pertemuan">
+                            <input value="{{ $kegiatan->jumlah_pertemuan }}" name="jumlah_pertemuan" id="jumlah_pertemuan" class="input" type="number" min="0" placeholder="Jumlah Pertemuan">
                         </div>
                     </div>
                 </div>

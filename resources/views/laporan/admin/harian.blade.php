@@ -85,9 +85,9 @@
         </div>
         <div class="column is-half">
             <div class="field is-grouped is-grouped-right">
-                <p class="control">
+                {{-- <p class="control">
                     <a class="button is-info is-pulled-right importBtn"><i class="fas fa-file-import fa-fw" aria-hidden="true"></i>&nbsp; Import </a>
-                </p>
+                </p> --}}
                 <p class="control">
                     <form action="{{ route('admin.laporan.print.date') }}" method="post" id="print-form">
                         @csrf

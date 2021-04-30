@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ActivityExport;
 use App\Imports\ReportImport;
+use App\Models\Kegiatan;
 use App\Models\Laporan;
 use App\Models\Profile;
 use App\Models\Sekolah;
@@ -59,14 +61,21 @@ class LaporanController extends Controller
         ]);
         $file       = $request->file('file_excel_report');
         $namaFile   = $file->getClientOriginalName();
+        $id_user    = Auth::user()->id_user;
 
         // $statImport = Excel::import(new ReportImport, $file);
         // dump($statImport);
 
-        Excel::import(new ReportImport, $file);
+        Excel::import(new ReportImport($id_user), $file);
         // Storage::makeDirectory('public/dokumenReport/' . $namaFile);
 
         return redirect()->back()->with('status', 'Data Laporan berhasil diimport !');
+    }
+
+    public function exportActivity()
+    {
+        $namaFile = 'laporan' . date('Y-m-d H:i:s') . '.xlsx';
+        return Excel::download(new ActivityExport, $namaFile);
     }
 
     /**

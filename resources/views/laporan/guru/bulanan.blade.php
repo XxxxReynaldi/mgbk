@@ -182,6 +182,12 @@
                 <input type="hidden" name="id_sekolah" value="">
                 <input type="hidden" name="id_user" value="">
                 <div class="field">
+                    <h3><label class="label" >Peringatan ! </label></h3>
+                    <p>Sebelum anda mengimport file excelnya pastikan anda sudah mendownload File excel sesuai dengan format kami, 
+                        anda bisa mendownloadnya <a href="{{ route('user.laporan.exportActivity') }}" target="_self">disini!</a>
+                    </p>
+                </div>
+                <div class="field">
                     <label class="label" >File Excel</label>
                     <div id="file-js-example" class="file has-name">
                         <label class="file-label">

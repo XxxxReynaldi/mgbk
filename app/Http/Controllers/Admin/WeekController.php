@@ -128,4 +128,9 @@ class WeekController extends Controller
         Week::destroy($week->id_week);
         return redirect('/admin/week')->with('status', 'Data week berhasil dihapus !');
     }
+
+    public function downloadMWeek()
+    {
+        return Storage::download('MasterWeekFormat.xlsx');
+    }
 }
