@@ -590,7 +590,7 @@ class LaporanController extends Controller
         $td = '<td style="width:50%;">';
         $ul = '<ul>';
         $no = 0;
-        $marginTop = 85;
+        $marginTop = 95;
         $marginBot = 45;
 
         foreach ($eachkelas as $item) :
@@ -719,7 +719,7 @@ class LaporanController extends Controller
         $td = '<td style="width:50%;">';
         $ul = '<ul>';
         $no = 0;
-        $marginTop = 85;
+        $marginTop = 95;
         $marginBot = 45;
 
         foreach ($eachkelas as $item) :
@@ -838,7 +838,7 @@ class LaporanController extends Controller
         $td = '<td style="width:50%;">';
         $ul = '<ul>';
         $no = 0;
-        $marginTop = 85;
+        $marginTop = 95;
         $marginBot = 45;
 
         foreach ($eachkelas as $item) :
@@ -959,7 +959,7 @@ class LaporanController extends Controller
         $td = '<td style="width:50%;">';
         $ul = '<ul>';
         $no = 0;
-        $marginTop = 85;
+        $marginTop = 95;
         $marginBot = 45;
 
         foreach ($eachkelas as $item) :
@@ -1070,7 +1070,7 @@ class LaporanController extends Controller
         $td = '<td style="width:50%;">';
         $ul = '<ul>';
         $no = 0;
-        $marginTop = 85;
+        $marginTop = 95;
         $marginBot = 45;
 
         foreach ($eachkelas as $item) :
