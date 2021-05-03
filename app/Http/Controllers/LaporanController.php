@@ -350,6 +350,8 @@ class LaporanController extends Controller
     private function setHeaderFooter($mpdf, $guru, $table, $printBy, $reportTime = null, $withHeader)
     {
 
+        $printTime  = $this->tgl_indo(date("Y-m-d"));
+
         if ($printBy == 'date') {
             $reportFor  = 'Tanggal laporan';
             $reportTime = $this->tgl_indo($guru->tgl_transaksi);
@@ -415,6 +417,14 @@ class LaporanController extends Controller
                         : ' . $reportTime . '
                     </td>
                 </tr>
+                <tr>
+                    <th class="text-align-left" style="width:30%;">
+                        Tanggal cetak laporan
+                    </th>
+                    <td>
+                        : ' . $printTime . '
+                    </td>
+                </tr>
             </table>
 
             <p>
@@ -453,6 +463,14 @@ class LaporanController extends Controller
                         : ' . $reportTime . '
                     </td>
                 </tr>
+                <tr>
+                    <th class="text-align-left" style="width:30%;">
+                        Tanggal cetak laporan
+                    </th>
+                    <td>
+                        : ' . $printTime . '
+                    </td>
+                </tr>
             </table>
 
             <p>
@@ -462,23 +480,34 @@ class LaporanController extends Controller
         $mpdf->SetHTMLFooter('
         <table class="table-layout-fixed w-100">
             <tr>
-                <td style="width:50%;"></td>
-                <td style="width:50%">
+                <td style="width:50%;">
                 <table class="border-1 border-collapse table-layout-fixed" style="width: 400px;">
                     <tr>
                         <th class="border-1 p-min w-50">Mengetahui</th>
-                        <th class="border-1 p-min w-50">Dibuat</th>
                     </tr>
                     <tr class="text-align-center">
-                        <td class="border-1 p-min"><img style="visibility: hidden;" src="https://via.placeholder.com/100" width="100px" height="100px" /></td>
                         <td class="border-1 p-min"><img style="visibility: hidden;" src="https://via.placeholder.com/100" width="100px" height="100px" /></td>
                     </tr>
                     <tr>
                         <td class="border-1 p-min text-align-center">' . $guru->nama_kepala_sekolah . '</td>
-                        <td class="border-1 p-min text-align-center">' . $guru->nama_lengkap . '</td>
                     </tr>
                     <tr>
                         <td class="border-1 p-min text-align-center">Kepala Sekolah</td>
+                    </tr>
+                </table>
+                </td>
+                <td style="width:50%">
+                <table class="border-1 border-collapse table-layout-fixed" style="width: 400px;">
+                    <tr>
+                        <th class="border-1 p-min w-50">Dibuat</th>
+                    </tr>
+                    <tr class="text-align-center">
+                        <td class="border-1 p-min"><img style="visibility: hidden;" src="https://via.placeholder.com/100" width="100px" height="100px" /></td>
+                    </tr>
+                    <tr>
+                        <td class="border-1 p-min text-align-center">' . $guru->nama_lengkap . '</td>
+                    </tr>
+                    <tr>
                         <td class="border-1 p-min text-align-center">Guru BK</td>
                     </tr>
                 </table>
