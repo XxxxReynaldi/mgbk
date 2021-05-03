@@ -239,7 +239,7 @@
                 { data: 'kegiatan', name: 'kegiatan' },
                 { data: 'detail', name: 'detail' },
                 { data: 'upload_doc_1', name: 'upload_doc_1' },
-                { data: 'upload_doc_2', name: 'upload_doc_2' },
+                { data: 'doc_2', name: 'doc_2', orderable: false, searchable: false },
             ],
         });
 
