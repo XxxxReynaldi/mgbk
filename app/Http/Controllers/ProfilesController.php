@@ -67,32 +67,32 @@ class ProfilesController extends Controller
     {
         $request->validate([
             'nama_lengkap'          => 'required|max:255',
-            'foto_profil'           => 'nullable|file|image|mimes:jpeg,png,jpg|max:2048',
             'alamat_sekolah'        => 'required|max:255',
             'nama_kepala_sekolah'   => 'required|max:255',
             'id_sekolah'            => 'required',
             'tambahan_informasi'    => 'nullable|max:255',
-            'logo_sekolah'          => 'required|file|image|mimes:jpeg,png,jpg|max:2048',
+            // 'foto_profil'           => 'nullable|file|image|mimes:jpeg,png,jpg|max:2048',
+            // 'logo_sekolah'          => 'required|file|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         $nama_foto = null;
 
-        if ($request->hasFile('foto_profil')) {
-            $foto_profil    = $request->file('foto_profil');
-            $nama_foto      = $foto_profil->getClientOriginalName();
-            $request->file('foto_profil')->storeAs('foto_profil/' . auth()->user()->id_user, $nama_foto);
-        }
+        // if ($request->hasFile('foto_profil')) {
+        //     $foto_profil    = $request->file('foto_profil');
+        //     $nama_foto      = $foto_profil->getClientOriginalName();
+        //     $request->file('foto_profil')->storeAs('foto_profil/' . auth()->user()->id_user, $nama_foto);
+        // }
 
-        if ($request->hasFile('logo_sekolah')) {
-            $logo_sekolah   = $request->file('logo_sekolah');
-            $nama_logo      = $logo_sekolah->getClientOriginalName();
-            $request->file('logo_sekolah')->storeAs('logo_sekolah/' . auth()->user()->id_user, $nama_logo);
-        }
+        // if ($request->hasFile('logo_sekolah')) {
+        //     $logo_sekolah   = $request->file('logo_sekolah');
+        //     $nama_logo      = $logo_sekolah->getClientOriginalName();
+        //     $request->file('logo_sekolah')->storeAs('logo_sekolah/' . auth()->user()->id_user, $nama_logo);
+        // }
 
         $data_request = $request->all();
         $data_request['id_user']        = auth()->user()->id_user;
-        $data_request['foto_profil']    = $nama_foto;
-        $data_request['logo_sekolah']   = $nama_logo;
+        // $data_request['foto_profil']    = $nama_foto;
+        // $data_request['logo_sekolah']   = $nama_logo;
 
         Profile::create($data_request);
         return redirect()->back()->with('status', 'Profile User berhasil diupdate!');
@@ -132,41 +132,41 @@ class ProfilesController extends Controller
 
         $request->validate([
             'nama_lengkap'          => 'required|max:255',
-            'foto_profil'           => 'nullable|file|image|mimes:jpeg,png,jpg|max:5120',
             'alamat_sekolah'        => 'required|max:255',
             'nama_kepala_sekolah'   => 'required|max:255',
             'id_sekolah'            => 'required',
             'tambahan_informasi'    => 'nullable|max:255',
-            'logo_sekolah'          => 'file|image|mimes:jpeg,png,jpg|max:5120',
+            // 'foto_profil'           => 'nullable|file|image|mimes:jpeg,png,jpg|max:5120',
+            // 'logo_sekolah'          => 'file|image|mimes:jpeg,png,jpg|max:5120',
         ]);
 
-        $nama_foto = $profile->foto_profil;
-        $nama_logo = $profile->logo_sekolah;
+        // $nama_foto = $profile->foto_profil;
+        // $nama_logo = $profile->logo_sekolah;
 
-        if ($request->hasFile('foto_profil')) {
-            $foto_profil    = $request->file('foto_profil');
-            $nama_foto      = $foto_profil->getClientOriginalName();
-            $request->file('foto_profil')->storeAs('foto_profil/' . auth()->user()->id_user, $nama_foto);
-        }
+        // if ($request->hasFile('foto_profil')) {
+        //     $foto_profil    = $request->file('foto_profil');
+        //     $nama_foto      = $foto_profil->getClientOriginalName();
+        //     $request->file('foto_profil')->storeAs('foto_profil/' . auth()->user()->id_user, $nama_foto);
+        // }
 
-        if ($request->hasFile('logo_sekolah')) {
-            $logo_sekolah   = $request->file('logo_sekolah');
-            $nama_logo      = $logo_sekolah->getClientOriginalName();
+        // if ($request->hasFile('logo_sekolah')) {
+        //     $logo_sekolah   = $request->file('logo_sekolah');
+        //     $nama_logo      = $logo_sekolah->getClientOriginalName();
 
-            $request->file('logo_sekolah')->storeAs('logo_sekolah/' . auth()->user()->id_user, $nama_logo);
-            // Image::make($logo_sekolah)->resize(200, 200)->save(public_path($nama_logo));
-        }
+        //     $request->file('logo_sekolah')->storeAs('logo_sekolah/' . auth()->user()->id_user, $nama_logo);
+        //     // Image::make($logo_sekolah)->resize(200, 200)->save(public_path($nama_logo));
+        // }
 
         Profile::where('id_profile', $profile->id_profile)
             ->update([
                 'id_user'               => auth()->user()->id_user,
                 'nama_lengkap'          => $request->nama_lengkap,
-                'foto_profil'           => $nama_foto,
                 'alamat_sekolah'        => $request->alamat_sekolah,
                 'nama_kepala_sekolah'   => $request->nama_kepala_sekolah,
                 'id_sekolah'            => $request->id_sekolah,
                 'tambahan_informasi'    => $request->tambahan_informasi,
-                'logo_sekolah'          => $nama_logo,
+                // 'foto_profil'           => $nama_foto,
+                // 'logo_sekolah'          => $nama_logo,
             ]);
 
         return redirect()->back()->with('status', 'Data profile berhasil diubah !');

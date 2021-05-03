@@ -174,7 +174,7 @@
                         </span>
                         @enderror
                     </div>
-                    <div class="field">
+                    {{-- <div class="field">
                         <label class="label">Foto Profil</label>
                         <div class="file has-name">
                             <label class="file-label">
@@ -197,7 +197,7 @@
                             <strong>{{ $message }}</strong>
                         </span>
                         @enderror
-                    </div>
+                    </div> --}}
                     <div class="field">
                         <label class="label">Asal Sekolah</label>
                         <div class="control">
@@ -211,7 +211,7 @@
                         </span>
                         @enderror
                     </div>
-                    <div class="field">
+                    {{-- <div class="field">
                         <label class="label">Logo Sekolah</label>
                         <div class="file has-name">
                             <label class="file-label">
@@ -234,7 +234,7 @@
                             <strong>{{ $message }}</strong>
                         </span>
                         @enderror
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="column is-4">
                     <div class="field">
