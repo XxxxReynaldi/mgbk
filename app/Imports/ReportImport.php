@@ -65,7 +65,7 @@ class ReportImport implements
                 'id_kegiatan'       => $id_kegiatan_cek->id_kegiatan,
                 'tgl_transaksi'     => $tgl_transaksi,
                 'detail'            => $row['detail'],
-                'upload_2'          => $row['doc_2'],
+                'upload_doc_2'      => $row['doc_2'],
             ]);
         }
     }
