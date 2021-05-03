@@ -14,6 +14,7 @@
                     <th>Kegiatan</th>
                     <th>Tgl_transaksi</th>
                     <th>Detail</th>
+                    <th>Doc_2</th>
                 </tr>
             </thead>
             <tbody>
@@ -21,6 +22,7 @@
                     <tr>
                         <td>{{ $item->kegiatan }}</td>
                         <td>{{ date('Y-m-d') }}</td>
+                        <td></td>
                         <td></td>
                     </tr>
                 @endforeach

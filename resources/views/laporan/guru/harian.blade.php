@@ -66,6 +66,7 @@
                         <input type="hidden" id="id_sekolah-p" name="id_sekolah-p" value="">
                         <input type="hidden" id="id_user-p" name="id_user-p" value="">
                         <input type="hidden" id="tgl_transaksi-p" name="tgl_transaksi-p" value="">
+                        
                         <button type="submit" class="button is-warning is-pulled-right"><i class="fas fa-print fa-fw" aria-hidden="true"></i>&nbsp; Cetak </button>
                     </form>
                 </p>
