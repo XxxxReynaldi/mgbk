@@ -526,7 +526,7 @@ class LaporanController extends Controller
             return redirect()->back()->with('status', 'Print gagal, Lakukan filtering harian terlebih dahulu !');
         }
 
-        $withHeader = $request->get('with_header');
+        $withHeader = $request->has('with_header') ? 1 : 0;
 
         // $laporan = Laporan::with(['sekolah', 'user.profile', 'kegiatan']);
         // $laporan->where('id_user', $request->get('id_user-p'));
@@ -647,7 +647,7 @@ class LaporanController extends Controller
         if ($request->get('id_week-p') == null) {
             return redirect()->back()->with('status', 'Print gagal, Lakukan filtering mingguan terlebih dahulu !');
         }
-        $withHeader = $request->get('with_header');
+        $withHeader = $request->has('with_header') ? 1 : 0;
         $week = DB::table('weeks')
             ->where('id_week', $request->get('id_week-p'))
             ->first();
@@ -777,7 +777,7 @@ class LaporanController extends Controller
         $month      = $request->get('month-p');
         $id_user    = $request->get('id_user-p');
         $id_sekolah = $request->get('id_sekolah-p');
-        $withHeader = $request->get('with_header');
+        $withHeader = $request->has('with_header') ? 1 : 0;
 
         if ($month == null || $year == null) {
             return redirect()->back()->with('status', 'Print gagal, Lakukan filtering bulanan terlebih dahulu !');
@@ -894,7 +894,7 @@ class LaporanController extends Controller
     {
         $semester   = $request->get('semester-p');
         $year       = $request->get('year-p');
-        $withHeader = $request->get('with_header');
+        $withHeader = $request->has('with_header') ? 1 : 0;
 
         if ($semester == null || $year == null) {
             return redirect()->back()->with('status', 'Print gagal, Lakukan filtering Semester terlebih dahulu !');
@@ -1014,7 +1014,7 @@ class LaporanController extends Controller
     public function printByYear(Request $request)
     {
         $year       = $request->get('year-p');
-        $withHeader = $request->get('with_header');
+        $withHeader = $request->has('with_header') ? 1 : 0;
 
         if ($year == null) {
             return redirect()->back()->with('status', 'Print gagal, Lakukan filtering Tahunan terlebih dahulu !');

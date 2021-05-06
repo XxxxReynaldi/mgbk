@@ -65,20 +65,24 @@
 
     <div class="columns is-multiline is-mobile">        
         <div class="column is-half">
-            <h1 class="title is-5">Tahunan </h1>
+            <h1 class="title is-5 mb-2">Tahunan </h1>
+            <p class="control">
+                <a class="button is-info importBtn"><i class="fas fa-file-import fa-fw" aria-hidden="true"></i>&nbsp; Import </a>
+            </p>
         </div>
-        <div class="column is-half">
+        <div class="column is-half is-vcentered">
             <div class="field is-grouped is-grouped-right">
-                <p class="control">
-                    <a class="button is-info is-pulled-right importBtn"><i class="fas fa-file-import fa-fw" aria-hidden="true"></i>&nbsp; Import </a>
-                </p>
                 <p class="control">
                     <form action="{{ route('user.laporan.print.year') }}" method="post" id="print-form">
                         @csrf
                         <input type="hidden" id="id_sekolah-p" name="id_sekolah-p" value="">
                         <input type="hidden" id="id_user-p" name="id_user-p" value="">
                         <input type="hidden" id="tahun-p" name="year-p" value="">
-                        <button type="submit" class="button is-warning is-pulled-right"><i class="fas fa-print fa-fw" aria-hidden="true"></i>&nbsp; Cetak </button>
+                        <label class="checkbox mr-3 mb-2">
+                            <input type="checkbox" name="with_header" value="1">
+                            Sertakan Header
+                        </label> <br>
+                        <button type="submit" class="button is-warning is-fullwidth"><i class="fas fa-print fa-fw" aria-hidden="true"></i>&nbsp; Cetak </button>
                     </form>
                 </p>
             </div>
