@@ -94,7 +94,7 @@
     </section>
 
     <p class="mt-4 has-text-centered">
-        &copy; MGBK Malang
+        &copy; MGBK SMA Kota Malang
     </p>
 
     <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>

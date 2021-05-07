@@ -73,7 +73,7 @@
             </p>
 
             <p class="mt-4 has-text-centered">
-                &copy; MGBK Malang
+                &copy; MGBK SMA Kota Malang
             </p>
 
 
