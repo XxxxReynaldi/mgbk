@@ -203,7 +203,7 @@ class LaporanController extends Controller
         return Datatables::eloquent($reports)
             ->addIndexColumn()
             ->addColumn('doc_2', function ($reports) {
-                return '<a href="' . $reports->upload_doc_2 . '"> "' . $reports->upload_doc_2 . '"</a>';
+                return $reports->upload_doc_2;
             })
             ->addColumn('kegiatan', function (Laporan $laporan) {
                 return $laporan->kegiatan->kegiatan;
