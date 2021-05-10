@@ -93,9 +93,42 @@
         @yield('content')
     </section>
 
+    <div class="modal" id="modal_ProfileDanger">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">
+                <span class="icon-text has-text-danger">
+                    <span class="icon">
+                        <i class="fas fa-exclamation-triangle"></i>  
+                    </span>
+                    <span>Peringatan !</span>
+                </span>
+            </p>
+            <button class="delete modal-closed" aria-label="close"></button>
+          </header>
+          <section class="modal-card-body">
+            <div class="content">
+                <p class="has-text-centered">Maaf anda belum menentukan asal sekolah, klik tombol ok untuk melengkapi profil anda!</p>
+            </div>
+          </section>
+          <footer class="modal-card-foot is-justify-content-center">
+              <a href="{{ route('profile.index') }}" class="button is-info">OK</a>
+          </footer>
+        </div>
+    </div>
+
     <p class="mt-4 has-text-centered">
         &copy; MGBK SMA Kota Malang
     </p>
+
+    <script>
+        $(function() {
+            $('.notifProfileDanger').click(function () {
+                $('#modal_ProfileDanger').addClass('is-active');
+            })
+        });
+    </script>
 
     <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
     <script src="{{ asset('js/bulma-steps.min.js') }}"></script>

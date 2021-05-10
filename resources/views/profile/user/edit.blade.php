@@ -202,7 +202,9 @@
                         <label class="label">Asal Sekolah</label>
                         <div class="control">
                             <select class="select-school @error('asal_sekolah') is-invalid @enderror" style="width: 100%" name="id_sekolah" data-placeholder="Pilih Sekolah">
-                                <option value="1">Alabama</option>
+                                @foreach ($schools as $id_sekolah => $nama_sekolah)
+                                    <option value="{{ $id_sekolah }}" >{{ $nama_sekolah }}</option>
+                                @endforeach 
                             </select>
                         </div>
                         @error('asal_sekolah')

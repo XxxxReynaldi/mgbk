@@ -91,8 +91,8 @@ class ProfilesController extends Controller
 
         $data_request = $request->all();
         $data_request['id_user']        = auth()->user()->id_user;
+        $data_request['logo_sekolah']   = 'default.jpg';
         // $data_request['foto_profil']    = $nama_foto;
-        // $data_request['logo_sekolah']   = $nama_logo;
 
         Profile::create($data_request);
         return redirect()->back()->with('status', 'Profile User berhasil diupdate!');

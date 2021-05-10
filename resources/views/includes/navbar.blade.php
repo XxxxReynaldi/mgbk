@@ -157,47 +157,61 @@
                     Buat Laporan
                 </span>
             </a> --}}
-            <div class="navbar-item has-dropdown is-hoverable">
-                <a class="navbar-link">
-                    <span class="icon">
-                        <i class="fas fa-sticky-note"></i>
-                    </span>
-                    <span>
-                        Laporan
-                    </span>
-                </a>
-
-                <div class="navbar-dropdown is-right">
-                    <a class="navbar-item" href="{{ route('user.laporan.harian') }}">
-                        Harian
-                    </a>
-                    <hr class="navbar-divider">
-                    <a class="navbar-item" href="{{ route('user.laporan.mingguan') }}">
-                        Mingguan
-                    </a>
-                    <hr class="navbar-divider">
-                    <a class="navbar-item" href="{{ route('user.laporan.bulanan') }}">
-                        Bulanan
-                    </a>
-                    <hr class="navbar-divider">
-                    <a class="navbar-item" href="{{ route('user.laporan.semesteran') }}">
-                        Semesteran
-                    </a>
-                    <hr class="navbar-divider">
-                    <a class="navbar-item" href="{{ route('user.laporan.tahunan') }}">
-                        Tahunan
-                    </a>
-                    {{-- <hr class="navbar-divider"> --}}
-                    {{-- <a class="navbar-item" href="{{ route('user.laporan.harian') }}">
+            @if ($profile == null)
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link notifProfileDanger">
                         <span class="icon">
-                            <i class="fas fa-book-open"></i>
+                            <i class="fas fa-sticky-note"></i>
                         </span>
                         <span>
-                            Lihat Laporan
+                            Laporan
                         </span>
-                    </a> --}}
+                    </a>
                 </div>
-            </div>
+            @else
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        <span class="icon">
+                            <i class="fas fa-sticky-note"></i>
+                        </span>
+                        <span>
+                            Laporan
+                        </span>
+                    </a>
+
+                    <div class="navbar-dropdown is-right">
+                        <a class="navbar-item" href="{{ route('user.laporan.harian') }}">
+                            Harian
+                        </a>
+                        <hr class="navbar-divider">
+                        <a class="navbar-item" href="{{ route('user.laporan.mingguan') }}">
+                            Mingguan
+                        </a>
+                        <hr class="navbar-divider">
+                        <a class="navbar-item" href="{{ route('user.laporan.bulanan') }}">
+                            Bulanan
+                        </a>
+                        <hr class="navbar-divider">
+                        <a class="navbar-item" href="{{ route('user.laporan.semesteran') }}">
+                            Semesteran
+                        </a>
+                        <hr class="navbar-divider">
+                        <a class="navbar-item" href="{{ route('user.laporan.tahunan') }}">
+                            Tahunan
+                        </a>
+                        {{-- <hr class="navbar-divider"> --}}
+                        {{-- <a class="navbar-item" href="{{ route('user.laporan.harian') }}">
+                            <span class="icon">
+                                <i class="fas fa-book-open"></i>
+                            </span>
+                            <span>
+                                Lihat Laporan
+                            </span>
+                        </a> --}}
+                    </div>
+                </div>
+            @endif
+            
             <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link">
                     <span class="icon">
