@@ -157,6 +157,10 @@
                     Buat Laporan
                 </span>
             </a> --}}
+            @php
+                $id_user = Auth::user()->id_user;
+                $profile = \App\Models\Profile::where('id_user', $id_user)->first();
+            @endphp 
             @if ($profile == null)
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link notifProfileDanger">
