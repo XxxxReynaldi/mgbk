@@ -52,7 +52,7 @@
                                     <td class="is-hidden">{{ $sekolah['id_sekolah'] }}</td>
                                     <td>{{ $sekolah['nama_sekolah'] }}</td>
                                     <td>
-                                        <button data-idSekolah="{{ $sekolah['id_sekolah'] }}" class="button is-small is-primary verifBtn"> Verifikasi </button>
+                                        {{-- <button data-idSekolah="{{ $sekolah['id_sekolah'] }}" class="button is-small is-primary verifBtn"> Verifikasi </button> --}}
                                         <button data-idSekolah="{{ $sekolah['id_sekolah'] }}" class="button is-small is-success editBtn"> Edit </button>
                                         <button data-idSekolah="{{ $sekolah['id_sekolah'] }}" class="button is-small is-danger deleteBtn"> Hapus </button>
                                     </td>
