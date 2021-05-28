@@ -16,7 +16,7 @@ class SekolahController extends Controller
     public function index()
     {
         // $schools = Sekolah::all();
-        $schools = Sekolah::where('is_verified', 1)->get();
+        $schools = Sekolah::where('is_verified', 1)->orderBy('nama_sekolah', 'asc')->get();
         return view('master_data.sekolah.index', compact('schools'));
     }
 
@@ -111,7 +111,7 @@ class SekolahController extends Controller
      */
     public function newSekolahIndex()
     {
-        $schools = Sekolah::where('is_verified', 0)->get();
+        $schools = Sekolah::where('is_verified', 0)->orderBy('nama_sekolah', 'asc')->get();
         return view('master_data.sekolah_baru.index', compact('schools'));
     }
 
