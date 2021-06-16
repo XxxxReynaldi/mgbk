@@ -401,7 +401,7 @@ class LaporanController extends Controller
                 </tr>
                 <tr>
                     <th class="text-align-left" style="width:30%;">
-                        Kelas yang diampuh
+                        Kelas diampu
                     </th>
                     <td>
                         : 
@@ -447,7 +447,7 @@ class LaporanController extends Controller
                 </tr>
                 <tr>
                     <th class="text-align-left" style="width:30%;">
-                        Kelas yang diampuh
+                        Kelas diampu
                     </th>
                     <td>
                         : 
